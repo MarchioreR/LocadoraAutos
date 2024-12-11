@@ -17,10 +17,11 @@ public class Usuario {
     private String numCel;
 
     public Usuario(String nome, TipoID tipoID, String email, String numCel) {
-        this.nome = nome;
-        this.tipoID = tipoID;
-        this.email = email;
-        this.numCel = numCel;
+        setNome(nome);
+        setTipoID(tipoID);
+        setEmail(email);
+        setEmail(email);
+        setNumCel(numCel);
     }
 
     /**

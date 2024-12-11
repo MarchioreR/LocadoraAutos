@@ -11,18 +11,19 @@ import java.rmi.Remote;
  *
  * @author vitor
  */
-public interface Interface {
-    public void CriarLocador() throws RemoteException;
-    public void CriarAlugador() throws RemoteException;
-    public void CriarMontadora() throws RemoteException;
-    public void CriarVendedor() throws RemoteException;
-    public void CriarAutomovel() throws RemoteException;
-    public void CriarSeguro() throws RemoteException;
-    public void CriarContrato() throws RemoteException;
-    public void CriarLocacao() throws RemoteException;
-    public void CriarObtencao() throws RemoteException;
-    public void CriarRegistro() throws RemoteException;
-    public void CriarVenda() throws RemoteException;
+public interface Interface extends Remote{
+    public void CriarUsuario(Usuario novo) throws RemoteException;
+    public void CriarLocador(int currentID) throws RemoteException;
+    public void CriarAlugador(int currentID) throws RemoteException;
+    public void CriarMontadora(int currentID) throws RemoteException;
+    public void CriarVendedor(int currentID) throws RemoteException;
+    public void CriarAutomovel(int currentID) throws RemoteException;
+    public void CriarSeguro(int currentID) throws RemoteException;
+    public void CriarContrato(int currentID) throws RemoteException;
+    public void CriarLocacao(int currentID) throws RemoteException;
+    public void CriarObtencao(int currentID) throws RemoteException;
+    public void CriarRegistro(int currentID) throws RemoteException;
+    public void CriarVenda(int currentID) throws RemoteException;
     
     public void AlterarAutomovel() throws RemoteException;
     public void AlterarLocador() throws RemoteException;
@@ -47,5 +48,5 @@ public interface Interface {
     public void ImprimirObtencao() throws RemoteException;
     public void ImprimirRegistro() throws RemoteException;
     public void ImprimirVenda() throws RemoteException;
-    public void ImprimirAutomovel() throws RemoteException;
+    
 }

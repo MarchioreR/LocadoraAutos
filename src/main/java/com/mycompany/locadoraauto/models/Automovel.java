@@ -11,7 +11,7 @@ import com.mycompany.locadoraauto.enums.TipoVeiculo;
  *
  * @author vitor
  */
-public class Automovel {
+public final class Automovel {
     private int idAutomovel;
     private String modelo;
     private String placa;
@@ -20,12 +20,12 @@ public class Automovel {
     private TipoStatus status;
 
     public Automovel(int idAutomovel, String modelo, String placa, TipoVeiculo tipoVeic, float valorDia, TipoStatus status) {
-        this.idAutomovel = idAutomovel;
-        this.modelo = modelo;
-        this.placa = placa;
-        this.tipoVeic = tipoVeic;
-        this.valorDia = valorDia;
-        this.status = status;
+        setIdAutomovel(idAutomovel);
+        setModelo(modelo);
+        setPlaca(placa);
+        setTipoVeic(tipoVeic);
+        setValorDia(valorDia);
+        setStatus(status);
     }
 
     /**

@@ -10,16 +10,17 @@ import com.mycompany.locadoraauto.enums.TipoID;
  *
  * @author vitor
  */
-public class Alugador extends Usuario{
+public class Alugador extends Usuario {
+
     private int idAlugador;
     private String endereco;
+ 
 
     public Alugador(int idAlugador, String endereco, String nome, TipoID tipoID, String email, String numCel) {
         super(nome, tipoID, email, numCel);
-        this.idAlugador = idAlugador;
-        this.endereco = endereco;
+        setIdAlugador(idAlugador);
+        setEndereco(endereco);
     }
-
 
     /**
      * @return the idAlugador
@@ -48,5 +49,5 @@ public class Alugador extends Usuario{
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-    
+
 }
