@@ -3,7 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package com.mycompany.locadoraauto.interfaces;
-
+import java.rmi.Naming;
+import java.rmi.*;
+import java.rmi.server.*;
 /**
  *
  * @author vitor
