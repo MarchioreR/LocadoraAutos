@@ -20,14 +20,16 @@ import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.models.Venda;
 import com.mycompany.locadoraauto.models.Vendedor;
 import java.rmi.RemoteException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * Implementation of the remote interface. Provides methods to manage various
- * entities in the system.
+ * Implementation of the remote interface. Provides methods to manage various entities in the system.
  */
 public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
@@ -37,7 +39,6 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     private List<Contrato> contratos = new ArrayList<>();
     private List<Obtencao> obtencoes = new ArrayList<>();
     private List<Usuario> usuarios = new ArrayList<>();
-    
 
     // Constructor
     public InterfaceImp() throws RemoteException {
@@ -243,12 +244,12 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         TipoSeguro tipoSeguro;
         float valorSeguro;
         String seguradora;
-        
+
         Seguro seguro = new Seguro();
-        
+
         System.out.println("Nome da Seguradora: ");
         seguradora = scan.nextLine();
-        
+
         do {
             System.out.println("Tipo Seguro: (1) Básico (2) Intermediário (3) Avançado");
             tiposeguro = scan.nextInt();
@@ -264,10 +265,10 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
             default ->
                 throw new AssertionError();
         }
-        
+
         System.out.println("Valor do Seguro: ");
         valorSeguro = scan.nextFloat();
-        
+
         seguro.setSeguradora(seguradora);
         seguro.setTipoSeguro(tipoSeguro);
         seguro.setValorSeguro(valorSeguro);
@@ -276,7 +277,47 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     @Override
     public void CriarContrato(int currentID) {
-        // Implementation logic here
+        Scanner scan = new Scanner(System.in);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat.setLenient(false);
+
+        Seguro seguro = null;
+        int idContrato = 0;
+        int idAlugador = 0;
+        int idLocador = 0;
+        Date dataIn = null;
+        Date dataTer = null;
+        float valorContrato;
+        String aux;
+
+        do {
+            System.out.println("Insira a data do início do contrato(formato dd/MM/yyyy)): ");
+            aux = scan.nextLine();
+            try {
+                // Parse the input string into a Date object
+                dataIn = dateFormat.parse(aux);
+            } catch (ParseException e) {
+                System.out.println("Formato de data Inválido. Use dd/MM/yyyy.");
+            }
+        } while (dataIn == null);
+        
+        do {
+            System.out.println("Insira a data do fim do contrato(formato dd/MM/yyyy)): ");
+            aux = scan.nextLine();
+            try {
+                // Parse the input string into a Date object
+                dataTer = dateFormat.parse(aux);
+            } catch (ParseException e) {
+                System.out.println("Formato de data Inválido. Use dd/MM/yyyy.");
+            }
+        } while (dataTer == null);
+        
+        System.out.println("Valor do Contrato: ");
+        valorContrato = scan.nextFloat();
+        
+        seguro = CriarSeguro();
+        
+        Contrato contrato = new Contrato(idContrato, idAlugador, dataIn, dataTer, valorContrato, idLocador);
     }
 
     @Override

@@ -13,14 +13,16 @@ import java.util.Date;
 public class Contrato {
     private int idContrato;
     private int idAlugador;
+    private int idLocador;
     private Seguro seguro;
     private Date dataIn;
     private Date dataTer;
     private float valorContrato;
 
-    public Contrato(int idContrato, int idAlugador, Date dataIn, Date dataTer, float valorContrato) {
+    public Contrato(int idContrato, int idAlugador, Date dataIn, Date dataTer, float valorContrato, int idLocador) {
         this.idContrato = idContrato;
         this.idAlugador = idAlugador;
+        this.idAlugador = idLocador;
         this.dataIn = dataIn;
         this.dataTer = dataTer;
         this.valorContrato = valorContrato;
@@ -108,5 +110,19 @@ public class Contrato {
      */
     public void setSeguro(Seguro seguro) {
         this.seguro = seguro;
+    }
+
+    /**
+     * @return the idLocador
+     */
+    public int getIdLocador() {
+        return idLocador;
+    }
+
+    /**
+     * @param idLocador the idLocador to set
+     */
+    public void setIdLocador(int idLocador) {
+        this.idLocador = idLocador;
     }
 }
