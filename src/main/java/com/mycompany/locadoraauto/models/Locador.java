@@ -15,12 +15,9 @@ public class Locador extends Usuario{
     private float valorSalario;
     private float comissaoLoc;
 
-    public Locador(int idLocador, float valorSalario, float comissaoLoc, String nome, TipoID tipoID, String email, String numCel) {
-        super(nome, tipoID, email, numCel);
-        this.idLocador = idLocador;
-        this.valorSalario = valorSalario;
-        this.comissaoLoc = comissaoLoc;
+    public Locador() {
     }
+
 
     /**
      * @return the idLocador

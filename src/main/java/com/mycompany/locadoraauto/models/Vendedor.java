@@ -15,11 +15,7 @@ public class Vendedor extends Usuario{
     private float valorSalario;
     private float comissaoVenda;
 
-    public Vendedor(int idVendedor, float valorSalario, float comissaoVenda, String nome, TipoID tipoID, String email, String numCel) {
-        super(nome, tipoID, email, numCel);
-        this.idVendedor = idVendedor;
-        this.valorSalario = valorSalario;
-        this.comissaoVenda = comissaoVenda;
+    public Vendedor() {
     }
 
     /**

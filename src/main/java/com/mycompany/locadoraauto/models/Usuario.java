@@ -16,12 +16,8 @@ public class Usuario {
     private String email;
     private String numCel;
 
-    public Usuario(String nome, TipoID tipoID, String email, String numCel) {
-        setNome(nome);
-        setTipoID(tipoID);
-        setEmail(email);
-        setEmail(email);
-        setNumCel(numCel);
+    public Usuario() {
+        
     }
 
     /**

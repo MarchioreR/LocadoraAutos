@@ -5,6 +5,9 @@
 package com.mycompany.locadoraauto.interfaces;
 
 import com.mycompany.locadoraauto.enums.TipoID;
+import com.mycompany.locadoraauto.enums.TipoSeguro;
+import com.mycompany.locadoraauto.enums.TipoStatus;
+import com.mycompany.locadoraauto.enums.TipoVeiculo;
 import com.mycompany.locadoraauto.models.Alugador;
 import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.models.Locador;
@@ -56,9 +59,9 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         } while (opcao < 1 || opcao > 2);
         switch (opcao) {
             case 1 ->
-                ((Usuario) novo).setTipo(tipoID.CPF);
+                ((Usuario) novo).setTipoID(tipoID.CPF);
             case 2 ->
-                ((Usuario) novo).setTipo(tipoID.CNPJ);
+                ((Usuario) novo).setTipoID(tipoID.CNPJ);
         }
     }
 
@@ -168,7 +171,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         System.out.println("Placa: ");
         placa = scan.nextLine();
         
-        
+        return novo;
     }
 
     @Override

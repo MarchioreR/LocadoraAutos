@@ -14,10 +14,7 @@ public class Montadora extends Usuario{
     private int idMontadora;
     private String endereco;
 
-    public Montadora(int idMontadora, String endereco, String nome, TipoID tipoID, String email, String numCel) {
-        super(nome, tipoID, email, numCel);
-        this.idMontadora = idMontadora;
-        this.endereco = endereco;
+    public Montadora() {
     }
 
     /**

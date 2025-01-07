@@ -19,13 +19,8 @@ public final class Automovel {
     private float valorDia;
     private TipoStatus status;
 
-    public Automovel(int idAutomovel, String modelo, String placa, TipoVeiculo tipoVeic, float valorDia, TipoStatus status) {
-        setIdAutomovel(idAutomovel);
-        setModelo(modelo);
-        setPlaca(placa);
-        setTipoVeic(tipoVeic);
-        setValorDia(valorDia);
-        setStatus(status);
+    public Automovel() {
+
     }
 
     /**

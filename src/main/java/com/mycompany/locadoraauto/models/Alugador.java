@@ -16,10 +16,7 @@ public class Alugador extends Usuario {
     private String endereco;
  
 
-    public Alugador(int idAlugador, String endereco, String nome, TipoID tipoID, String email, String numCel) {
-        super(nome, tipoID, email, numCel);
-        setIdAlugador(idAlugador);
-        setEndereco(endereco);
+    public Alugador() {
     }
 
     /**
