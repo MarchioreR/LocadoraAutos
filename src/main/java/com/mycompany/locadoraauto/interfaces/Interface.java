@@ -35,7 +35,7 @@ public interface Interface extends Remote{
     public void RemoverAutomovel() throws RemoteException;
     public void RemoverLocador() throws RemoteException;
     public void RemoverVendedor() throws RemoteException;
-    public void RemoverAlugasdor() throws RemoteException;
+    public void RemoverAlugador() throws RemoteException;
     public void RemoverMontadora() throws RemoteException;
     
     public void ImprimirLocador() throws RemoteException;

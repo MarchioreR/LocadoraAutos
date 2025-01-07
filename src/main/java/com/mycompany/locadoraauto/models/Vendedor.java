@@ -10,7 +10,8 @@ import com.mycompany.locadoraauto.enums.TipoID;
  *
  * @author vitor
  */
-public class Vendedor extends Usuario{
+public class Vendedor extends Usuario {
+
     private int idVendedor;
     private float valorSalario;
     private float comissaoVenda;
@@ -58,5 +59,11 @@ public class Vendedor extends Usuario{
      */
     public void setComissaoVenda(float comissaoVenda) {
         this.comissaoVenda = comissaoVenda;
+    }
+
+    @Override
+    public void ImprimirUsuario() {
+        super.ImprimirUsuario();
+        System.out.println("\n Salario: " + getValorSalario());
     }
 }

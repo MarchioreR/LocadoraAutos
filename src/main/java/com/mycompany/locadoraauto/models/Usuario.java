@@ -13,8 +13,10 @@ import com.mycompany.locadoraauto.enums.TipoID;
 public class Usuario {
     private String nome;
     private TipoID tipoID;
+    private String ID;
     private String email;
     private String numCel;
+    private String endereco;
 
     public Usuario() {
         
@@ -74,5 +76,37 @@ public class Usuario {
      */
     public void setTipoID(TipoID tipoID) {
         this.tipoID = tipoID;
+    }
+    
+    public void ImprimirUsuario(){
+        System.out.println(" Nome: " + getNome() + "\n " + getTipoID().name() + ": " + getID()+ "\n Email: " + email + "\n Celular:" + numCel + "\n Endereço: " + getEndereco());
+    }
+
+    /**
+     * @return the ID
+     */
+    public String getID() {
+        return ID;
+    }
+
+    /**
+     * @param ID the ID to set
+     */
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    /**
+     * @return the endereco
+     */
+    public String getEndereco() {
+        return endereco;
+    }
+
+    /**
+     * @param endereco the endereco to set
+     */
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 }

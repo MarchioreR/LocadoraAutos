@@ -12,7 +12,6 @@ import com.mycompany.locadoraauto.enums.TipoID;
  */
 public class Montadora extends Usuario{
     private int idMontadora;
-    private String endereco;
 
     public Montadora() {
     }
@@ -30,18 +29,5 @@ public class Montadora extends Usuario{
     public void setIdMontadora(int idMontadora) {
         this.idMontadora = idMontadora;
     }
-
-    /**
-     * @return the Endereco
-     */
-    public String getEndereco() {
-        return endereco;
-    }
-
-    /**
-     * @param endereco the Endereco to set
-     */
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
+    
 }

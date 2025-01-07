@@ -4,8 +4,6 @@
  */
 package com.mycompany.locadoraauto.models;
 
-import com.mycompany.locadoraauto.enums.TipoID;
-
 /**
  *
  * @author vitor
@@ -13,8 +11,7 @@ import com.mycompany.locadoraauto.enums.TipoID;
 public class Alugador extends Usuario {
 
     private int idAlugador;
-    private String endereco;
- 
+    private int idContrato;
 
     public Alugador() {
     }
@@ -34,17 +31,17 @@ public class Alugador extends Usuario {
     }
 
     /**
-     * @return the endereco
+     * @return the idContrato
      */
-    public String getEndereco() {
-        return endereco;
+    public int getIdContrato() {
+        return idContrato;
     }
 
     /**
-     * @param endereco the endereco to set
+     * @param idContrato the idContrato to set
      */
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setIdContrato(int idContrato) {
+        this.idContrato = idContrato;
     }
-
+    
 }
