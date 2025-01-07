@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package com.mycompany.locadoraauto.interfaces;
+import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.models.Usuario;
 import java.rmi.*;
 import java.rmi.Remote;
@@ -17,7 +18,7 @@ public interface Interface extends Remote{
     public void CriarAlugador(int currentID) throws RemoteException;
     public void CriarMontadora(int currentID) throws RemoteException;
     public void CriarVendedor(int currentID) throws RemoteException;
-    public void CriarAutomovel(int currentID) throws RemoteException;
+    public Automovel CriarAutomovel(int currentID) throws RemoteException;
     public void CriarSeguro(int currentID) throws RemoteException;
     public void CriarContrato(int currentID) throws RemoteException;
     public void CriarLocacao(int currentID) throws RemoteException;
