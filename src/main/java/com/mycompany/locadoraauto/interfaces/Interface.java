@@ -4,7 +4,10 @@
  */
 package com.mycompany.locadoraauto.interfaces;
 import com.mycompany.locadoraauto.models.Automovel;
+import com.mycompany.locadoraauto.models.RegistroFinanceiro;
+import com.mycompany.locadoraauto.models.Seguro;
 import com.mycompany.locadoraauto.models.Usuario;
+import com.mycompany.locadoraauto.models.Venda;
 import java.rmi.*;
 import java.rmi.Remote;
 
@@ -18,13 +21,12 @@ public interface Interface extends Remote{
     public void CriarAlugador(int currentID) throws RemoteException;
     public void CriarMontadora(int currentID) throws RemoteException;
     public void CriarVendedor(int currentID) throws RemoteException;
-    public Automovel CriarAutomovel(int currentID) throws RemoteException;
-    public void CriarSeguro(int currentID) throws RemoteException;
+    public void  CriarAutomovel(int currentID) throws RemoteException;
+    public Seguro CriarSeguro() throws RemoteException;
     public void CriarContrato(int currentID) throws RemoteException;
-    public void CriarLocacao(int currentID) throws RemoteException;
     public void CriarObtencao(int currentID) throws RemoteException;
-    public void CriarRegistro(int currentID) throws RemoteException;
-    public void CriarVenda(int currentID) throws RemoteException;
+    public void  CriarRegistro(int currentID) throws RemoteException;
+    public void  CriarVenda(int currentID) throws RemoteException;
     
     public void AlterarAutomovel() throws RemoteException;
     public void AlterarLocador() throws RemoteException;
@@ -38,14 +40,7 @@ public interface Interface extends Remote{
     public void RemoverAlugador() throws RemoteException;
     public void RemoverMontadora() throws RemoteException;
     
-    public void ImprimirLocador() throws RemoteException;
-    public void ImprimirAlugador() throws RemoteException;
-    public void ImprimirMontadora() throws RemoteException;
-    public void ImprimirVendedor() throws RemoteException;
-    public void ImprimirAutomovel() throws RemoteException;
-    public void ImprimirSeguro() throws RemoteException;
     public void ImprimirContrato() throws RemoteException;
-    public void ImprimirLocacao() throws RemoteException;
     public void ImprimirObtencao() throws RemoteException;
     public void ImprimirRegistro() throws RemoteException;
     public void ImprimirVenda() throws RemoteException;

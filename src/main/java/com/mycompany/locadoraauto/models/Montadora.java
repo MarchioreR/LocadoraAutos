@@ -30,4 +30,5 @@ public class Montadora extends Usuario{
         this.idMontadora = idMontadora;
     }
     
+    
 }

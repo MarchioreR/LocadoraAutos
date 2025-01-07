@@ -11,23 +11,12 @@ import com.mycompany.locadoraauto.enums.TipoSeguro;
  * @author vitor
  */
 public class Seguro {
-    private int idSeguro;
     private TipoSeguro tipoSeguro; //CRIAR ENUM
     private float valorSeguro;
     private String seguradora;
 
-    /**
-     * @return the idSeguro
-     */
-    public int getIdSeguro() {
-        return idSeguro;
-    }
+    public Seguro() {
 
-    /**
-     * @param idSeguro the idSeguro to set
-     */
-    public void setIdSeguro(int idSeguro) {
-        this.idSeguro = idSeguro;
     }
 
     /**
@@ -70,5 +59,9 @@ public class Seguro {
      */
     public void setTipoSeguro(TipoSeguro tipoSeguro) {
         this.tipoSeguro = tipoSeguro;
+    }
+    
+    public void ImprimirSeguro(){
+        System.out.println(" Seguradora: " + getSeguradora() + "\n Tipo: " + getTipoSeguro().name() + "\n Valor: " + getValorSeguro());
     }
 }

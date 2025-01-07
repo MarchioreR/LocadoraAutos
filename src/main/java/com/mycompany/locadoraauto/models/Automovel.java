@@ -12,6 +12,7 @@ import com.mycompany.locadoraauto.enums.TipoVeiculo;
  * @author vitor
  */
 public final class Automovel {
+
     private int idAutomovel;
     private String modelo;
     private String placa;
@@ -105,5 +106,9 @@ public final class Automovel {
      */
     public void setStatus(TipoStatus status) {
         this.status = status;
+    }
+
+    public void ImprimirAutomovel() {
+        System.out.println(" Modelo:" + modelo + "\n Placa: " + placa + "\n Tipo: " + getTipoVeic().name() + "\n Valor Diária: " + getValorDia() + "\n Status: " + getStatus().name());
     }
 }

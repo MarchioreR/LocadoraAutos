@@ -60,4 +60,10 @@ public class Locador extends Usuario{
     public void setComissaoLoc(float comissaoLoc) {
         this.comissaoLoc = comissaoLoc;
     }
+    
+    @Override
+    public void ImprimirUsuario() {
+        super.ImprimirUsuario();
+        System.out.println("\n Salario: " + getValorSalario());
+    }
 }
