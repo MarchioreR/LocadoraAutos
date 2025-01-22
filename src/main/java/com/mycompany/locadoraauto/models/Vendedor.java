@@ -12,25 +12,10 @@ import com.mycompany.locadoraauto.enums.TipoID;
  */
 public class Vendedor extends Usuario {
 
-    private int idVendedor;
     private float valorSalario;
     private float comissaoVenda;
 
     public Vendedor() {
-    }
-
-    /**
-     * @return the idVendedor
-     */
-    public int getIdVendedor() {
-        return idVendedor;
-    }
-
-    /**
-     * @param idVendedor the idVendedor to set
-     */
-    public void setIdVendedor(int idVendedor) {
-        this.idVendedor = idVendedor;
     }
 
     /**

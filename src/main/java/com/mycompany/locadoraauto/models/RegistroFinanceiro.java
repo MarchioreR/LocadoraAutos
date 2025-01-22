@@ -10,16 +10,16 @@ package com.mycompany.locadoraauto.models;
  */
 public class RegistroFinanceiro {
     private int idRegistro;
-    private Automovel veiculo;
+    private int idVeiculo;
     private float valorCompra;
     private float valorVenda;
     private float valorDiaria;
     private float valorManutencao;
     private float valorTotal;
 
-    public RegistroFinanceiro(int idRegistro, Automovel veiculo, float valorCompra, float valorVenda, float valorDiaria, float valorManutencao, float valorTotal) {
+    public RegistroFinanceiro(int idRegistro, int idVeiculo, float valorCompra, float valorVenda, float valorDiaria, float valorManutencao, float valorTotal) {
         this.idRegistro = idRegistro;
-        this.veiculo = veiculo;
+        this.idVeiculo = idVeiculo;
         this.valorCompra = valorCompra;
         this.valorVenda = valorVenda;
         this.valorDiaria = valorDiaria;
@@ -112,16 +112,16 @@ public class RegistroFinanceiro {
     }
 
     /**
-     * @return the veiculo
+     * @return the idVeiculo
      */
-    public Automovel getVeiculo() {
-        return veiculo;
+    public int getIdVeiculo() {
+        return idVeiculo;
     }
 
     /**
-     * @param veiculo the veiculo to set
+     * @param idVeiculo
      */
-    public void setVeiculo(Automovel veiculo) {
-        this.veiculo = veiculo;
+    public void setVeiculo(int idVeiculo) {
+        this.idVeiculo = idVeiculo;
     }
 }

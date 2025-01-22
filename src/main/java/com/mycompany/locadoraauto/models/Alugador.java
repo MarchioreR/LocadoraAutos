@@ -10,38 +10,44 @@ package com.mycompany.locadoraauto.models;
  */
 public class Alugador extends Usuario {
 
-    private int idAlugador;
-    private int idContrato;
+    private int idade;
+    private String genero;
 
     public Alugador() {
     }
 
     /**
-     * @return the idAlugador
+     * @return the idade
      */
-    public int getIdAlugador() {
-        return idAlugador;
+    public int getIdade() {
+        return idade;
     }
 
     /**
-     * @param idAlugador the idAlugador to set
+     * @param idade the idade to set
      */
-    public void setIdAlugador(int idAlugador) {
-        this.idAlugador = idAlugador;
+    public void setIdade(int idade) {
+        this.idade = idade;
     }
 
     /**
-     * @return the idContrato
+     * @return the genero
      */
-    public int getIdContrato() {
-        return idContrato;
+    public String getGenero() {
+        return genero;
     }
 
     /**
-     * @param idContrato the idContrato to set
+     * @param genero the genero to set
      */
-    public void setIdContrato(int idContrato) {
-        this.idContrato = idContrato;
+    public void setGenero(String genero) {
+        this.genero = genero;
     }
     
+    @Override
+    public void ImprimirUsuario() {
+        super.ImprimirUsuario();
+        System.out.println("\n Idade: " + getIdade() + " Gênero: " + getGenero());
+    }
+
 }

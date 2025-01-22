@@ -11,24 +11,42 @@ import com.mycompany.locadoraauto.enums.TipoID;
  * @author vitor
  */
 public class Montadora extends Usuario{
-    private int idMontadora;
-
+    private String website;
+    private String paisOrigem;
     public Montadora() {
     }
 
     /**
-     * @return the idMontadora
+     * @return the website
      */
-    public int getIdMontadora() {
-        return idMontadora;
+    public String getWebsite() {
+        return website;
     }
 
     /**
-     * @param idMontadora the idMontadora to set
+     * @param website the website to set
      */
-    public void setIdMontadora(int idMontadora) {
-        this.idMontadora = idMontadora;
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    /**
+     * @return the paisOrigem
+     */
+    public String getPaisOrigem() {
+        return paisOrigem;
+    }
+
+    /**
+     * @param paisOrigem the paisOrigem to set
+     */
+    public void setPaisOrigem(String paisOrigem) {
+        this.paisOrigem = paisOrigem;
     }
     
-    
+    @Override
+    public void ImprimirUsuario() {
+        super.ImprimirUsuario();
+        System.out.println("\n WebSite: " + getWebsite() + "\n País de Origem: " + getPaisOrigem());
+    }
 }

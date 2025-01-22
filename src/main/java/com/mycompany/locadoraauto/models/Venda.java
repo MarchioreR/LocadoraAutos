@@ -12,13 +12,15 @@ public class Venda {
     private int idVenda;
     private int idAutomovel;
     private int idVendedor;
+    private int idComprador;
     private int valorVenda;
 
-    public Venda(int idVenda, int idAutomovel, int idVendedor, int valorVenda) {
+    public Venda(int idVenda, int idAutomovel, int idVendedor, int valorVenda, int idComprador) {
         this.idVenda = idVenda;
         this.idAutomovel = idAutomovel;
         this.idVendedor = idVendedor;
         this.valorVenda = valorVenda;
+        this.idComprador = idComprador;
     }
     
     /**
@@ -75,5 +77,19 @@ public class Venda {
      */
     public void setValorVenda(int valorVenda) {
         this.valorVenda = valorVenda;
+    }
+
+    /**
+     * @return the idComprador
+     */
+    public int getIdComprador() {
+        return idComprador;
+    }
+
+    /**
+     * @param idComprador the idComprador to set
+     */
+    public void setIdComprador(int idComprador) {
+        this.idComprador = idComprador;
     }
 }

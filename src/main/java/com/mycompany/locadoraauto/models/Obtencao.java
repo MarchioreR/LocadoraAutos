@@ -14,19 +14,34 @@ public class Obtencao {
     private int idObtencao;
     private int idAutomovel;
     private int idMontadora;
-    private int idAlugador;
+    private int idVendedor;
     private Date dataObt;
     private float valorObt;
 
-    public Obtencao(int idAutomovel, int idMontadora, Date dataObt, float valorObt) {
+    public Obtencao(int idObtencao, int idAutomovel, int idMontadora, int idVendedor, Date dataObt, float valorObt) {
+        this.idObtencao = idObtencao;
         this.idAutomovel = idAutomovel;
-        this.idMontadora = 0;
-        this.idAlugador = 0;
+        this.idMontadora = idMontadora;
+        this.idVendedor = idVendedor;
         this.dataObt = dataObt;
         this.valorObt = valorObt;
+        
     }
-    
-    
+
+    /**
+     * @return the idObtencao
+     */
+    public int getIdObtencao() {
+        return idObtencao;
+    }
+
+    /**
+     * @param idObtencao the idObtencao to set
+     */
+    public void setIdObtencao(int idObtencao) {
+        this.idObtencao = idObtencao;
+    }
+
     /**
      * @return the idAutomovel
      */
@@ -56,6 +71,20 @@ public class Obtencao {
     }
 
     /**
+     * @return the idVendedor
+     */
+    public int getIdVendedor() {
+        return idVendedor;
+    }
+
+    /**
+     * @param idVendedor the idVendedor to set
+     */
+    public void setIdVendedor(int idVendedor) {
+        this.idVendedor = idVendedor;
+    }
+
+    /**
      * @return the dataObt
      */
     public Date getDataObt() {
@@ -82,32 +111,7 @@ public class Obtencao {
     public void setValorObt(float valorObt) {
         this.valorObt = valorObt;
     }
-
-    /**
-     * @return the idObtencao
-     */
-    public int getIdObtencao() {
-        return idObtencao;
-    }
-
-    /**
-     * @param idObtencao the idObtencao to set
-     */
-    public void setIdObtencao(int idObtencao) {
-        this.idObtencao = idObtencao;
-    }
-
-    /**
-     * @return the idAlugador
-     */
-    public int getIdAlugador() {
-        return idAlugador;
-    }
-
-    /**
-     * @param idAlugador the idAlugador to set
-     */
-    public void setIdAlugador(int idAlugador) {
-        this.idAlugador = idAlugador;
-    }
+    
+    
+   
 }

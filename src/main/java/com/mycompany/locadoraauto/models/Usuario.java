@@ -11,6 +11,7 @@ import com.mycompany.locadoraauto.enums.TipoID;
  * @author vitor
  */
 public class Usuario {
+    private int idUsuario;
     private String nome;
     private TipoID tipoID;
     private String ID;
@@ -108,5 +109,19 @@ public class Usuario {
      */
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    /**
+     * @return the idUsuario
+     */
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    /**
+     * @param idUsuario the idUsuario to set
+     */
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

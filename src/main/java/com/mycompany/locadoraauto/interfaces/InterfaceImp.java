@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -47,10 +48,10 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     public void CriarUsuario(Usuario novo) {
         String nome;
-        TipoID tipoID = null;
         String email;
         String numCel;
         String endereco;
+        String ID;
         int opcao;
         Scanner scan = new Scanner(System.in);
 
@@ -80,10 +81,13 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         } while (opcao < 1 || opcao > 2);
         switch (opcao) {
             case 1 ->
-                ((Usuario) novo).setTipoID(tipoID.CPF);
+                ((Usuario) novo).setTipoID(TipoID.CPF);
             case 2 ->
-                ((Usuario) novo).setTipoID(tipoID.CNPJ);
+                ((Usuario) novo).setTipoID(TipoID.CNPJ);
         }
+        System.out.println("Identificação (" +  novo.getTipoID().getDescricao() + "): ");
+        ID = scan.nextLine();
+        novo.setID(ID);
     }
 
     @Override
@@ -107,39 +111,68 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         comissaoLoc = scan.nextFloat();
         ((Locador) novo).setComissaoLoc(comissaoLoc);
 
-        ((Locador) novo).setIdLocador(currentID);
+        ((Locador) novo).setIdUsuario(currentID);
         usuarios.add(novo);
     }
 
     @Override
     public void CriarAlugador(int currentID) {
-        // Implementation logic here
-        String endereco;
-
-        Usuario novo = new Alugador();
         Scanner scan = new Scanner(System.in);
+        Usuario novo = new Alugador();
+        int opt = 0;
 
         System.out.println("Cadastrar Cliente: ");
 
         CriarUsuario(novo);
+        System.out.println("Idade do cliente: ");
+        opt = scan.nextInt();
+        ((Alugador) novo).setIdade(opt);
 
-        ((Alugador) novo).setIdAlugador(currentID);
+        do {
+            System.out.println("Gênero do cliente (1) Masculino (2) Feminino (3) Outro: ");
+            opt = scan.nextInt();
+            if (opt > 3 || opt < 1) {
+                System.out.println("Opção inválida, insira novamente.");
+            }
+        } while (opt > 3 || opt < 1);
+
+        switch (opt) {
+            case 1 ->
+                ((Alugador) novo).setGenero("M");
+            case 2 ->
+                ((Alugador) novo).setGenero("F");
+            case 3 ->
+                ((Alugador) novo).setGenero("O");
+            default ->
+                throw new AssertionError();
+        }
+
+        ((Alugador) novo).setIdUsuario(currentID);
         usuarios.add(novo);
     }
 
     @Override
     public void CriarMontadora(int currentID) {
+        Scanner scan = new Scanner(System.in);
         // Implementation logic here
-        String endereco;
+        String website;
+        String paisOrigem;
 
         Usuario novo = new Montadora();
-        Scanner scan = new Scanner(System.in);
 
         System.out.println("Cadastrar montadora: ");
 
         CriarUsuario(novo);
 
-        ((Montadora) novo).setIdMontadora(currentID);
+        System.out.println("Website da montadora: ");
+        website = scan.nextLine();
+        ((Montadora) novo).setWebsite(website);
+
+        System.out.println("País da montadora: ");
+        paisOrigem = scan.nextLine();
+        ((Montadora) novo).setWebsite(paisOrigem);
+
+        ((Montadora) novo).setIdUsuario(currentID);
         usuarios.add(novo);
     }
 
@@ -164,7 +197,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         comissaoVenda = scan.nextFloat();
         ((Vendedor) novo).setComissaoVenda(comissaoVenda);
 
-        ((Vendedor) novo).setIdVendedor(currentID);
+        ((Vendedor) novo).setIdUsuario(currentID);
         usuarios.add(novo);
     }
 
@@ -237,7 +270,6 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         System.out.println("Automóvel criado: " + automovel.getModelo());
     }
 
-    @Override
     public Seguro CriarSeguro() {
         Scanner scan = new Scanner(System.in);
         int tiposeguro;
@@ -275,16 +307,13 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         return seguro;
     }
 
-    @Override
-    public void CriarContrato(int currentID) {
+    public void CriarContrato(int currentID, int idAutomovel, int idAlugador, int idLocador) {
         Scanner scan = new Scanner(System.in);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateFormat.setLenient(false);
 
         Seguro seguro = null;
-        int idContrato = 0;
-        int idAlugador = 0;
-        int idLocador = 0;
+        int idContrato = currentID;
         Date dataIn = null;
         Date dataTer = null;
         float valorContrato;
@@ -300,7 +329,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                 System.out.println("Formato de data Inválido. Use dd/MM/yyyy.");
             }
         } while (dataIn == null);
-        
+
         do {
             System.out.println("Insira a data do fim do contrato(formato dd/MM/yyyy)): ");
             aux = scan.nextLine();
@@ -311,30 +340,50 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                 System.out.println("Formato de data Inválido. Use dd/MM/yyyy.");
             }
         } while (dataTer == null);
-        
+
         System.out.println("Valor do Contrato: ");
         valorContrato = scan.nextFloat();
-        
+
         seguro = CriarSeguro();
-        
-        Contrato contrato = new Contrato(idContrato, idAlugador, dataIn, dataTer, valorContrato, idLocador);
+
+        Contrato contrato = new Contrato(idContrato, idAlugador, dataIn, dataTer, valorContrato, idLocador, idAutomovel);
+        contrato.setSeguro(seguro);
+        contratos.add(contrato);
     }
 
-    @Override
-    public void CriarObtencao(int currentID) {
-        // Implementation logic here
+    public void CriarObtencao(int currentID, int idAutomovel, int idMontadora, int idVendedor) {
+        Date dataObt = null;
+        float valorObt;
+        String aux;
+        Scanner scan = new Scanner(System.in);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat.setLenient(false);
+
+        do {
+            System.out.println("Insira a data do início do contrato(formato dd/MM/yyyy)): ");
+            aux = scan.nextLine();
+            try {
+                // Parse the input string into a Date object
+                dataObt = dateFormat.parse(aux);
+            } catch (ParseException e) {
+                System.out.println("Formato de data Inválido. Use dd/MM/yyyy.");
+            }
+        } while (dataObt == null);
+
+        System.out.println("Insira o valor da compra: ");
+        valorObt = scan.nextFloat();
+        Obtencao obtencao = new Obtencao(currentID, idAutomovel, idMontadora, idVendedor, dataObt, valorObt);
+        obtencoes.add(obtencao);
     }
 
-    @Override
     public void CriarRegistro(int currentID) {
         Scanner scan = new Scanner(System.in);
-
+        int idx;
         // Coletando dados para criar o registro financeiro
         System.out.println("Cadastrar Registro Financeiro:");
 
-        System.out.print("ID do Automóvel: ");
-        int idAutomovel = scan.nextInt();
-        Automovel automovel = buscarAutomovel(idAutomovel); // Supondo que já tenha um método para buscar o automóvel
+        idx = BuscarAutomovel();
+        int idVeiculo = idx;
 
         System.out.print("Valor de Compra: ");
         float valorCompra = scan.nextFloat();
@@ -352,71 +401,392 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         float valorTotal = valorCompra + valorManutencao;
 
         // Criando o registro financeiro
-        RegistroFinanceiro registro = new RegistroFinanceiro(currentID, automovel, valorCompra, valorVenda, valorDiaria, valorManutencao, valorTotal);
+        RegistroFinanceiro registro = new RegistroFinanceiro(currentID, idVeiculo, valorCompra, valorVenda, valorDiaria, valorManutencao, valorTotal);
         registros.add(registro);
 
-        System.out.println("Registro financeiro criado para o veículo: " + automovel.getModelo());
+        System.out.println("Registro financeiro criado para o veículo: " + automoveis.get(idx).getModelo());
     }
 
-    @Override
-    public void CriarVenda(int currentID) {
+    public void CriarVenda(int currentID, int idAutomovel, int idVendedor, int idComprador) {
         Scanner scan = new Scanner(System.in);
 
         // Coletando dados para criar a venda
         System.out.println("Cadastrar Venda:");
 
-        System.out.print("ID do Automóvel: ");
-        int idAutomovel = scan.nextInt();
-
-        System.out.print("ID do Vendedor: ");
-        int idVendedor = scan.nextInt();
-
         System.out.print("Valor da Venda: ");
         int valorVenda = scan.nextInt();
 
         // Criando a venda
-        Venda venda = new Venda(currentID, idAutomovel, idVendedor, valorVenda);
+        Venda venda = new Venda(currentID, idAutomovel, idVendedor, valorVenda, idComprador);
         vendas.add(venda);
 
         System.out.println("Venda registrada: " + venda.getIdVenda());
     }
 
-    private Automovel buscarAutomovel(int idAutomovel) {
-        // Método fictício para buscar o automóvel na lista de automóveis
+    public int BuscarAutomovel() {
+        int index = 0, opt, i = 0;
+        Scanner scan = new Scanner(System.in);
+        index = scan.nextInt();
         for (Automovel automovel : automoveis) {
-            if (automovel.getIdAutomovel() == idAutomovel) {
-                return automovel;
-            }
+            System.out.println("ID - " + i);
+            automovel.ImprimirAutomovel();
+            System.out.println("");
+            i++;
         }
-        return null; // Retorna null se o automóvel não for encontrado
+        do {
+            System.out.println("Escolha o automóvel pelo ID da lista acima:");
+            opt = scan.nextInt();
+            if (opt > automoveis.size() || opt < 0) {
+                System.out.println("Escolha inválida, tente novamente");
+            }
+        } while (opt > automoveis.size() || opt < 0);
+        return index;
     }
 
-    @Override
     public void AlterarAutomovel() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Scanner scan = new Scanner(System.in);
+        int idx = 0, opt = 0, i = 0, enum_opt;
+        Float diaria;
+        String novo;
+
+        idx = BuscarAutomovel();
+
+        do {
+            System.out.println("O que deseja alterar (1) Modelo (2) Placa (3) Tipo de Veiculo (4) Valor da diária  (5) Status");
+            opt = scan.nextInt();
+            if (opt > 5 || opt < 1) {
+                System.out.println("Escolha inválida, tente novamente");
+            }
+        } while (opt < 1 || opt > 5);
+        switch (opt) {
+            case 1 -> {
+                System.out.println("Escreva o nome do novo modelo: ");
+                novo = scan.nextLine();
+                automoveis.get(idx).setModelo(novo);
+            }
+            case 2 -> {
+                System.out.println("Escreva o nome da nova placa: ");
+                novo = scan.nextLine();
+                automoveis.get(idx).setPlaca(novo);
+            }
+            case 3 -> {
+                do {
+                    System.out.println("Escolha o novo Status: (1) Disponível (2) Indisponível (3) Manutenção");
+                    enum_opt = scan.nextInt();
+                    if (enum_opt > 3 || enum_opt < 1) {
+                        System.out.println("Escolha inválida, tente novamente");
+                    }
+                } while (enum_opt > 3 || enum_opt < 1);
+                automoveis.get(idx).setStatus(TipoStatus.values()[enum_opt - 1]);
+            }
+            case 4 -> {
+                do {
+                    System.out.println("Escolha o novo tipo do veículo: (1) Híbrido (2) Elétrico (3) Combustão");
+                    enum_opt = scan.nextInt();
+                    if (enum_opt > 3 || enum_opt < 1) {
+                        System.out.println("Escolha inválida, tente novamente");
+                    }
+                } while (enum_opt > 3 || enum_opt < 1);
+                automoveis.get(idx).setTipoVeic(TipoVeiculo.values()[enum_opt - 1]);
+            }
+            case 5 -> {
+                System.out.println("Escreva o novo valor da diária: ");
+                diaria = scan.nextFloat();
+                automoveis.get(idx).setValorDia(diaria);
+            }
+            default ->
+                throw new AssertionError();
+        }
+
+        System.out.println("Automóvel atualizado: ");
+        automoveis.get(idx).ImprimirAutomovel();
     }
 
-    @Override
+    public int BuscarUsuario() {
+        int index = 0, opt, i = 0;
+        Scanner scan = new Scanner(System.in);
+        index = scan.nextInt();
+        for (Usuario usuario : usuarios) {
+            System.out.println("ID - " + i);
+            usuario.ImprimirUsuario();
+            System.out.println("");
+            i++;
+        }
+        do {
+            System.out.println("Escolha o usuario pelo ID da lista acima:");
+            opt = scan.nextInt();
+            if (opt > usuarios.size() || opt < 0) {
+                System.out.println("Escolha inválida, tente novamente");
+            }
+        } while (opt > usuarios.size() || opt < 0);
+        return index;
+    }
+
+    public void AlterarUsuário(int opcao) throws RemoteException {
+        int idx = BuscarUsuario();
+
+        Scanner scanner = new Scanner(System.in);
+        do {
+            switch (opcao) {
+                case 1 -> {
+                    System.out.print("Novo nome: ");
+                    String novoNome = scanner.nextLine();
+                    usuarios.get(idx).setNome(novoNome);
+                }
+                case 2 -> {
+                    System.out.println("Selecione o novo TipoID:");
+                    System.out.println("1 - CPF");
+                    System.out.println("2 - CNPJ");
+                    int tipoOpcao = scanner.nextInt();
+                    scanner.nextLine(); // Consumir quebra de linha
+                    switch (tipoOpcao) {
+                        case 1 ->
+                            usuarios.get(idx).setTipoID(TipoID.CPF);
+                        case 2 ->
+                            usuarios.get(idx).setTipoID(TipoID.CNPJ);
+                        default ->
+                            System.out.println("Opção inválida.");
+                    }
+                }
+                case 3 -> {
+                    System.out.print("Novo email: ");
+                    String novoEmail = scanner.nextLine();
+                    usuarios.get(idx).setEmail(novoEmail);
+                }
+                case 4 -> {
+                    System.out.print("Novo número de celular: ");
+                    String novoNumCel = scanner.nextLine();
+                    usuarios.get(idx).setNumCel(novoNumCel);
+                }
+                case 5 -> {
+                    System.out.print("Novo endereço: ");
+                    String novoEndereco = scanner.nextLine();
+                    usuarios.get(idx).setEndereco(novoEndereco);
+                }
+                case 0 ->
+                    System.out.println("Alterações finalizadas.");
+                default ->
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        } while (opcao != 0);
+    }
+
     public void AlterarLocador() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        float valorSalario;
+        float comissaoLoc;
+        int opt = 0, idx = BuscarUsuario(), sair = 0;
+        Usuario usuario = usuarios.get(idx);
+        Scanner scanner = new Scanner(System.in);
+        do {
+            do {
+                System.out.println("Selecione o atributo que deseja alterar:");
+                System.out.println("1 - Nome");
+                System.out.println("2 - TipoID");
+                System.out.println("3 - Email");
+                System.out.println("4 - Número de Celular");
+                System.out.println("5 - Endereço");
+                System.out.println("6 - Valor do salário");
+                System.out.println("7 - Comissão do locador");
+                System.out.println("0 - Sair");
+                System.out.print("Escolha: ");
+            } while (opt != 0);
+
+            opt = scanner.nextInt();
+            scanner.nextLine(); // Consumir quebra de linha
+
+            if (opt <= 5) {
+                AlterarUsuário(opt);
+            } else {
+                switch (opt) {
+                    case 6 -> {
+                        Locador locador = (Locador) usuario;
+                        System.out.print("Novo valor do salário: ");
+                        valorSalario = scanner.nextFloat();
+                        locador.setValorSalario(valorSalario);
+                    }
+                    case 7 -> {
+                        Locador locador = (Locador) usuario;
+                        System.out.print("Novo valor de comissão de venda: ");
+                        comissaoLoc = scanner.nextFloat();
+                        locador.setComissaoLoc(comissaoLoc);
+                    }
+                    default ->
+                        throw new AssertionError();
+                }
+            }
+            System.out.println("Digite ( 1 ) se deseja alterar outro valor e ( 0 ) se deseja voltar ao menu: ");
+            sair = scanner.nextInt();
+        } while (sair == 0);
+
     }
 
-    @Override
     public void AlterarVendedor() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        float valorSalario;
+        float comissaoVenda;
+        int opt = 0, idx = BuscarUsuario(), sair = 0;
+        Usuario usuario = usuarios.get(idx);
+        Scanner scanner = new Scanner(System.in);
+        do {
+            do {
+                System.out.println("Selecione o atributo que deseja alterar:");
+                System.out.println("1 - Nome");
+                System.out.println("2 - TipoID");
+                System.out.println("3 - Email");
+                System.out.println("4 - Número de Celular");
+                System.out.println("5 - Endereço");
+                System.out.println("6 - Valor do salário");
+                System.out.println("7 - Comissão do locador");
+                System.out.println("0 - Sair");
+                System.out.print("Escolha: ");
+            } while (opt != 0);
+
+            opt = scanner.nextInt();
+            scanner.nextLine(); // Consumir quebra de linha
+
+            if (opt <= 5) {
+                AlterarUsuário(opt);
+            } else {
+                switch (opt) {
+                    case 6 -> {
+                        Vendedor vendedor = (Vendedor) usuario;
+                        System.out.print("Novo valor do salário: ");
+                        valorSalario = scanner.nextFloat();
+                        vendedor.setValorSalario(valorSalario);
+                    }
+                    case 7 -> {
+                        Vendedor vendedor = (Vendedor) usuario;
+                        System.out.print("Novo valor de comissão de venda: ");
+                        comissaoVenda = scanner.nextFloat();
+                        vendedor.setComissaoVenda(comissaoVenda);
+                    }
+                    default ->
+                        throw new AssertionError();
+                }
+            }
+            System.out.println("Digite ( 1 ) se deseja alterar outro valor e ( 0 ) se deseja voltar ao menu: ");
+            sair = scanner.nextInt();
+        } while (sair == 0);
+
     }
 
-    @Override
     public void AlterarMontadora() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String website;
+        String paisOrigem;
+
+        int opt = 0, idx = BuscarUsuario(), sair = 0;
+        Usuario usuario = usuarios.get(idx);
+        Scanner scanner = new Scanner(System.in);
+        do {
+            do {
+                System.out.println("Selecione o atributo que deseja alterar:");
+                System.out.println("1 - Nome");
+                System.out.println("2 - TipoID");
+                System.out.println("3 - Email");
+                System.out.println("4 - Número de Celular");
+                System.out.println("5 - Endereço");
+                System.out.println("6 - WebSite");
+                System.out.println("7 - País de Origem");
+                System.out.println("0 - Sair");
+                System.out.print("Escolha: ");
+            } while (opt != 0);
+
+            opt = scanner.nextInt();
+            scanner.nextLine(); // Consumir quebra de linha
+
+            if (opt <= 5) {
+                AlterarUsuário(opt);
+            } else {
+                switch (opt) {
+                    case 6 -> {
+                        Montadora montadora = (Montadora) usuario;
+                        System.out.print("Novo Website: ");
+                        website = scanner.nextLine();
+                        montadora.setWebsite(website);
+                    }
+                    case 7 -> {
+                        Montadora montadora = (Montadora) usuario;
+                        System.out.print("Novo Website: ");
+                        paisOrigem = scanner.nextLine();
+                        montadora.setPaisOrigem(paisOrigem);
+                    }
+                    default ->
+                        throw new AssertionError();
+                }
+            }
+            System.out.println("Digite ( 1 ) se deseja alterar outro valor e ( 0 ) se deseja voltar ao menu: ");
+            sair = scanner.nextInt();
+        } while (sair == 0);
+
     }
 
-    @Override
     public void AlterarAlugador() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int idade;
+        String genero;
+
+        int opt = 0, idx = BuscarUsuario(), sair = 0;
+        Usuario usuario = usuarios.get(idx);
+        Scanner scanner = new Scanner(System.in);
+        do {
+            do {
+                System.out.println("Selecione o atributo que deseja alterar:");
+                System.out.println("1 - Nome");
+                System.out.println("2 - TipoID");
+                System.out.println("3 - Email");
+                System.out.println("4 - Número de Celular");
+                System.out.println("5 - Endereço");
+                System.out.println("6 - Idade");
+                System.out.println("7 - Gênero");
+                System.out.println("0 - Sair");
+                System.out.print("Escolha: ");
+            } while (opt != 0);
+
+            opt = scanner.nextInt();
+            scanner.nextLine(); // Consumir quebra de linha
+
+            if (opt <= 5) {
+                AlterarUsuário(opt);
+            } else {
+                switch (opt) {
+                    case 6 -> {
+                        Alugador alugador = (Alugador) usuario;
+                        System.out.print("Nova idade: ");
+                        idade = scanner.nextInt();
+                        alugador.setIdade(idade);
+                    }
+                    case 7 -> {
+                        Alugador alugador = (Alugador) usuario;
+                        do {
+                            System.out.println("Gênero do cliente (1) Masculino (2) Feminino (3) Outro: ");
+                            opt = scanner.nextInt();
+                            if (opt > 3 || opt < 1) {
+                                System.out.println("Opção inválida, insira novamente.");
+                            }
+                        } while (opt > 3 || opt < 1);
+
+                        switch (opt) {
+                            case 1 ->
+                                alugador.setGenero("M");
+                            case 2 ->
+                                alugador.setGenero("F");
+                            case 3 ->
+                                alugador.setGenero("O");
+                            default ->
+                                throw new AssertionError();
+                        }
+                        genero = scanner.nextLine();
+                        alugador.setGenero(genero);
+                    }
+                    default ->
+                        throw new AssertionError();
+                }
+            }
+            System.out.println("Digite ( 1 ) se deseja alterar outro valor e ( 0 ) se deseja voltar ao menu: ");
+            sair = scanner.nextInt();
+        } while (sair == 0);
+
     }
 
-    @Override
     public void RemoverAutomovel() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -446,18 +816,19 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
     public void ImprimirObtencao() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
     public void ImprimirRegistro() throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
     public void ImprimirVenda() throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void CriarObtencao(int currentID) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

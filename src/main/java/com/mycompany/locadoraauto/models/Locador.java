@@ -11,28 +11,12 @@ import com.mycompany.locadoraauto.enums.TipoID;
  * @author vitor
  */
 public class Locador extends Usuario{
-    private int idLocador;
     private float valorSalario;
     private float comissaoLoc;
 
     public Locador() {
     }
-
-
-    /**
-     * @return the idLocador
-     */
-    public int getIdLocador() {
-        return idLocador;
-    }
-
-    /**
-     * @param idLocador the idLocador to set
-     */
-    public void setIdLocador(int idLocador) {
-        this.idLocador = idLocador;
-    }
-
+    
     /**
      * @return the valorSalario
      */

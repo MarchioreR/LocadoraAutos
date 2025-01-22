@@ -11,8 +11,14 @@ package com.mycompany.locadoraauto.enums;
 public enum TipoID {
     CPF("CPF"),
     CNPJ("CNPJ");
-    
+
     private final String descricao;
-    private TipoID(String descricao){this.descricao = descricao;}
-    public String getDescricao(){return descricao;}
+
+    private TipoID(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
 }

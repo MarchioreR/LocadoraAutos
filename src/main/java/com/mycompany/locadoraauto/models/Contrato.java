@@ -14,18 +14,20 @@ public class Contrato {
     private int idContrato;
     private int idAlugador;
     private int idLocador;
+    private int idAutomovel;
     private Seguro seguro;
     private Date dataIn;
     private Date dataTer;
     private float valorContrato;
 
-    public Contrato(int idContrato, int idAlugador, Date dataIn, Date dataTer, float valorContrato, int idLocador) {
+    public Contrato(int idContrato, int idAlugador, Date dataIn, Date dataTer, float valorContrato, int idLocador, int idAutomovel) {
         this.idContrato = idContrato;
         this.idAlugador = idAlugador;
         this.idAlugador = idLocador;
         this.dataIn = dataIn;
         this.dataTer = dataTer;
         this.valorContrato = valorContrato;
+        this.idAutomovel = idAutomovel;
     }
 
     /**
@@ -125,4 +127,20 @@ public class Contrato {
     public void setIdLocador(int idLocador) {
         this.idLocador = idLocador;
     }
+
+    /**
+     * @return the idAutomovel
+     */
+    public int getIdAutomovel() {
+        return idAutomovel;
+    }
+
+    /**
+     * @param idAutomovel the idAutomovel to set
+     */
+    public void setIdAutomovel(int idAutomovel) {
+        this.idAutomovel = idAutomovel;
+    }
+    
+    
 }
