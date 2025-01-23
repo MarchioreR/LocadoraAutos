@@ -12,17 +12,15 @@ import java.util.Date;
  */
 public class Obtencao {
     private int idObtencao;
-    private int idAutomovel;
-    private int idMontadora;
-    private int idVendedor;
+    private Automovel automovel;
+    private Montadora montadora;
     private Date dataObt;
     private float valorObt;
 
-    public Obtencao(int idObtencao, int idAutomovel, int idMontadora, int idVendedor, Date dataObt, float valorObt) {
+    public Obtencao(int idObtencao, Automovel automovel, Montadora montadora, Date dataObt, float valorObt) {
         this.idObtencao = idObtencao;
-        this.idAutomovel = idAutomovel;
-        this.idMontadora = idMontadora;
-        this.idVendedor = idVendedor;
+        this.automovel = automovel;
+        this.montadora = montadora;
         this.dataObt = dataObt;
         this.valorObt = valorObt;
         
@@ -42,47 +40,6 @@ public class Obtencao {
         this.idObtencao = idObtencao;
     }
 
-    /**
-     * @return the idAutomovel
-     */
-    public int getIdAutomovel() {
-        return idAutomovel;
-    }
-
-    /**
-     * @param idAutomovel the idAutomovel to set
-     */
-    public void setIdAutomovel(int idAutomovel) {
-        this.idAutomovel = idAutomovel;
-    }
-
-    /**
-     * @return the idMontadora
-     */
-    public int getIdMontadora() {
-        return idMontadora;
-    }
-
-    /**
-     * @param idMontadora the idMontadora to set
-     */
-    public void setIdMontadora(int idMontadora) {
-        this.idMontadora = idMontadora;
-    }
-
-    /**
-     * @return the idVendedor
-     */
-    public int getIdVendedor() {
-        return idVendedor;
-    }
-
-    /**
-     * @param idVendedor the idVendedor to set
-     */
-    public void setIdVendedor(int idVendedor) {
-        this.idVendedor = idVendedor;
-    }
 
     /**
      * @return the dataObt
@@ -111,7 +68,34 @@ public class Obtencao {
     public void setValorObt(float valorObt) {
         this.valorObt = valorObt;
     }
-    
-    
+
+    /**
+     * @return the automovel
+     */
+    public Automovel getAutomovel() {
+        return automovel;
+    }
+
+    /**
+     * @param automovel the automovel to set
+     */
+    public void setAutomovel(Automovel automovel) {
+        this.automovel = automovel;
+    }
+
+    /**
+     * @return the montadora
+     */
+    public Montadora getMontadora() {
+        return montadora;
+    }
+
+    /**
+     * @param montadora the montadora to set
+     */
+    public void setMontadora(Montadora montadora) {
+        this.montadora = montadora;
+    }
+
    
 }

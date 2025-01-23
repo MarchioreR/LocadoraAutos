@@ -85,7 +85,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
             case 2 ->
                 ((Usuario) novo).setTipoID(TipoID.CNPJ);
         }
-        System.out.println("Identificação (" +  novo.getTipoID().getDescricao() + "): ");
+        System.out.println("Identificação (" + novo.getTipoID().getDescricao() + "): ");
         ID = scan.nextLine();
         novo.setID(ID);
     }
@@ -149,6 +149,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
         ((Alugador) novo).setIdUsuario(currentID);
         usuarios.add(novo);
+        System.out.println("Alugador criado");
     }
 
     @Override
@@ -174,6 +175,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
         ((Montadora) novo).setIdUsuario(currentID);
         usuarios.add(novo);
+        System.out.println("Montadora criado");
     }
 
     @Override
@@ -199,6 +201,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
         ((Vendedor) novo).setIdUsuario(currentID);
         usuarios.add(novo);
+        System.out.println("Vendedor criado");
     }
 
     @Override
@@ -267,7 +270,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         automovel.setValorDia(valorDia);
 
         automoveis.add(automovel);
-        System.out.println("Automóvel criado: " + automovel.getModelo());
+        System.out.println("Automóvel criado");
     }
 
     public Seguro CriarSeguro() {
@@ -278,7 +281,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         String seguradora;
 
         Seguro seguro = new Seguro();
-
+        System.out.println("Cadastrar Seguro:");
         System.out.println("Nome da Seguradora: ");
         seguradora = scan.nextLine();
 
@@ -304,20 +307,22 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         seguro.setSeguradora(seguradora);
         seguro.setTipoSeguro(tipoSeguro);
         seguro.setValorSeguro(valorSeguro);
+        System.out.println("Seguro criado");
         return seguro;
     }
 
-    public void CriarContrato(int currentID, int idAutomovel, int idAlugador, int idLocador) {
+    public void CriarContrato(int currentID) {
         Scanner scan = new Scanner(System.in);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateFormat.setLenient(false);
 
         Seguro seguro = null;
-        int idContrato = currentID;
+        int idContrato = currentID, idxA, idxL, idxC;
         Date dataIn = null;
         Date dataTer = null;
         float valorContrato;
         String aux;
+        System.out.println("Cadastrar Contrato:");
 
         do {
             System.out.println("Insira a data do início do contrato(formato dd/MM/yyyy)): ");
@@ -344,15 +349,32 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         System.out.println("Valor do Contrato: ");
         valorContrato = scan.nextFloat();
 
+        System.out.println("Escolha do Automóvel:");
+        idxA = BuscarAutomovel();
+
+        System.out.println("Escolha do Locador:");
+        idxL = BuscarLocador();
+
+        System.out.println("Escolha do Alugador:");
+        idxC = BuscarAlugador();
+
+        Usuario usuarioC = usuarios.get(idxC);
+        Alugador alugador = (Alugador) usuarioC;
+
+        Usuario usuarioL = usuarios.get(idxL);
+        Locador locador = (Locador) usuarioL;
+
         seguro = CriarSeguro();
 
-        Contrato contrato = new Contrato(idContrato, idAlugador, dataIn, dataTer, valorContrato, idLocador, idAutomovel);
+        Contrato contrato = new Contrato(idContrato, alugador, dataIn, dataTer, valorContrato, locador, automoveis.get(idxA));
         contrato.setSeguro(seguro);
         contratos.add(contrato);
+        System.out.println("Contrato criado");
     }
 
-    public void CriarObtencao(int currentID, int idAutomovel, int idMontadora, int idVendedor) {
+    public void CriarObtencao(int currentID) {
         Date dataObt = null;
+        int idxA, idxM;
         float valorObt;
         String aux;
         Scanner scan = new Scanner(System.in);
@@ -372,7 +394,17 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
         System.out.println("Insira o valor da compra: ");
         valorObt = scan.nextFloat();
-        Obtencao obtencao = new Obtencao(currentID, idAutomovel, idMontadora, idVendedor, dataObt, valorObt);
+
+        System.out.println("Escolha do Automóvel:");
+        idxA = BuscarAutomovel();
+
+        System.out.println("Escolha da Montadora:");
+        idxM = BuscarMontadora();
+
+        Usuario usuarioM = usuarios.get(idxM);
+        Montadora montadora = (Montadora) usuarioM;
+
+        Obtencao obtencao = new Obtencao(currentID, automoveis.get(idxA), montadora, dataObt, valorObt);
         obtencoes.add(obtencao);
     }
 
@@ -383,7 +415,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         System.out.println("Cadastrar Registro Financeiro:");
 
         idx = BuscarAutomovel();
-        int idVeiculo = idx;
+        Automovel auto = automoveis.get(idx);
 
         System.out.print("Valor de Compra: ");
         float valorCompra = scan.nextFloat();
@@ -401,23 +433,40 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         float valorTotal = valorCompra + valorManutencao;
 
         // Criando o registro financeiro
-        RegistroFinanceiro registro = new RegistroFinanceiro(currentID, idVeiculo, valorCompra, valorVenda, valorDiaria, valorManutencao, valorTotal);
+        RegistroFinanceiro registro = new RegistroFinanceiro(currentID, auto, valorCompra, valorVenda, valorDiaria, valorManutencao, valorTotal);
         registros.add(registro);
 
         System.out.println("Registro financeiro criado para o veículo: " + automoveis.get(idx).getModelo());
     }
 
-    public void CriarVenda(int currentID, int idAutomovel, int idVendedor, int idComprador) {
+    public void CriarVenda(int currentID) {
         Scanner scan = new Scanner(System.in);
+        int idContrato = currentID, idxA, idxC, idxV;
 
         // Coletando dados para criar a venda
         System.out.println("Cadastrar Venda:");
 
-        System.out.print("Valor da Venda: ");
+        System.out.println("Valor da Venda: ");
         int valorVenda = scan.nextInt();
+        
+        System.out.println("Escolha do Automóvel:");
+        idxA = BuscarAutomovel();
+        
+        System.out.println("Escolha do Vendedor:");
+        idxV = BuscarVendedor();
+        
+        System.out.println("Escolha do Cliente:");
+        idxC = BuscarAlugador();
+        
+        Usuario usuarioV = usuarios.get(idxV);
+        Vendedor vendedor = (Vendedor) usuarioV;
+        
+        Usuario usuarioC = usuarios.get(idxC);
+        Alugador alugador = (Alugador) usuarioC;
+        
 
-        // Criando a venda
-        Venda venda = new Venda(currentID, idAutomovel, idVendedor, valorVenda, idComprador);
+        // Criando a venda Venda(int idVenda, Automovel automovel, Vendedor vendedor, Alugador alugador, int valorVenda)
+        Venda venda = new Venda(currentID, automoveis.get(idxA), vendedor, alugador ,valorVenda);
         vendas.add(venda);
 
         System.out.println("Venda registrada: " + venda.getIdVenda());
@@ -426,10 +475,9 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     public int BuscarAutomovel() {
         int index = 0, opt, i = 0;
         Scanner scan = new Scanner(System.in);
-        index = scan.nextInt();
         for (Automovel automovel : automoveis) {
             System.out.println("ID - " + i);
-            automovel.ImprimirAutomovel();
+            System.out.println("Modelo: " + automovel.getModelo() + "\nPlaca: " + automovel.getPlaca() + "\nStatus: " + automovel.getStatus());
             System.out.println("");
             i++;
         }
@@ -440,6 +488,90 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                 System.out.println("Escolha inválida, tente novamente");
             }
         } while (opt > automoveis.size() || opt < 0);
+        return index;
+    }
+
+    public int BuscarLocador() {
+        int index = 0, opt, i = 0;
+        Scanner scan = new Scanner(System.in);
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Locador) {
+                System.out.println("ID - " + i);
+                System.out.println("Nome: " + usuario.getNome() + "\nIdentificação: " + usuario.getID());
+                System.out.println("");
+            }
+            i++;
+        }
+        do {
+            System.out.println("Escolha o Locador pelo ID da lista acima:");
+            opt = scan.nextInt();
+            if ((opt > usuarios.size() || opt < 0) && !(usuarios.get(opt) instanceof Locador)) {
+                System.out.println("Escolha inválida, tente novamente");
+            }
+        } while ((opt > usuarios.size() || opt < 0) && !(usuarios.get(opt) instanceof Locador));
+        return index;
+    }
+
+    public int BuscarVendedor() {
+        int index = 0, opt, i = 0;
+        Scanner scan = new Scanner(System.in);
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Vendedor) {
+                System.out.println("ID - " + i);
+                System.out.println("Nome: " + usuario.getNome() + "\nIdentificação: " + usuario.getID());
+                System.out.println("");
+            }
+            i++;
+        }
+        do {
+            System.out.println("Escolha o Vendedor pelo ID da lista acima:");
+            opt = scan.nextInt();
+            if ((opt > usuarios.size() || opt < 0) && !(usuarios.get(opt) instanceof Vendedor)) {
+                System.out.println("Escolha inválida, tente novamente");
+            }
+        } while ((opt > usuarios.size() || opt < 0) && !(usuarios.get(opt) instanceof Vendedor));
+        return index;
+    }
+
+    public int BuscarAlugador() {
+        int index = 0, opt, i = 0;
+        Scanner scan = new Scanner(System.in);
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Alugador) {
+                System.out.println("ID - " + i);
+                System.out.println("Nome: " + usuario.getNome() + "\nIdentificação: " + usuario.getID());
+                System.out.println("");
+            }
+            i++;
+        }
+        do {
+            System.out.println("Escolha o Alugador pelo ID da lista acima:");
+            opt = scan.nextInt();
+            if ((opt > usuarios.size() || opt < 0) && !(usuarios.get(opt) instanceof Alugador)) {
+                System.out.println("Escolha inválida, tente novamente");
+            }
+        } while ((opt > usuarios.size() || opt < 0) && !(usuarios.get(opt) instanceof Alugador));
+        return index;
+    }
+
+    public int BuscarMontadora() {
+        int index = 0, opt, i = 0;
+        Scanner scan = new Scanner(System.in);
+        for (Usuario usuario : usuarios) {
+            if (usuario instanceof Montadora montadora) {
+                System.out.println("ID - " + i);
+                System.out.println("Nome: " + usuario.getNome() + "\nIdentificação: " + usuario.getID() + "\nPaís: " + montadora.getPaisOrigem());
+                System.out.println("");
+            }
+            i++;
+        }
+        do {
+            System.out.println("Escolha o Montadora pelo ID da lista acima:");
+            opt = scan.nextInt();
+            if ((opt > usuarios.size() || opt < 0) && !(usuarios.get(opt) instanceof Montadora)) {
+                System.out.println("Escolha inválida, tente novamente");
+            }
+        } while ((opt > usuarios.size() || opt < 0) && !(usuarios.get(opt) instanceof Montadora));
         return index;
     }
 
@@ -508,12 +640,50 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         index = scan.nextInt();
         for (Usuario usuario : usuarios) {
             System.out.println("ID - " + i);
-            usuario.ImprimirUsuario();
+            System.out.println("Nome: " + usuario.getNome() + "\nIdentificação: " + usuario.getID());
             System.out.println("");
             i++;
         }
         do {
             System.out.println("Escolha o usuario pelo ID da lista acima:");
+            opt = scan.nextInt();
+            if (opt > usuarios.size() || opt < 0) {
+                System.out.println("Escolha inválida, tente novamente");
+            }
+        } while (opt > usuarios.size() || opt < 0);
+        return index;
+    }
+
+    public int BuscarContrato() {
+        int index = 0, opt, i = 0;
+        Scanner scan = new Scanner(System.in);
+        for (Contrato contrato : contratos) {
+            System.out.println("ID - " + i);
+            System.out.println("Automóvel: " + contrato.getAutomovel() + "\nIdentificação: " + contrato.getDataIn() + "\nValor: " + contrato.getValorContrato());
+            System.out.println("");
+            i++;
+        }
+        do {
+            System.out.println("Escolha o Contrato pelo ID da lista acima:");
+            opt = scan.nextInt();
+            if (opt > usuarios.size() || opt < 0) {
+                System.out.println("Escolha inválida, tente novamente");
+            }
+        } while (opt > usuarios.size() || opt < 0);
+        return index;
+    }
+
+    public int BuscarRegistro() {
+        int index = 0, opt, i = 0;
+        Scanner scan = new Scanner(System.in);
+        for (RegistroFinanceiro registro : registros) {
+            System.out.println("ID - " + i);
+            System.out.println("Automóvel: " + registro.getAutomovel().getModelo() + "\nPlaca:" + registro.getAutomovel().getPlaca());
+            System.out.println("");
+            i++;
+        }
+        do {
+            System.out.println("Escolha o Registro pelo ID da lista acima:");
             opt = scan.nextInt();
             if (opt > usuarios.size() || opt < 0) {
                 System.out.println("Escolha inválida, tente novamente");
@@ -788,47 +958,153 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     }
 
     public void RemoverAutomovel() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int idx = BuscarAutomovel(), opt;
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Realmente deseja remover o automóvel: ");
+        automoveis.get(idx).ImprimirAutomovel();
+        do {
+            System.out.println("\n Se sim, digite 1: Se nâo, digite 0");
+            opt = scan.nextInt();
+            if (opt > 1 || opt < 0) {
+                System.out.println("Por favor digite uma opção válida");
+            }
+        } while (opt > 1 || opt < 0);
+
+        if (opt == 1) {
+            automoveis.remove(idx);
+        }
     }
 
-    @Override
     public void RemoverLocador() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int idx = BuscarLocador(), opt;
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Realmente deseja remover este Locador: ");
+        usuarios.get(idx).ImprimirUsuario();
+        do {
+            System.out.println("\n Se sim, digite 1: Se nâo, digite 0");
+            opt = scan.nextInt();
+            if (opt > 1 || opt < 0) {
+                System.out.println("Por favor digite uma opção válida");
+            }
+        } while (opt > 1 || opt < 0);
+
+        if (opt == 1) {
+            usuarios.remove(idx);
+        }
     }
 
-    @Override
     public void RemoverVendedor() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int idx = BuscarVendedor(), opt;
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Realmente deseja remover este Vendedor: ");
+        usuarios.get(idx).ImprimirUsuario();
+        do {
+            System.out.println("\n Se sim, digite 1: Se nâo, digite 0");
+            opt = scan.nextInt();
+            if (opt > 1 || opt < 0) {
+                System.out.println("Por favor digite uma opção válida");
+            }
+        } while (opt > 1 || opt < 0);
+
+        if (opt == 1) {
+            usuarios.remove(idx);
+        }
     }
 
-    @Override
     public void RemoverAlugador() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int idx = BuscarAlugador(), opt;
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Realmente deseja remover este Alugador: ");
+        usuarios.get(idx).ImprimirUsuario();
+        do {
+            System.out.println("\n Se sim, digite 1: Se nâo, digite 0");
+            opt = scan.nextInt();
+            if (opt > 1 || opt < 0) {
+                System.out.println("Por favor digite uma opção válida");
+            }
+        } while (opt > 1 || opt < 0);
+
+        if (opt == 1) {
+            usuarios.remove(idx);
+        }
     }
 
-    @Override
     public void RemoverMontadora() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int idx = BuscarMontadora(), opt;
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Realmente deseja remover este Montadora: ");
+        usuarios.get(idx).ImprimirUsuario();
+        do {
+            System.out.println("\n Se sim, digite 1: Se nâo, digite 0");
+            opt = scan.nextInt();
+            if (opt > 1 || opt < 0) {
+                System.out.println("Por favor digite uma opção válida");
+            }
+        } while (opt > 1 || opt < 0);
+
+        if (opt == 1) {
+            usuarios.remove(idx);
+        }
     }
 
-    @Override
-    public void ImprimirContrato() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void ImprimirContrato(int idx) throws RemoteException {
+        int idContrato = contratos.get(idx).getIdContrato();
+        Automovel auto = contratos.get(idx).getAutomovel();
+        Alugador alug = contratos.get(idx).getAlugador();
+        Locador loca = contratos.get(idx).getLocador();
+        Seguro seguro = contratos.get(idx).getSeguro();
+        Date dataIn = contratos.get(idx).getDataIn();
+        Date dataTer = contratos.get(idx).getDataTer();
+        float valorContrato = contratos.get(idx).getValorContrato();
+
+        System.out.println("Contrato " + idx + "\n\nID: " + idContrato + "\nData Início: " + dataIn.toString() + "     Data Fim: " + dataTer.toString());
+        System.out.println("Automovel: ");
+        auto.ImprimirAutomovel();
+        System.out.println("Cliente: ");
+        alug.ImprimirUsuario();
+        System.out.println("Locador: ");
+        loca.ImprimirUsuario();
+        System.out.println("Seguro: ");
+        seguro.ImprimirSeguro();
+        System.out.println("\nValor: " + valorContrato + "\n\n");
     }
 
-    public void ImprimirObtencao() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void ImprimirObtencao(int idx) throws RemoteException {
+        int idObtencao = obtencoes.get(idx).getIdObtencao();
+        Automovel automovel = obtencoes.get(idx).getAutomovel();
+        Montadora montadora = obtencoes.get(idx).getMontadora();
+        String dataObt = obtencoes.get(idx).getDataObt().toString();
+        float valorObt = obtencoes.get(idx).getValorObt();
+
+        System.out.println("Compra " + idx + "\n\nID: " + idObtencao + "\nData Compra: " + dataObt);
+        System.out.println("Automovel: ");
+        automovel.ImprimirAutomovel();
+        System.out.println("Montadora: ");
+        montadora.ImprimirUsuario();
+        System.out.println("\nValor: " + valorObt + "\n\n");
     }
 
-    public void ImprimirRegistro() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void ImprimirRegistro(int idx) throws RemoteException {
+        int idRegistro = registros.get(idx).getIdRegistro();
+        Automovel automovel = registros.get(idx).getAutomovel();
+        float valorCompra = registros.get(idx).getValorCompra();
+        float valorVenda = registros.get(idx).getValorVenda();
+        float valorDiaria = registros.get(idx).getValorDiaria();
+        float valorManutencao = registros.get(idx).getValorManutencao();
+        float valorTotal = registros.get(idx).getValorTotal();
+
+        System.out.println("Registro " + idx + "\n\nID: " + idRegistro);
+        System.out.println("Automovel: ");
+        automovel.ImprimirAutomovel();
+        System.out.println("\nValor de Compra: " + valorCompra + "  Valor de Venda: " + valorVenda + "  Valor Diária: " + valorDiaria);
+        System.out.println("Valor de Manutênção: " + valorManutencao + "   Lucro Atual: " + valorTotal);
     }
 
     public void ImprimirVenda() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public void CriarObtencao(int currentID) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

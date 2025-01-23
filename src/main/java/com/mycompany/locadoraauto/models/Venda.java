@@ -10,17 +10,17 @@ package com.mycompany.locadoraauto.models;
  */
 public class Venda {
     private int idVenda;
-    private int idAutomovel;
-    private int idVendedor;
-    private int idComprador;
+    private Automovel automovel;
+    private Vendedor vendedor;
+    private Alugador alugador;
     private int valorVenda;
 
-    public Venda(int idVenda, int idAutomovel, int idVendedor, int valorVenda, int idComprador) {
+    public Venda(int idVenda, Automovel automovel, Vendedor vendedor, Alugador alugador, int valorVenda) {
         this.idVenda = idVenda;
-        this.idAutomovel = idAutomovel;
-        this.idVendedor = idVendedor;
-        this.valorVenda = valorVenda;
-        this.idComprador = idComprador;
+        this.automovel = automovel;
+        this.vendedor = vendedor;
+        this.alugador = alugador;
+        this.valorVenda = valorVenda; 
     }
     
     /**
@@ -38,34 +38,6 @@ public class Venda {
     }
 
     /**
-     * @return the idAutomovel
-     */
-    public int getIdAutomovel() {
-        return idAutomovel;
-    }
-
-    /**
-     * @param idAutomovel the idAutomovel to set
-     */
-    public void setIdAutomovel(int idAutomovel) {
-        this.idAutomovel = idAutomovel;
-    }
-
-    /**
-     * @return the idVendedor
-     */
-    public int getIdVendedor() {
-        return idVendedor;
-    }
-
-    /**
-     * @param idVendedor the idVendedor to set
-     */
-    public void setIdVendedor(int idVendedor) {
-        this.idVendedor = idVendedor;
-    }
-
-    /**
      * @return the valorVenda
      */
     public int getValorVenda() {
@@ -80,16 +52,44 @@ public class Venda {
     }
 
     /**
-     * @return the idComprador
+     * @return the automovel
      */
-    public int getIdComprador() {
-        return idComprador;
+    public Automovel getAutomovel() {
+        return automovel;
     }
 
     /**
-     * @param idComprador the idComprador to set
+     * @param automovel the automovel to set
      */
-    public void setIdComprador(int idComprador) {
-        this.idComprador = idComprador;
+    public void setAutomovel(Automovel automovel) {
+        this.automovel = automovel;
+    }
+
+    /**
+     * @return the vendedor
+     */
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    /**
+     * @param vendedor the vendedor to set
+     */
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    /**
+     * @return the alugador
+     */
+    public Alugador getAlugador() {
+        return alugador;
+    }
+
+    /**
+     * @param alugador the alugador to set
+     */
+    public void setAlugador(Alugador alugador) {
+        this.alugador = alugador;
     }
 }

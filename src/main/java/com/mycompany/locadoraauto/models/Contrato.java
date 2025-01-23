@@ -12,22 +12,22 @@ import java.util.Date;
  */
 public class Contrato {
     private int idContrato;
-    private int idAlugador;
-    private int idLocador;
-    private int idAutomovel;
+    private Alugador alugador;
+    private Locador locador;
+    private Automovel automovel;
     private Seguro seguro;
     private Date dataIn;
     private Date dataTer;
     private float valorContrato;
 
-    public Contrato(int idContrato, int idAlugador, Date dataIn, Date dataTer, float valorContrato, int idLocador, int idAutomovel) {
+    public Contrato(int idContrato, Alugador alugador, Date dataIn, Date dataTer, float valorContrato, Locador locador, Automovel automovel) {
         this.idContrato = idContrato;
-        this.idAlugador = idAlugador;
-        this.idAlugador = idLocador;
+        this.alugador = alugador;
+        this.locador = locador;
+        this.automovel = automovel;
         this.dataIn = dataIn;
         this.dataTer = dataTer;
         this.valorContrato = valorContrato;
-        this.idAutomovel = idAutomovel;
     }
 
     /**
@@ -43,21 +43,7 @@ public class Contrato {
     public void setIdContrato(int idContrato) {
         this.idContrato = idContrato;
     }
-
-    /**
-     * @return the idAlugador
-     */
-    public int getIdAlugador() {
-        return idAlugador;
-    }
-
-    /**
-     * @param idAlugador the idAlugador to set
-     */
-    public void setIdAlugador(int idAlugador) {
-        this.idAlugador = idAlugador;
-    }
-
+    
     /**
      * @return the dataIn
      */
@@ -115,32 +101,46 @@ public class Contrato {
     }
 
     /**
-     * @return the idLocador
+     * @return the alugador
      */
-    public int getIdLocador() {
-        return idLocador;
+    public Alugador getAlugador() {
+        return alugador;
     }
 
     /**
-     * @param idLocador the idLocador to set
+     * @param alugador the alugador to set
      */
-    public void setIdLocador(int idLocador) {
-        this.idLocador = idLocador;
+    public void setAlugador(Alugador alugador) {
+        this.alugador = alugador;
     }
 
     /**
-     * @return the idAutomovel
+     * @return the locador
      */
-    public int getIdAutomovel() {
-        return idAutomovel;
+    public Locador getLocador() {
+        return locador;
     }
 
     /**
-     * @param idAutomovel the idAutomovel to set
+     * @param locador the locador to set
      */
-    public void setIdAutomovel(int idAutomovel) {
-        this.idAutomovel = idAutomovel;
+    public void setLocador(Locador locador) {
+        this.locador = locador;
     }
-    
+
+    /**
+     * @return the automovel
+     */
+    public Automovel getAutomovel() {
+        return automovel;
+    }
+
+    /**
+     * @param automovel the automovel to set
+     */
+    public void setAutomovel(Automovel automovel) {
+        this.automovel = automovel;
+    }
+
     
 }

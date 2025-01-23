@@ -32,13 +32,13 @@ public interface Interface extends Remote {
 
     public Seguro CriarSeguro() throws RemoteException;
 
-    public void CriarContrato(int currentID, int idAutomovel, int idAlugador, int idLocador) throws RemoteException;
+    public void CriarContrato(int currentID) throws RemoteException;
 
-    public void CriarObtencao(int currentID, int idAutomovel, int idMontadora, int idVendedor) throws RemoteException;
+    public void CriarObtencao(int currentID) throws RemoteException;
 
     public void CriarRegistro(int currentID) throws RemoteException;
 
-    public void CriarVenda(int currentID, int idAutomovel, int idVendedor, int idComprador) throws RemoteException;
+    public void CriarVenda(int currentID) throws RemoteException;
 
     public void AlterarAutomovel() throws RemoteException;
 
@@ -62,15 +62,25 @@ public interface Interface extends Remote {
 
     public void RemoverMontadora() throws RemoteException;
 
-    public void ImprimirContrato() throws RemoteException;
+    public void ImprimirContrato(int idx) throws RemoteException;
 
-    public void ImprimirObtencao() throws RemoteException;
+    public void ImprimirObtencao(int idx) throws RemoteException;
 
-    public void ImprimirRegistro() throws RemoteException;
+    public void ImprimirRegistro(int idx) throws RemoteException;
 
     public void ImprimirVenda() throws RemoteException;
 
     public int BuscarAutomovel() throws RemoteException;
 
     public int BuscarUsuario() throws RemoteException;
+
+    public int BuscarLocador() throws RemoteException;
+
+    public int BuscarVendedor() throws RemoteException;
+
+    public int BuscarAlugador() throws RemoteException;
+
+    public int BuscarMontadora() throws RemoteException;
+
+    public int BuscarContrato() throws RemoteException;
 }
