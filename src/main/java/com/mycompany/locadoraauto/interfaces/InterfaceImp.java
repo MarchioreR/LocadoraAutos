@@ -448,25 +448,24 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
         System.out.println("Valor da Venda: ");
         int valorVenda = scan.nextInt();
-        
+
         System.out.println("Escolha do Automóvel:");
         idxA = BuscarAutomovel();
-        
+
         System.out.println("Escolha do Vendedor:");
         idxV = BuscarVendedor();
-        
+
         System.out.println("Escolha do Cliente:");
         idxC = BuscarAlugador();
-        
+
         Usuario usuarioV = usuarios.get(idxV);
         Vendedor vendedor = (Vendedor) usuarioV;
-        
+
         Usuario usuarioC = usuarios.get(idxC);
         Alugador alugador = (Alugador) usuarioC;
-        
 
         // Criando a venda Venda(int idVenda, Automovel automovel, Vendedor vendedor, Alugador alugador, int valorVenda)
-        Venda venda = new Venda(currentID, automoveis.get(idxA), vendedor, alugador ,valorVenda);
+        Venda venda = new Venda(currentID, automoveis.get(idxA), vendedor, alugador, valorVenda);
         vendas.add(venda);
 
         System.out.println("Venda registrada: " + venda.getIdVenda());
@@ -684,6 +683,25 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         }
         do {
             System.out.println("Escolha o Registro pelo ID da lista acima:");
+            opt = scan.nextInt();
+            if (opt > usuarios.size() || opt < 0) {
+                System.out.println("Escolha inválida, tente novamente");
+            }
+        } while (opt > usuarios.size() || opt < 0);
+        return index;
+    }
+
+    public int BuscarVenda() {
+        int index = 0, opt, i = 0;
+        Scanner scan = new Scanner(System.in);
+        for (Venda venda : vendas) {
+            System.out.println("ID - " + i);
+            System.out.println("Automóvel: " + venda.getAutomovel().getModelo() + "\nPlaca:" + venda.getAutomovel().getPlaca());
+            System.out.println("Vendedor: " + venda.getVendedor().getNome() + "     Identificação: " + venda.getVendedor().getID());
+            i++;
+        }
+        do {
+            System.out.println("Escolha a Venda pelo ID da lista acima:");
             opt = scan.nextInt();
             if (opt > usuarios.size() || opt < 0) {
                 System.out.println("Escolha inválida, tente novamente");
@@ -1105,6 +1123,20 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         System.out.println("Valor de Manutênção: " + valorManutencao + "   Lucro Atual: " + valorTotal);
     }
 
-    public void ImprimirVenda() throws RemoteException {
+    public void ImprimirVenda(int idx) throws RemoteException {
+        int idVenda = vendas.get(idx).getIdVenda();
+        Automovel automovel = vendas.get(idx).getAutomovel();
+        Vendedor vendedor = vendas.get(idx).getVendedor();
+        Alugador alugador = vendas.get(idx).getAlugador();
+        int valorVenda = vendas.get(idx).getValorVenda();
+        
+        System.out.println("Registro " + idx + "\n\nID: " + idVenda);
+        System.out.println("Automovel: ");
+        automovel.ImprimirAutomovel();
+        System.out.println("\nValor venda: " + valorVenda);
+        System.out.println("Vendedor: ");
+        vendedor.ImprimirUsuario();
+        System.out.println("Alugador: ");
+        alugador.ImprimirUsuario();
     }
 }

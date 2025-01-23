@@ -68,7 +68,7 @@ public interface Interface extends Remote {
 
     public void ImprimirRegistro(int idx) throws RemoteException;
 
-    public void ImprimirVenda() throws RemoteException;
+    public void ImprimirVenda(int idx) throws RemoteException;
 
     public int BuscarAutomovel() throws RemoteException;
 
@@ -83,4 +83,6 @@ public interface Interface extends Remote {
     public int BuscarMontadora() throws RemoteException;
 
     public int BuscarContrato() throws RemoteException;
+
+    public int BuscarVenda() throws RemoteException;
 }
