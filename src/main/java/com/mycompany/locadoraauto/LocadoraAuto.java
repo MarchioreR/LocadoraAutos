@@ -3,12 +3,10 @@
  */
 package com.mycompany.locadoraauto;
 
-import com.mycompany.locadoraauto.models.Automovel;
-import com.mycompany.locadoraauto.db.ConexaoBanco;
-import com.mycompany.locadoraauto.db.MySqlConnectionSingleton;
-import com.mycompany.locadoraauto.factory.FactoryConnection;
-import java.sql.Connection;
-import java.sql.SQLException;
+
+import com.mycompany.locadoraauto.interfaces.InterfaceImp;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  *
@@ -16,7 +14,15 @@ import java.sql.SQLException;
  */
 public class LocadoraAuto {
 
-    public static void main(String[] args) throws SQLException {
-
+    public static void main(String[] args) {
+        try {
+            InterfaceImp servidor = new InterfaceImp();
+            Registry registry = LocateRegistry.createRegistry(1099);
+            registry.rebind("Locadora", servidor);
+            System.out.println("Servidor pronto.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 }

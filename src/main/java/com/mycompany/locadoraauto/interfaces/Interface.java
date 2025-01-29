@@ -11,6 +11,7 @@ import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.models.Venda;
 import java.rmi.*;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  *
