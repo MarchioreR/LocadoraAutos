@@ -10,10 +10,11 @@ package com.mycompany.locadoraauto.view;
  */
 public class FMenu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FMenu
-     */
+    private JCadastro dcad;
+    private DLogin dlog;
+    
     public FMenu() {
+        boolean menu = false;
         initComponents();
     }
 
@@ -26,11 +27,21 @@ public class FMenu extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
+        jLogin = new javax.swing.JMenu();
+        jLoginButton = new javax.swing.JMenuItem();
+        jCadastrar = new javax.swing.JMenu();
+        jCadastro = new javax.swing.JMenuItem();
+        jAlterar = new javax.swing.JMenuItem();
+        jLocadora = new javax.swing.JMenu();
+        jAlugar = new javax.swing.JMenuItem();
+        jDevolver = new javax.swing.JMenuItem();
+        jCompraVenda = new javax.swing.JMenu();
+        jCompra = new javax.swing.JMenuItem();
+        jVenda = new javax.swing.JMenuItem();
+        jRegistro = new javax.swing.JMenu();
+        jLista = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,20 +56,76 @@ public class FMenu extends javax.swing.JFrame {
             .addGap(0, 452, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("Login");
+        jLogin.setText("Login");
+
+        jLoginButton.setText("Logar");
+        jLoginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jLoginButtonActionPerformed(evt);
+            }
+        });
+        jLogin.add(jLoginButton);
+
+        jMenuBar1.add(jLogin);
+
+        jCadastrar.setText("Controle");
+
+        jCadastro.setText("Cadastro");
+        jCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCadastroActionPerformed(evt);
+            }
+        });
+        jCadastrar.add(jCadastro);
+
+        jAlterar.setText("Alterar");
+        jCadastrar.add(jAlterar);
+
+        jMenuBar1.add(jCadastrar);
+
+        jLocadora.setText("Locadora");
+
+        jAlugar.setText("Alugar");
+        jAlugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAlugarActionPerformed(evt);
+            }
+        });
+        jLocadora.add(jAlugar);
+
+        jDevolver.setText("Devolver");
+        jLocadora.add(jDevolver);
+
+        jMenuBar1.add(jLocadora);
+
+        jCompraVenda.setText("Compra/Venda");
+
+        jCompra.setText("Compra");
+        jCompraVenda.add(jCompra);
+
+        jVenda.setText("Venda");
+        jCompraVenda.add(jVenda);
+
+        jMenuBar1.add(jCompraVenda);
+
+        jRegistro.setText("Registro");
+
+        jLista.setText("Lista");
+        jRegistro.add(jLista);
+
+        jMenuBar1.add(jRegistro);
+
+        jMenu1.setText("Sair");
+
+        jMenuItem1.setText("Sair");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
         jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Cadastrar");
-        jMenuBar1.add(jMenu2);
-
-        jMenu3.setText("Locadora");
-        jMenuBar1.add(jMenu3);
-
-        jMenu4.setText("Compra/Venda");
-        jMenuBar1.add(jMenu4);
-
-        jMenu5.setText("Registro");
-        jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
 
@@ -75,6 +142,26 @@ public class FMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCadastroActionPerformed
+        // TODO add your handling code here:
+        dcad = new JCadastro(this, true);
+        dcad.setVisible(true);
+    }//GEN-LAST:event_jCadastroActionPerformed
+
+    private void jAlugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAlugarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jAlugarActionPerformed
+
+    private void jLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLoginButtonActionPerformed
+        dlog = new DLogin(this, true);
+        dlog.setVisible(true);
+    }//GEN-LAST:event_jLoginButtonActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -104,20 +191,28 @@ public class FMenu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FMenu().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new FMenu().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem jAlterar;
+    private javax.swing.JMenuItem jAlugar;
+    private javax.swing.JMenu jCadastrar;
+    private javax.swing.JMenuItem jCadastro;
+    private javax.swing.JMenuItem jCompra;
+    private javax.swing.JMenu jCompraVenda;
+    private javax.swing.JMenuItem jDevolver;
+    private javax.swing.JMenuItem jLista;
+    private javax.swing.JMenu jLocadora;
+    private javax.swing.JMenu jLogin;
+    private javax.swing.JMenuItem jLoginButton;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu jRegistro;
+    private javax.swing.JMenuItem jVenda;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.locadoraauto;
-
+import com.mycompany.locadoraauto.view.FMenu;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -21,11 +21,9 @@ public class Cliente {
             Interface Locadora = (Interface) registry.lookup("Locadora");
 
             Scanner scanner = new Scanner(System.in);
-            
+            FMenu x = new FMenu();
+            x.setVisible(true);
             System.out.println("OLA");
-            
-            
-
         } catch (Exception e) {
             e.printStackTrace();
         }
