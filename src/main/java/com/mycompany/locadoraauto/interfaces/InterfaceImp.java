@@ -441,7 +441,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     public void CriarVenda(int currentID) {
         Scanner scan = new Scanner(System.in);
-        int idContrato = currentID, idxA, idxC, idxV;
+        int idContrato = currentID, idxA, idxC, idxV, tipostatus;
 
         // Coletando dados para criar a venda
         System.out.println("Cadastrar Venda:");
@@ -464,8 +464,13 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         Usuario usuarioC = usuarios.get(idxC);
         Alugador alugador = (Alugador) usuarioC;
 
+        do {
+            System.out.println("Tipo de Veículo: (1) Disponível (2) Indisponível");
+            tipostatus = scan.nextInt();
+        } while (tipostatus < 1 || tipostatus > 2);
+
         // Criando a venda Venda(int idVenda, Automovel automovel, Vendedor vendedor, Alugador alugador, int valorVenda)
-        Venda venda = new Venda(currentID, automoveis.get(idxA), vendedor, alugador, valorVenda);
+        Venda venda = new Venda(currentID, automoveis.get(idxA), vendedor, alugador, valorVenda, tipostatus);
         vendas.add(venda);
 
         System.out.println("Venda registrada: " + venda.getIdVenda());
@@ -1129,7 +1134,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         Vendedor vendedor = vendas.get(idx).getVendedor();
         Alugador alugador = vendas.get(idx).getAlugador();
         int valorVenda = vendas.get(idx).getValorVenda();
-        
+
         System.out.println("Registro " + idx + "\n\nID: " + idVenda);
         System.out.println("Automovel: ");
         automovel.ImprimirAutomovel();
@@ -1138,5 +1143,15 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         vendedor.ImprimirUsuario();
         System.out.println("Alugador: ");
         alugador.ImprimirUsuario();
+    }
+
+    public int UsuarioAtual() throws RemoteException {
+        int id = usuarios.size() - 1;
+        return id;
+    }
+
+    public int AutoAtual() throws RemoteException {
+        int id = automoveis.size() - 1;
+        return id;
     }
 }

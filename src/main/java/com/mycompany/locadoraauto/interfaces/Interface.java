@@ -86,4 +86,8 @@ public interface Interface extends Remote {
     public int BuscarContrato() throws RemoteException;
 
     public int BuscarVenda() throws RemoteException;
+    
+    public int UsuarioAtual() throws RemoteException;
+    
+    public int AutoAtual() throws RemoteException;
 }

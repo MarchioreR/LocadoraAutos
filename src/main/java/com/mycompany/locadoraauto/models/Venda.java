@@ -4,6 +4,8 @@
  */
 package com.mycompany.locadoraauto.models;
 
+import com.mycompany.locadoraauto.enums.TipoStatus;
+
 /**
  *
  * @author vitor
@@ -14,13 +16,22 @@ public class Venda {
     private Vendedor vendedor;
     private Alugador alugador;
     private int valorVenda;
+    private TipoStatus status;
 
-    public Venda(int idVenda, Automovel automovel, Vendedor vendedor, Alugador alugador, int valorVenda) {
+    public Venda(int idVenda, Automovel automovel, Vendedor vendedor, Alugador alugador, int valorVenda, int tipostatus) {
         this.idVenda = idVenda;
         this.automovel = automovel;
         this.vendedor = vendedor;
         this.alugador = alugador;
         this.valorVenda = valorVenda; 
+        switch (tipostatus) {
+            case 1 ->
+                status = TipoStatus.DISPONIVEL;
+            case 2 ->
+                status = TipoStatus.INDISPONIVEL;
+            default ->
+                throw new AssertionError();
+        }
     }
     
     /**
@@ -91,5 +102,19 @@ public class Venda {
      */
     public void setAlugador(Alugador alugador) {
         this.alugador = alugador;
+    }
+
+    /**
+     * @return the status
+     */
+    public TipoStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(TipoStatus status) {
+        this.status = status;
     }
 }

@@ -4,8 +4,20 @@
  */
 package com.mycompany.locadoraauto.view;
 
+import com.mycompany.locadoraauto.enums.TipoID;
+import com.mycompany.locadoraauto.models.Automovel;
+import com.mycompany.locadoraauto.interfaces.Interface;
+import com.mycompany.locadoraauto.models.Alugador;
+import com.mycompany.locadoraauto.models.Locador;
+import com.mycompany.locadoraauto.models.Montadora;
+import com.mycompany.locadoraauto.models.Usuario;
+import com.mycompany.locadoraauto.models.Vendedor;
 import java.awt.Component;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -16,8 +28,9 @@ import javax.swing.JTextField;
  *
  * @author vitor
  */
-
 public class JCadastro extends javax.swing.JDialog {
+
+    Interface c;
 
     /**
      * Creates new form JCadastro
@@ -120,10 +133,11 @@ public class JCadastro extends javax.swing.JDialog {
         jLabel43 = new javax.swing.JLabel();
         jRedefinir = new javax.swing.JButton();
         jButtonVoltar = new javax.swing.JButton();
+        jButtonCadastrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jComboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Automovel", "Cliente", "Locador", "Vendedor", "Montadora" }));
+        jComboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Automovel", "Cliente", "Locador", "Vendedor", "Montadora" }));
         jComboTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboTipoActionPerformed(evt);
@@ -158,7 +172,7 @@ public class JCadastro extends javax.swing.JDialog {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Combustao", "Hibrido", "Eletrico" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Hibrido", "Eletrico", "Combustao" }));
 
         jLabel1.setText("Tipo");
 
@@ -168,7 +182,7 @@ public class JCadastro extends javax.swing.JDialog {
 
         jLabel4.setText("Modelo");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Disponivel", "Indisponivel", "Manutencao" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Disponivel", "Indisponivel", "Manutencao" }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
@@ -653,6 +667,13 @@ public class JCadastro extends javax.swing.JDialog {
             }
         });
 
+        jButtonCadastrar.setText("Cadastrar");
+        jButtonCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCadastrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -668,9 +689,15 @@ public class JCadastro extends javax.swing.JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jButtonVoltar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jRedefinir)
-                .addGap(220, 220, 220))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jRedefinir)
+                        .addGap(220, 220, 220))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonCadastrar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -680,8 +707,13 @@ public class JCadastro extends javax.swing.JDialog {
                     .addComponent(jComboTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonTipo)
                     .addComponent(jRedefinir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(194, 194, 194)
+                        .addComponent(jButtonCadastrar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonVoltar)
                 .addContainerGap(20, Short.MAX_VALUE))
@@ -815,6 +847,26 @@ public class JCadastro extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
+    private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
+        // TODO add your handling code here:
+        int tipo = jComboTipo.getSelectedIndex();
+
+        if (tipo == 1) {
+            try {
+                Automovel auto = getFieldsAuto();
+            } catch (RemoteException ex) {
+                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                Usuario user = getFields(tipo);
+            } catch (RemoteException ex) {
+                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }//GEN-LAST:event_jButtonCadastrarActionPerformed
+
     public boolean VerificarVazio(JPanel panel) {
         boolean vazio = false;
 
@@ -828,7 +880,7 @@ public class JCadastro extends javax.swing.JDialog {
         }
         return vazio;
     }
-    
+
     public void Redefinir(JPanel panel) {
         for (Component componente : panel.getComponents()) {
             if (componente instanceof JTextField jTextField) {
@@ -836,6 +888,82 @@ public class JCadastro extends javax.swing.JDialog {
             }
         }
     }
+
+    public Automovel getFieldsAuto() throws RemoteException {
+        int idAuto = c.AutoAtual();
+        String modelo = jModelo.getText();
+        String placa = jPlaca.getText();
+        float diaria = Integer.parseInt(jValorDiaria.getText());
+        int tipoauto = jComboBox1.getSelectedIndex();
+        int status = jComboBox2.getSelectedIndex();
+        return new Automovel(idAuto, modelo, placa, tipoauto, diaria, status);
+    }
+
+    private Usuario getFields(int tipoItem) throws RemoteException {
+        int idUsuario = c.UsuarioAtual();
+        String nome;
+        int tipoID;
+        String ID;
+        String email;
+        String numCel;
+        String endereco;
+        Usuario novo = null;
+        switch (tipoItem) {
+            case 2 -> {
+                idUsuario = 1;
+                nome = jNome1.getText();
+                email = jEmail1.getText();
+                numCel = jContato1.getText();
+                endereco = jEndereco1.getText();
+                tipoID = jTipoID1.getSelectedIndex();
+                ID = jID1.getText();
+                int idade = Integer.parseInt(jIdade.getText());
+                String genero = jGenero.getText();
+                novo = new Alugador(idade, genero, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+            }
+
+            case 3 -> {
+                idUsuario = 1;
+                nome = jNome3.getText();
+                email = jEmail3.getText();
+                numCel = jContato3.getText();
+                endereco = jEndereco3.getText();
+                tipoID = jTipoID3.getSelectedIndex();
+                ID = jID3.getText();
+                float valorSalario = Float.parseFloat(jSalario.getText());
+                float comissaoLoc = Float.parseFloat(jComissao.getText());
+                novo = new Locador(valorSalario, comissaoLoc, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+            }
+
+            case 4 -> {
+                idUsuario = 1;
+                nome = jNome4.getText();
+                email = jEmail4.getText();
+                numCel = jContato4.getText();
+                endereco = jEndereco4.getText();
+                tipoID = jTipoID4.getSelectedIndex();
+                ID = jID4.getText();
+                float valorSalario = Float.parseFloat(jValorSalario.getText());
+                float comissaoVenda = Float.parseFloat(jComissaoVenda.getText());
+                novo = new Vendedor(valorSalario, comissaoVenda, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+            }
+
+            case 5 -> {
+                idUsuario = 1;
+                nome = jNome2.getText();
+                email = jEmail2.getText();
+                numCel = jContato2.getText();
+                endereco = jEndereco2.getText();
+                tipoID = jTipoID2.getSelectedIndex();
+                ID = jID2.getText();
+                String website = jWebsite.getText();
+                String paisOrigem = jPaisOrigem.getText();
+                novo = new Montadora(website, paisOrigem, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+            }
+        }
+        return novo;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -874,10 +1002,11 @@ public class JCadastro extends javax.swing.JDialog {
             });
             dialog.setVisible(true);
         });
-        
-}
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCadastrar;
     private javax.swing.JButton jButtonTipo;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JComboBox<String> jComboBox1;

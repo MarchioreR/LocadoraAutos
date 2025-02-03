@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.locadoraauto.view;
+import com.mycompany.locadoraauto.interfaces.Interface;
 
 /**
  *
@@ -12,6 +13,7 @@ public class FMenu extends javax.swing.JFrame {
 
     private JCadastro dcad;
     private DLogin dlog;
+    Interface i;
     
     public FMenu() {
         boolean menu = false;
@@ -151,6 +153,7 @@ public class FMenu extends javax.swing.JFrame {
 
     private void jAlugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAlugarActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jAlugarActionPerformed
 
     private void jLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLoginButtonActionPerformed

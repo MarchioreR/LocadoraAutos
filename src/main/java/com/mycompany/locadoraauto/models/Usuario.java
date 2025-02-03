@@ -23,6 +23,24 @@ public class Usuario {
         
     }
 
+    public Usuario(int idUsuario, String nome, int tipoID, String ID, String email, String numCel, String endereco) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        switch (tipoID) {
+            case 1 ->
+                this.tipoID = TipoID.CPF;
+            case 2 ->
+                this.tipoID = TipoID.CNPJ;
+            default ->
+                throw new AssertionError();
+        }
+        this.ID = ID;
+        this.email = email;
+        this.numCel = numCel;
+        this.endereco = endereco;
+    }
+    
+
     /**
      * @return the nome
      */
