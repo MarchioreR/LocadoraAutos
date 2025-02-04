@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -34,8 +35,9 @@ public class jLocacao extends javax.swing.JDialog {
     public jLocacao(java.awt.Frame parent, boolean modal, Interface Locadora) throws RemoteException, SQLException {
         super(parent, modal);
         control = new Controller();
+        jTable1 = new JTable();
+        jScrollPane1 = new JScrollPane();
         this.Locadora = Locadora;
-        control.AddDataCad(jTable1, jScrollPane1);
         initComponents();
     }
 
@@ -147,6 +149,8 @@ public class jLocacao extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setFillsViewportHeight(true);
+        jTable1.setRowHeight(40);
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jAlugarLayout = new javax.swing.GroupLayout(jAlugar);
@@ -205,6 +209,11 @@ public class jLocacao extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            control.AddDataCad(jTable1, jScrollPane1);
+        } catch (SQLException ex) {
+            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jPanel1.removeAll();
         jPanel1.add(jAlugar);
         jPanel1.repaint();

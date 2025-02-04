@@ -53,17 +53,6 @@ public class JCadastro extends javax.swing.JDialog {
         jButtonTipo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanelVazio = new javax.swing.JPanel();
-        jPanelAuto = new javax.swing.JPanel();
-        jModelo = new javax.swing.JTextField();
-        jPlaca = new javax.swing.JTextField();
-        jValorDiaria = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
         jPanelAlugador = new javax.swing.JPanel();
         jIdade = new javax.swing.JTextField();
         jGenero = new javax.swing.JTextField();
@@ -138,7 +127,7 @@ public class JCadastro extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jComboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Automovel", "Cliente", "Locador", "Vendedor", "Montadora" }));
+        jComboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Cliente", "Locador", "Vendedor", "Montadora" }));
         jComboTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboTipoActionPerformed(evt);
@@ -166,79 +155,6 @@ public class JCadastro extends javax.swing.JDialog {
         );
 
         jPanel2.add(jPanelVazio, "card2");
-
-        jModelo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jModeloActionPerformed(evt);
-            }
-        });
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Hibrido", "Eletrico", "Combustao" }));
-
-        jLabel1.setText("Tipo");
-
-        jLabel2.setText("Valor Diaria");
-
-        jLabel3.setText("Placa");
-
-        jLabel4.setText("Modelo");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Disponivel", "Indisponivel", "Manutencao" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Estado");
-
-        javax.swing.GroupLayout jPanelAutoLayout = new javax.swing.GroupLayout(jPanelAuto);
-        jPanelAuto.setLayout(jPanelAutoLayout);
-        jPanelAutoLayout.setHorizontalGroup(
-            jPanelAutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelAutoLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanelAutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelAutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jModelo, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPlaca, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jValorDiaria, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(323, Short.MAX_VALUE))
-        );
-        jPanelAutoLayout.setVerticalGroup(
-            jPanelAutoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelAutoLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addGap(8, 8, 8)
-                .addComponent(jPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addGap(8, 8, 8)
-                .addComponent(jValorDiaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
-                .addGap(12, 12, 12)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(198, Short.MAX_VALUE))
-        );
-
-        jPanel2.add(jPanelAuto, "card3");
 
         jIdade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -554,6 +470,12 @@ public class JCadastro extends javax.swing.JDialog {
 
         jPanel2.add(jPanelLocador, "card4");
 
+        jValorSalario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jValorSalarioActionPerformed(evt);
+            }
+        });
+
         jLabel18.setText("Salario");
 
         jLabel19.setText("Comissao Venda");
@@ -746,31 +668,25 @@ public class JCadastro extends javax.swing.JDialog {
         jComboTipo.setEnabled(false);
         jButtonTipo.setEnabled(false);
         switch (tipo) {
-            case 1 -> {
-                jPanel2.removeAll();
-                jPanel2.add(jPanelAuto);
-                jPanel2.repaint();
-                jPanel2.revalidate();
-            }
-            case 3 -> {
+            case 2 -> {
                 jPanel2.removeAll();
                 jPanel2.add(jPanelLocador);
                 jPanel2.repaint();
                 jPanel2.revalidate();
             }
-            case 4 -> {
+            case 3 -> {
                 jPanel2.removeAll();
                 jPanel2.add(jPanelVendedor);
                 jPanel2.repaint();
                 jPanel2.revalidate();
             }
-            case 5 -> {
+            case 4 -> {
                 jPanel2.removeAll();
                 jPanel2.add(jPanelMontadora);
                 jPanel2.repaint();
                 jPanel2.revalidate();
             }
-            case 2 -> {
+            case 1 -> {
                 jPanel2.removeAll();
                 jPanel2.add(jPanelAlugador);
                 jPanel2.repaint();
@@ -785,14 +701,6 @@ public class JCadastro extends javax.swing.JDialog {
         }
         jComboTipo.setEnabled(false);
     }//GEN-LAST:event_jButtonTipoActionPerformed
-
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
-
-    private void jModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jModeloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jModeloActionPerformed
 
     private void jComissaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComissaoActionPerformed
         // TODO add your handling code here:
@@ -814,14 +722,12 @@ public class JCadastro extends javax.swing.JDialog {
 
         switch (jComboTipo.getSelectedIndex()) {
             case 1 ->
-                Redefinir(jPanelAuto);
-            case 2 ->
                 Redefinir(jPanelAlugador);
-            case 3 ->
+            case 2 ->
                 Redefinir(jPanelLocador);
-            case 4 ->
+            case 3 ->
                 Redefinir(jPanelVendedor);
-            case 5 ->
+            case 4 ->
                 Redefinir(jPanelMontadora);
         }
         Redefinir(jPanel2);
@@ -855,21 +761,17 @@ public class JCadastro extends javax.swing.JDialog {
         }
         int tipo = jComboTipo.getSelectedIndex();
 
-        if (tipo == 1) {
-            try {
-                Automovel auto = getFieldsAuto();
-            } catch (RemoteException ex) {
-                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            try {
-                Usuario user = getFields(tipo);
-            } catch (RemoteException ex) {
-                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            Usuario user = getFields(tipo);
+        } catch (RemoteException ex) {
+            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
         dispose();
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
+
+    private void jValorSalarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jValorSalarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jValorSalarioActionPerformed
 
     public boolean VerificarVazio(JPanel panel) {
         boolean vazio = false;
@@ -893,16 +795,6 @@ public class JCadastro extends javax.swing.JDialog {
         }
     }
 
-    public Automovel getFieldsAuto() throws RemoteException {
-        int idAuto = Locadora.AutoAtual();
-        String modelo = jModelo.getText();
-        String placa = jPlaca.getText();
-        float diaria = Integer.parseInt(jValorDiaria.getText());
-        int tipoauto = jComboBox1.getSelectedIndex();
-        int status = jComboBox2.getSelectedIndex();
-        return new Automovel(idAuto, modelo, placa, tipoauto, diaria, status);
-    }
-
     private Usuario getFields(int tipoItem) throws RemoteException {
         int idUsuario = Locadora.UsuarioAtual();
         String nome;
@@ -913,7 +805,7 @@ public class JCadastro extends javax.swing.JDialog {
         String endereco;
         Usuario novo = null;
         switch (tipoItem) {
-            case 2 -> {
+            case 1 -> {
                 idUsuario = 1;
                 nome = jNome1.getText();
                 email = jEmail1.getText();
@@ -926,7 +818,7 @@ public class JCadastro extends javax.swing.JDialog {
                 novo = new Alugador(idade, genero, idUsuario, nome, tipoID, ID, email, numCel, endereco);
             }
 
-            case 3 -> {
+            case 2 -> {
                 idUsuario = 1;
                 nome = jNome3.getText();
                 email = jEmail3.getText();
@@ -939,7 +831,7 @@ public class JCadastro extends javax.swing.JDialog {
                 novo = new Locador(valorSalario, comissaoLoc, idUsuario, nome, tipoID, ID, email, numCel, endereco);
             }
 
-            case 4 -> {
+            case 3 -> {
                 idUsuario = 1;
                 nome = jNome4.getText();
                 email = jEmail4.getText();
@@ -951,19 +843,6 @@ public class JCadastro extends javax.swing.JDialog {
                 float comissaoVenda = Float.parseFloat(jComissaoVenda.getText());
                 novo = new Vendedor(valorSalario, comissaoVenda, idUsuario, nome, tipoID, ID, email, numCel, endereco);
             }
-
-            case 5 -> {
-                idUsuario = 1;
-                nome = jNome2.getText();
-                email = jEmail2.getText();
-                numCel = jContato2.getText();
-                endereco = jEndereco2.getText();
-                tipoID = jTipoID2.getSelectedIndex();
-                ID = jID2.getText();
-                String website = jWebsite.getText();
-                String paisOrigem = jPaisOrigem.getText();
-                novo = new Montadora(website, paisOrigem, idUsuario, nome, tipoID, ID, email, numCel, endereco);
-            }
         }
         return novo;
     }
@@ -972,8 +851,6 @@ public class JCadastro extends javax.swing.JDialog {
     private javax.swing.JButton jButtonCadastrar;
     private javax.swing.JButton jButtonTipo;
     private javax.swing.JButton jButtonVoltar;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboTipo;
     private javax.swing.JTextField jComissao;
     private javax.swing.JTextField jComissaoVenda;
@@ -995,7 +872,6 @@ public class JCadastro extends javax.swing.JDialog {
     private javax.swing.JTextField jID3;
     private javax.swing.JTextField jID4;
     private javax.swing.JTextField jIdade;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -1004,7 +880,6 @@ public class JCadastro extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1015,7 +890,6 @@ public class JCadastro extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -1026,13 +900,10 @@ public class JCadastro extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField jModelo;
     private javax.swing.JTextField jNome1;
     private javax.swing.JTextField jNome2;
     private javax.swing.JTextField jNome3;
@@ -1041,19 +912,16 @@ public class JCadastro extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelAlugador;
-    private javax.swing.JPanel jPanelAuto;
     private javax.swing.JPanel jPanelLocador;
     private javax.swing.JPanel jPanelMontadora;
     private javax.swing.JPanel jPanelVazio;
     private javax.swing.JPanel jPanelVendedor;
-    private javax.swing.JTextField jPlaca;
     private javax.swing.JButton jRedefinir;
     private javax.swing.JTextField jSalario;
     private javax.swing.JComboBox<String> jTipoID1;
     private javax.swing.JComboBox<String> jTipoID2;
     private javax.swing.JComboBox<String> jTipoID3;
     private javax.swing.JComboBox<String> jTipoID4;
-    private javax.swing.JTextField jValorDiaria;
     private javax.swing.JTextField jValorSalario;
     private javax.swing.JTextField jWebsite;
     // End of variables declaration//GEN-END:variables

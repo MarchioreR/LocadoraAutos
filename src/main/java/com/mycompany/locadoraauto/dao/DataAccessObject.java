@@ -13,6 +13,7 @@ import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.models.Vendedor;
 import com.mycompany.locadoraauto.enums.TipoVeiculo;
 import com.mycompany.locadoraauto.enums.TipoStatus;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -683,6 +684,20 @@ public class DataAccessObject {
             stmt.setInt(1, idAutomovel);
             stmt.setInt(2, idVendedor);
             stmt.setDouble(3, valorVenda);
+            stmt.executeUpdate();
+        }
+    }
+
+    public static void inserirAutos(int idAutomovel, String modelo, String placa, TipoVeiculo tipoveic, float valordia, TipoStatus status) throws SQLException {
+        Connection conn = FactoryConnection.createConnection();
+        String sql = "INSERT INTO Automovel (modelo, placa, tipo_veiculo, valor_dia, status) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idAutomovel);
+            stmt.setString(2, modelo);
+            stmt.setString(3, placa);
+            stmt.setString(4, tipoveic.getDescricao());
+            stmt.setBigDecimal(5, BigDecimal.valueOf(valordia));
+            stmt.setString(6, status.getDescricao());
             stmt.executeUpdate();
         }
     }

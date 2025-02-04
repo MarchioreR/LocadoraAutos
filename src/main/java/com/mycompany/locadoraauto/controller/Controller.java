@@ -4,9 +4,12 @@
  */
 package com.mycompany.locadoraauto.controller;
 
+import com.mycompany.locadoraauto.dao.DataAccessObject;
 import static com.mycompany.locadoraauto.dao.DataAccessObject.getAutomoveis;
+import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.view.FMenu;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -52,5 +55,10 @@ public class Controller {
         } catch (Exception ex) {
             Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public final void InserirAuto(Automovel novo, float valorCompra) throws SQLException {
+        DataAccessObject.inserirAutos(novo.getIdAutomovel(), novo.getModelo(), novo.getPlaca(), novo.getTipoVeic(), novo.getValorDia(), novo.getStatus());
+        DataAccessObject.inserirRegistroFinanceiro(novo.getIdAutomovel(), valorCompra, 0, novo.getValorDia(), 0, (valorCompra + novo.getValorDia()));
     }
 }
