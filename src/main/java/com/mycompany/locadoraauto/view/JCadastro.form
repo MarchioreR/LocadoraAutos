@@ -163,16 +163,14 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                   <Component id="jTipoID1" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jLabel23" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jContato1" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jEmail1" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jEndereco1" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jNome1" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jLabel21" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jLabel24" alignment="0" min="-2" pref="43" max="-2" attributes="0"/>
+                                      <Component id="jContato1" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jEmail1" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jEndereco1" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jNome1" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel21" alignment="0" pref="71" max="32767" attributes="0"/>
+                                      <Component id="jLabel24" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jID1" alignment="1" min="-2" pref="71" max="-2" attributes="0"/>
                               </Group>
@@ -336,16 +334,14 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                   <Component id="jTipoID2" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jLabel29" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jContato2" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jEmail2" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jEndereco2" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jNome2" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jLabel27" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jLabel30" alignment="0" min="-2" pref="43" max="-2" attributes="0"/>
+                                      <Component id="jContato2" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jEmail2" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jEndereco2" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jNome2" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel27" alignment="0" pref="71" max="32767" attributes="0"/>
+                                      <Component id="jLabel30" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jID2" alignment="1" min="-2" pref="71" max="-2" attributes="0"/>
                               </Group>
@@ -504,16 +500,14 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                   <Component id="jTipoID3" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jLabel35" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jContato3" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jEmail3" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jEndereco3" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jNome3" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="jLabel33" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="jLabel36" alignment="0" min="-2" pref="43" max="-2" attributes="0"/>
+                                      <Component id="jContato3" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jEmail3" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jEndereco3" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jNome3" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel33" alignment="0" pref="71" max="32767" attributes="0"/>
+                                      <Component id="jLabel36" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jID3" alignment="1" min="-2" pref="71" max="-2" attributes="0"/>
                               </Group>
@@ -690,7 +684,7 @@
                                                   <Component id="jNome4" alignment="0" max="32767" attributes="0"/>
                                                   <Component id="jLabel39" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
                                               </Group>
-                                              <Component id="jLabel42" alignment="0" min="-2" pref="43" max="-2" attributes="0"/>
+                                              <Component id="jLabel42" alignment="0" min="-2" pref="87" max="-2" attributes="0"/>
                                           </Group>
                                           <Component id="jID4" alignment="1" min="-2" pref="71" max="-2" attributes="0"/>
                                       </Group>
@@ -741,7 +735,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jEmail4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jLabel42" min="-2" max="-2" attributes="0"/>
+                          <Component id="jLabel42" min="-2" pref="16" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                           <Component id="jContato4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>

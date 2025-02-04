@@ -3,9 +3,9 @@
  */
 package com.mycompany.locadoraauto;
 
-
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.interfaces.InterfaceImp;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -19,11 +19,16 @@ public class LocadoraAuto {
         try {
             Interface servidor = new InterfaceImp();
             Registry registry = LocateRegistry.createRegistry(1099);
-            registry.rebind("Locadora", servidor);
+            registry.rebind("LocadoraAuto", servidor);
             System.out.println("Servidor pronto.");
-            
-        } catch (Exception e) {
-            e.printStackTrace();
+            /*ControllerInterface ci = new ControllerMain();
+            String nome = Utility.getServerIp();
+
+            System.out.println("Registrando objeto no RMI Registry...");
+            LocateRegistry.createRegistry(1099);
+            Naming.rebind(nome, ci);*/
+
+        } catch (RemoteException e) {
         }
     }
 

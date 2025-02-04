@@ -17,8 +17,8 @@ public class Cliente {
 
     public static void main(String[] args) {
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            Interface Locadora = (Interface) registry.lookup("Locadora");
+            Registry registry = LocateRegistry.getRegistry("26.210.206.180", 1099);
+            Interface Locadora = (Interface) registry.lookup("LocadoraAuto");
 
             Scanner scanner = new Scanner(System.in);
             FMenu x = new FMenu(Locadora);
