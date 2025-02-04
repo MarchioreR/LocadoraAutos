@@ -30,13 +30,14 @@ import javax.swing.JTextField;
  */
 public class JCadastro extends javax.swing.JDialog {
 
-    Interface c;
+    private Interface Locadora;
 
     /**
      * Creates new form JCadastro
      */
-    public JCadastro(java.awt.Frame parent, boolean modal) {
+    public JCadastro(java.awt.Frame parent, boolean modal, Interface Locadora) {
         super(parent, modal);
+        this.Locadora = Locadora;
         initComponents();
     }
 
@@ -137,7 +138,7 @@ public class JCadastro extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jComboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Automovel", "Cliente", "Locador", "Vendedor", "Montadora" }));
+        jComboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Automovel", "Cliente", "Locador", "Vendedor", "Montadora" }));
         jComboTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboTipoActionPerformed(evt);
@@ -849,6 +850,9 @@ public class JCadastro extends javax.swing.JDialog {
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
         // TODO add your handling code here:
+        if (VerificarVazio(jPanel2)) {
+            return;
+        }
         int tipo = jComboTipo.getSelectedIndex();
 
         if (tipo == 1) {
@@ -864,7 +868,7 @@ public class JCadastro extends javax.swing.JDialog {
                 Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        dispose();
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
 
     public boolean VerificarVazio(JPanel panel) {
@@ -890,7 +894,7 @@ public class JCadastro extends javax.swing.JDialog {
     }
 
     public Automovel getFieldsAuto() throws RemoteException {
-        int idAuto = c.AutoAtual();
+        int idAuto = Locadora.AutoAtual();
         String modelo = jModelo.getText();
         String placa = jPlaca.getText();
         float diaria = Integer.parseInt(jValorDiaria.getText());
@@ -900,7 +904,7 @@ public class JCadastro extends javax.swing.JDialog {
     }
 
     private Usuario getFields(int tipoItem) throws RemoteException {
-        int idUsuario = c.UsuarioAtual();
+        int idUsuario = Locadora.UsuarioAtual();
         String nome;
         int tipoID;
         String ID;
@@ -962,47 +966,6 @@ public class JCadastro extends javax.swing.JDialog {
             }
         }
         return novo;
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JCadastro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(() -> {
-            JCadastro dialog = new JCadastro(new javax.swing.JFrame(), true);
-            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent e) {
-                    System.exit(0);
-                }
-            });
-            dialog.setVisible(true);
-        });
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -4,17 +4,38 @@
  */
 package com.mycompany.locadoraauto.view;
 
+import javax.swing.JOptionPane;
+import com.mycompany.locadoraauto.interfaces.Interface;
+import com.mycompany.locadoraauto.models.Automovel;
+import com.mycompany.locadoraauto.controller.Controller;
+import java.awt.Component;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+
 /**
  *
  * @author vitor
  */
 public class jLocacao extends javax.swing.JDialog {
 
+    private Interface Locadora;
+    private Controller control;
     /**
      * Creates new form jLocacao
      */
-    public jLocacao(java.awt.Frame parent, boolean modal) {
+    public jLocacao(java.awt.Frame parent, boolean modal, Interface Locadora) throws RemoteException, SQLException {
         super(parent, modal);
+        control = new Controller();
+        this.Locadora = Locadora;
+        control.AddDataCad(jTable1, jScrollPane1);
         initComponents();
     }
 
@@ -25,64 +46,244 @@ public class jLocacao extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanelVazio = new javax.swing.JPanel();
+        jDevolucao = new javax.swing.JPanel();
+        jIDContrato = new javax.swing.JTextField();
+        jIDCliente = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jAlugar = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setLayout(new java.awt.CardLayout());
+
+        javax.swing.GroupLayout jPanelVazioLayout = new javax.swing.GroupLayout(jPanelVazio);
+        jPanelVazio.setLayout(jPanelVazioLayout);
+        jPanelVazioLayout.setHorizontalGroup(
+            jPanelVazioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 779, Short.MAX_VALUE)
+        );
+        jPanelVazioLayout.setVerticalGroup(
+            jPanelVazioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 317, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanelVazio, "card4");
+
+        jIDContrato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jIDContratoActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Informe o ID do contrato");
+
+        jLabel2.setText("Informe a identificação do cliente");
+
+        jButton1.setText("Confirmar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jDevolucaoLayout = new javax.swing.GroupLayout(jDevolucao);
+        jDevolucao.setLayout(jDevolucaoLayout);
+        jDevolucaoLayout.setHorizontalGroup(
+            jDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDevolucaoLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(jDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                    .addComponent(jIDCliente)
+                    .addComponent(jIDContrato))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 247, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(200, 200, 200))
+        );
+        jDevolucaoLayout.setVerticalGroup(
+            jDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDevolucaoLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jIDContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(182, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jDevolucao, "card3");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Modelo", "Tipo", "Valor Diaria", "Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jAlugarLayout = new javax.swing.GroupLayout(jAlugar);
+        jAlugar.setLayout(jAlugarLayout);
+        jAlugarLayout.setHorizontalGroup(
+            jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
+        );
+        jAlugarLayout.setVerticalGroup(
+            jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jAlugarLayout.createSequentialGroup()
+                .addGap(0, 106, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel1.add(jAlugar, "card2");
+
+        jMenu1.setText("Alugar");
+
+        jMenuItem1.setText("Alugar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Devolução");
+
+        jMenuItem2.setText("Devolução");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        jPanel1.removeAll();
+        jPanel1.add(jAlugar);
+        jPanel1.repaint();
+        jPanel1.revalidate();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        jPanel1.removeAll();
+        jPanel1.add(jDevolucao);
+        jPanel1.repaint();
+        jPanel1.revalidate();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jIDContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIDContratoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jIDContratoActionPerformed
+
+    
+
+    public boolean VerificarVazio(JPanel panel) {
+        boolean vazio = false;
+
+        for (Component component : panel.getComponents()) {
+            if (component instanceof JTextField textField) {
+                if (textField.getText().trim().isEmpty()) { // Check if the field is empty
+                    vazio = true;
+                    break; // Exit loop if an empty field is found
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jLocacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jLocacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jLocacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jLocacao.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                jLocacao dialog = new jLocacao(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        return vazio;
     }
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (VerificarVazio(jDevolucao)) {
+            JOptionPane.showMessageDialog(this, "Há campos vazios", "Preencha e tente novamente", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int confirm = JOptionPane.showConfirmDialog(
+                null,
+                "Prosseguir?",
+                "",
+                JOptionPane.YES_NO_OPTION
+        );
+        switch (confirm) {
+            case JOptionPane.YES_OPTION -> {
+                try {
+                    if (!Locadora.Devolver(Integer.parseInt(jIDContrato.getText()))) {
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Devolvido com sucesso", "", JOptionPane.OK_OPTION);
+                        dispose();
+                    }
+                } catch (RemoteException ex) {
+                    Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            case JOptionPane.NO_OPTION ->
+                System.out.println("...");
+            default ->
+                System.out.println("...");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jAlugar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jDevolucao;
+    private javax.swing.JTextField jIDCliente;
+    private javax.swing.JTextField jIDContrato;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelVazio;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

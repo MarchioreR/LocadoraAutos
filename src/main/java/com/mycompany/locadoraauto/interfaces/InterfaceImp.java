@@ -25,8 +25,6 @@ import java.text.SimpleDateFormat;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -34,12 +32,12 @@ import java.util.Scanner;
  */
 public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
-    private List<Venda> vendas = new ArrayList<>();
-    private List<RegistroFinanceiro> registros = new ArrayList<>();
-    private List<Automovel> automoveis = new ArrayList<>();
-    private List<Contrato> contratos = new ArrayList<>();
-    private List<Obtencao> obtencoes = new ArrayList<>();
-    private List<Usuario> usuarios = new ArrayList<>();
+    private ArrayList<Venda> vendas = new ArrayList<>();
+    private ArrayList<RegistroFinanceiro> registros = new ArrayList<>();
+    private ArrayList<Automovel> automoveis = new ArrayList<>();
+    private ArrayList<Contrato> contratos = new ArrayList<>();
+    private ArrayList<Obtencao> obtencoes = new ArrayList<>();
+    private ArrayList<Usuario> usuarios = new ArrayList<>();
 
     // Constructor
     public InterfaceImp() throws RemoteException {
@@ -441,7 +439,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     public void CriarVenda(int currentID) {
         Scanner scan = new Scanner(System.in);
-        int idContrato = currentID, idxA, idxC, idxV, tipostatus;
+        int idxA, idxC, idxV;
 
         // Coletando dados para criar a venda
         System.out.println("Cadastrar Venda:");
@@ -464,13 +462,8 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         Usuario usuarioC = usuarios.get(idxC);
         Alugador alugador = (Alugador) usuarioC;
 
-        do {
-            System.out.println("Tipo de Veículo: (1) Disponível (2) Indisponível");
-            tipostatus = scan.nextInt();
-        } while (tipostatus < 1 || tipostatus > 2);
-
         // Criando a venda Venda(int idVenda, Automovel automovel, Vendedor vendedor, Alugador alugador, int valorVenda)
-        Venda venda = new Venda(currentID, automoveis.get(idxA), vendedor, alugador, valorVenda, tipostatus);
+        Venda venda = new Venda(currentID, automoveis.get(idxA), vendedor, alugador, valorVenda);
         vendas.add(venda);
 
         System.out.println("Venda registrada: " + venda.getIdVenda());
@@ -1153,5 +1146,27 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     public int AutoAtual() throws RemoteException {
         int id = automoveis.size() - 1;
         return id;
+    }
+
+    public synchronized boolean Devolver(int id) throws RemoteException {
+        if (id <= automoveis.size() && automoveis.get(id).getStatus() == TipoStatus.INDISPONIVEL) {
+            automoveis.get(id).setStatus(TipoStatus.DISPONIVEL);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public synchronized boolean Emprestar(int id) throws RemoteException {
+        if (id <= automoveis.size() && TipoStatus.DISPONIVEL == automoveis.get(id).getStatus()) {
+            automoveis.get(id).setStatus(TipoStatus.INDISPONIVEL);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public ArrayList<Automovel> PassarAutomoveis() throws RemoteException{
+        return automoveis;
     }
 }

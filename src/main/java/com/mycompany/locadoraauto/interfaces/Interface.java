@@ -12,6 +12,7 @@ import com.mycompany.locadoraauto.models.Venda;
 import java.rmi.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  *
@@ -90,4 +91,10 @@ public interface Interface extends Remote {
     public int UsuarioAtual() throws RemoteException;
     
     public int AutoAtual() throws RemoteException;
+    
+    public boolean Devolver(int id) throws RemoteException;
+    
+    public boolean Emprestar(int id) throws RemoteException;
+    
+    public ArrayList<Automovel> PassarAutomoveis() throws RemoteException;
 }

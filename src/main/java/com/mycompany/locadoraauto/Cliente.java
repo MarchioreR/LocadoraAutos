@@ -21,7 +21,7 @@ public class Cliente {
             Interface Locadora = (Interface) registry.lookup("Locadora");
 
             Scanner scanner = new Scanner(System.in);
-            FMenu x = new FMenu();
+            FMenu x = new FMenu(Locadora);
             x.setVisible(true);
             System.out.println("OLA");
         } catch (Exception e) {

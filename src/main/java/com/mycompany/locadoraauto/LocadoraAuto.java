@@ -4,6 +4,7 @@
 package com.mycompany.locadoraauto;
 
 
+import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.interfaces.InterfaceImp;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -16,10 +17,11 @@ public class LocadoraAuto {
 
     public static void main(String[] args) {
         try {
-            InterfaceImp servidor = new InterfaceImp();
+            Interface servidor = new InterfaceImp();
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.rebind("Locadora", servidor);
             System.out.println("Servidor pronto.");
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -52,11 +52,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jAlugarActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jDevolver">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Devolver"/>
-              </Properties>
-            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jCompraVenda">
@@ -64,11 +59,6 @@
             <Property name="text" type="java.lang.String" value="Compra/Venda"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jCompra">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Compra"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jVenda">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Venda"/>

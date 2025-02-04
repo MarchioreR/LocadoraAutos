@@ -11,29 +11,21 @@ import com.mycompany.locadoraauto.enums.TipoStatus;
  * @author vitor
  */
 public class Venda {
+
     private int idVenda;
     private Automovel automovel;
     private Vendedor vendedor;
     private Alugador alugador;
     private int valorVenda;
-    private TipoStatus status;
 
-    public Venda(int idVenda, Automovel automovel, Vendedor vendedor, Alugador alugador, int valorVenda, int tipostatus) {
+    public Venda(int idVenda, Automovel automovel, Vendedor vendedor, Alugador alugador, int valorVenda) {
         this.idVenda = idVenda;
         this.automovel = automovel;
         this.vendedor = vendedor;
         this.alugador = alugador;
-        this.valorVenda = valorVenda; 
-        switch (tipostatus) {
-            case 1 ->
-                status = TipoStatus.DISPONIVEL;
-            case 2 ->
-                status = TipoStatus.INDISPONIVEL;
-            default ->
-                throw new AssertionError();
-        }
+        this.valorVenda = valorVenda;
     }
-    
+
     /**
      * @return the idVenda
      */
@@ -107,14 +99,4 @@ public class Venda {
     /**
      * @return the status
      */
-    public TipoStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(TipoStatus status) {
-        this.status = status;
-    }
 }
