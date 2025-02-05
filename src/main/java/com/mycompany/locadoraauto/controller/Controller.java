@@ -5,7 +5,7 @@
 package com.mycompany.locadoraauto.controller;
 
 import com.mycompany.locadoraauto.dao.DataAccessObject;
-import static com.mycompany.locadoraauto.dao.DataAccessObject.getAutomoveis;
+import static com.mycompany.locadoraauto.dao.DataAccessObject.listarAutomoveis;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.models.RegistroFinanceiro;
@@ -32,7 +32,7 @@ public class Controller {
     }
 
     public final void AddDataCad(JTable jTable1, JScrollPane jScrollPane1) throws SQLException {
-        ArrayList<Automovel> automoveis = getAutomoveis();
+        ArrayList<Automovel> automoveis = listarAutomoveis();
         jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 

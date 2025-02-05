@@ -10,11 +10,15 @@ import com.mycompany.locadoraauto.enums.TipoID;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.models.Montadora;
+import com.mycompany.locadoraauto.models.Obtencao;
 import com.mycompany.locadoraauto.models.RegistroFinanceiro;
 import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.util.UtilityView;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import static java.time.temporal.TemporalQueries.localDate;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -346,7 +350,7 @@ public class JTransacao extends javax.swing.JDialog {
         }
 
         Automovel novo = null;
-        Usuario user = null;
+        Montadora user = null;
         float valorC = Float.parseFloat(jValorCompra.getText());
         try {
             // TODO add your handling code here:
@@ -362,10 +366,13 @@ public class JTransacao extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
+        LocalDate data = LocalDate.now();
+        Date dataI = Date.from(data.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        //int currentID, Automovel automovel, Montadora montadora, float valorObt
+        Obtencao obt = new Obtencao(idUsuario, novo, user, dataI, valorC);
         try {
-            //int currentID, Automovel automovel, Montadora montadora, float valorObt
-            Locadora.CriarObtencao(idUsuario, novo, (Montadora) user, valorC);
-        } catch (RemoteException ex) {
+            DataAccessObject.inserirObtencao(obt);
+        } catch (SQLException ex) {
             Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jConfirmarActionPerformed
@@ -379,12 +386,12 @@ public class JTransacao extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButtonVoltar1ActionPerformed
 
-    private Usuario getFieldsM() throws RemoteException {
+    private Montadora getFieldsM() throws RemoteException {
         int idUsuario = Locadora.UsuarioAtual();
         String nome = jMontadora.getText();
         String ID = jID2.getText();
         String numCel = jContato2.getText();
-        Usuario novo = null;
+        Montadora novo = null;
         novo = new Montadora("a", "a", idUsuario, nome, ID, "a", numCel, "a");
         return novo;
     }

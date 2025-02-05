@@ -173,14 +173,14 @@ public class DataAccessObject {
         }
     }
 
-    public static void inserirObtencao(int idAutomovel, int idMontadora, String dataObtencao, double valorObtencao) throws SQLException {
+    public static void inserirObtencao(Obtencao obt) throws SQLException {
         Connection conn = FactoryConnection.createConnection();
         String sql = "INSERT INTO Obtencao (id_automovel, id_montadora, data_obtencao, valor_obtencao) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idAutomovel);
-            stmt.setInt(2, idMontadora);
-            stmt.setString(3, dataObtencao);
-            stmt.setDouble(4, valorObtencao);
+            stmt.setInt(1, obt.getAutomovel().getIdAutomovel());
+            stmt.setInt(2, obt.getMontadora().getIdUsuario());
+            stmt.setDate(3, (Date) obt.getDataObt());
+            stmt.setDouble(4, obt.getValorObt());
             stmt.executeUpdate();
         }
     }
@@ -307,41 +307,27 @@ public class DataAccessObject {
         }
     }
 
-    public static ArrayList<Automovel> getAutomoveis() throws SQLException {
-        Connection conn = FactoryConnection.createConnection();
+    public static ArrayList<Automovel> listarAutomoveis() {
         ArrayList<Automovel> automoveis = new ArrayList<>();
-        String sql = "SELECT id, modelo, placa, tipo_veiculo, valor_dia, status FROM Automovel";
-        int tipov, tipos;
-        try (conn; PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
+        String sql = "SELECT * FROM Automovel";
+
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String modelo = rs.getString("modelo");
-                String placa = rs.getString("placa");
-                TipoVeiculo tipo_veiculo = TipoVeiculo.valueOf(rs.getString("tipo_veiculo"));
-                float valor_dia = rs.getFloat("valor_dia");
-                TipoStatus status = TipoStatus.valueOf(rs.getString("status"));
-                if (tipo_veiculo.toString().equals(TipoVeiculo.COMBUSTAO.getDescricao())) {
-                    tipov = 1;
-                } else if (tipo_veiculo.toString().equals(TipoVeiculo.ELETRICO.getDescricao())) {
-                    tipov = 2;
-                } else {
-                    tipov = 3;
-                }
-                if (status.toString().equals(TipoStatus.DISPONIVEL.getDescricao())) {
-                    tipos = 1;
-                } else if (status.toString().equals(TipoStatus.INDISPONIVEL.getDescricao())) {
-                    tipos = 2;
-                } else {
-                    tipos = 3;
-                }
-                Automovel automovel = new Automovel(id, modelo, placa, tipov, valor_dia, tipos);
+                Automovel automovel = new Automovel();
+                automovel.setIdAutomovel(rs.getInt("idAutomovel"));
+                automovel.setModelo(rs.getString("modelo"));
+                automovel.setPlaca(rs.getString("placa"));
+                automovel.setTipoVeic(TipoVeiculo.valueOf(rs.getString("tipoVeic"))); // Converte de String para Enum
+                automovel.setValorDia(rs.getFloat("valorDia"));
+                automovel.setStatus(TipoStatus.valueOf(rs.getString("status"))); // Converte de String para Enum
+
                 automoveis.add(automovel);
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return automoveis;
     }
 }
