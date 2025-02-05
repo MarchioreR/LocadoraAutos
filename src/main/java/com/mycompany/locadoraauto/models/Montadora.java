@@ -10,9 +10,11 @@ import com.mycompany.locadoraauto.enums.TipoID;
  *
  * @author vitor
  */
-public class Montadora extends Usuario{
+public class Montadora extends Usuario {
+
     private String website;
     private String paisOrigem;
+
     public Montadora() {
     }
 
@@ -21,7 +23,6 @@ public class Montadora extends Usuario{
         this.website = website;
         this.paisOrigem = paisOrigem;
     }
-    
 
     /**
      * @return the website
@@ -50,7 +51,7 @@ public class Montadora extends Usuario{
     public void setPaisOrigem(String paisOrigem) {
         this.paisOrigem = paisOrigem;
     }
-    
+
     @Override
     public void ImprimirUsuario() {
         super.ImprimirUsuario();

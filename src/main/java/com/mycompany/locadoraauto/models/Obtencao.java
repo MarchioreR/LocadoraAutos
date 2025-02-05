@@ -4,13 +4,15 @@
  */
 package com.mycompany.locadoraauto.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author vitor
  */
-public class Obtencao {
+public class Obtencao implements Serializable {
+
     private int idObtencao;
     private Automovel automovel;
     private Montadora montadora;
@@ -23,7 +25,7 @@ public class Obtencao {
         this.montadora = montadora;
         this.dataObt = dataObt;
         this.valorObt = valorObt;
-        
+
     }
 
     /**
@@ -39,7 +41,6 @@ public class Obtencao {
     public void setIdObtencao(int idObtencao) {
         this.idObtencao = idObtencao;
     }
-
 
     /**
      * @return the dataObt
@@ -97,5 +98,4 @@ public class Obtencao {
         this.montadora = montadora;
     }
 
-   
 }

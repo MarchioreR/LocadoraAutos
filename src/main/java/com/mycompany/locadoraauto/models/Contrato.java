@@ -4,6 +4,7 @@
  */
 package com.mycompany.locadoraauto.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import java.util.Date;
  *
  * @author vitor
  */
-public class Contrato {
+public class Contrato implements Serializable {
 
     private int idContrato;
     private Alugador alugador;

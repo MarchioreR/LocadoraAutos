@@ -4,11 +4,14 @@
  */
 package com.mycompany.locadoraauto.models;
 
+import java.io.Serializable;
+
 /**
  *
  * @author vitor
  */
-public class RegistroFinanceiro {
+public class RegistroFinanceiro implements Serializable {
+
     private int idRegistro;
     private Automovel automovel;
     private float valorCompra;
@@ -124,5 +127,5 @@ public class RegistroFinanceiro {
     public void setAutomovel(Automovel automovel) {
         this.automovel = automovel;
     }
-    
+
 }

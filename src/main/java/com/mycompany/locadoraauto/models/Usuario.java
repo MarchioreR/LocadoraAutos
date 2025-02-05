@@ -5,12 +5,13 @@
 package com.mycompany.locadoraauto.models;
 
 import com.mycompany.locadoraauto.enums.TipoID;
+import java.io.Serializable;
 
 /**
  *
  * @author vitor
  */
-public class Usuario {
+public class Usuario implements Serializable {
 
     private int idUsuario;
     private String nome;

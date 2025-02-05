@@ -23,6 +23,7 @@ public class Vendedor extends Usuario {
         this.valorSalario = valorSalario;
         this.comissaoVenda = comissaoVenda;
     }
+
     /**
      * @return the valorSalario
      */

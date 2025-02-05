@@ -5,12 +5,13 @@
 package com.mycompany.locadoraauto.models;
 
 import com.mycompany.locadoraauto.enums.TipoSeguro;
+import java.io.Serializable;
 
 /**
  *
  * @author vitor
  */
-public class Seguro {
+public class Seguro implements Serializable {
 
     private TipoSeguro tipoSeguro; //CRIAR ENUM
     private float valorSeguro;
@@ -40,7 +41,7 @@ public class Seguro {
             default ->
                 throw new AssertionError();
         }
-        
+
         this.seguradora = "Seguradora";
     }
 

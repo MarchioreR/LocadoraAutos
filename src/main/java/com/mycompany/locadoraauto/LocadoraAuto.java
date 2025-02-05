@@ -19,7 +19,7 @@ public class LocadoraAuto {
         try {
             Interface servidor = new InterfaceImp();
             Registry registry = LocateRegistry.createRegistry(1099);
-            registry.rebind("LocadoraAuto", servidor);
+            registry.rebind("rmi://26.210.206.180/LocadoraAuto", servidor);
             System.out.println("Servidor pronto.");
             /*ControllerInterface ci = new ControllerMain();
             String nome = Utility.getServerIp();

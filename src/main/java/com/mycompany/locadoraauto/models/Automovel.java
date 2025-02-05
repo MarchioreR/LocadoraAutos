@@ -6,12 +6,13 @@ package com.mycompany.locadoraauto.models;
 
 import com.mycompany.locadoraauto.enums.TipoStatus;
 import com.mycompany.locadoraauto.enums.TipoVeiculo;
+import java.io.Serializable;
 
 /**
  *
  * @author vitor
  */
-public final class Automovel {
+public final class Automovel implements Serializable {
 
     private int idAutomovel;
     private String modelo;
