@@ -30,7 +30,6 @@ import javax.swing.JTextField;
  *
  * @author vitor
  */
-
 public class JCadastro extends javax.swing.JDialog {
 
     private Interface Locadora;
@@ -725,33 +724,33 @@ public class JCadastro extends javax.swing.JDialog {
 
         switch (jComboTipo.getSelectedIndex()) {
             case 1 -> {
-            try {
-                util.Redefinir(jPanelAlugador);
-            } catch (RemoteException ex) {
-                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                try {
+                    util.Redefinir(jPanelAlugador);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             case 2 -> {
-            try {
-                util.Redefinir(jPanelLocador);
-            } catch (RemoteException ex) {
-                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                try {
+                    util.Redefinir(jPanelLocador);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             case 3 -> {
-            try {
-                util.Redefinir(jPanelVendedor);
-            } catch (RemoteException ex) {
-                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                try {
+                    util.Redefinir(jPanelVendedor);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             case 4 -> {
-            try {
-                util.Redefinir(jPanelMontadora);
-            } catch (RemoteException ex) {
-                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                try {
+                    util.Redefinir(jPanelMontadora);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 
@@ -785,13 +784,18 @@ public class JCadastro extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
+        boolean vazio = false;
 
-        try {
-            if (util.VerificarVazio(jPanel2)) {
-                return;
+        for (Component component : jPanel2.getComponents()) {
+            if (component instanceof JTextField textField) {
+                if (textField.getText().trim().isEmpty()) { // Check if the field is empty
+                    vazio = true;
+                    break; // Exit loop if an empty field is found
+                }
             }
-        } catch (RemoteException ex) {
-            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (vazio == false) {
+            return;
         }
         int tipo = jComboTipo.getSelectedIndex();
 
@@ -809,56 +813,56 @@ public class JCadastro extends javax.swing.JDialog {
     }//GEN-LAST:event_jValorSalarioActionPerformed
 
     private Usuario getFields(int tipoItem) throws RemoteException {
-    int idUsuario = Locadora.UsuarioAtual();
-    String nome;
-    int tipoID;
-    String ID;
-    String email;
-    String numCel;
-    String endereco;
-    Usuario novo = null;
-    switch (tipoItem) {
-        case 1 -> {
-            idUsuario = 1;
-            nome = jNome1.getText();
-            email = jEmail1.getText();
-            numCel = jContato1.getText();
-            endereco = jEndereco1.getText();
-            tipoID = jTipoID1.getSelectedIndex();
-            ID = jID1.getText();
-            int idade = Integer.parseInt(jIdade.getText());
-            String genero = jGenero.getText();
-            novo = new Alugador(idade, genero, idUsuario, nome, tipoID, ID, email, numCel, endereco);
-        }
+        int idUsuario = Locadora.UsuarioAtual();
+        String nome;
+        int tipoID;
+        String ID;
+        String email;
+        String numCel;
+        String endereco;
+        Usuario novo = null;
+        switch (tipoItem) {
+            case 1 -> {
+                idUsuario = 1;
+                nome = jNome1.getText();
+                email = jEmail1.getText();
+                numCel = jContato1.getText();
+                endereco = jEndereco1.getText();
+                tipoID = jTipoID1.getSelectedIndex();
+                ID = jID1.getText();
+                int idade = Integer.parseInt(jIdade.getText());
+                String genero = jGenero.getText();
+                novo = new Alugador(idade, genero, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+            }
 
-        case 2 -> {
-            idUsuario = 1;
-            nome = jNome3.getText();
-            email = jEmail3.getText();
-            numCel = jContato3.getText();
-            endereco = jEndereco3.getText();
-            tipoID = jTipoID3.getSelectedIndex();
-            ID = jID3.getText();
-            float valorSalario = Float.parseFloat(jSalario.getText());
-            float comissaoLoc = Float.parseFloat(jComissao.getText());
-            novo = new Locador(valorSalario, comissaoLoc, idUsuario, nome, tipoID, ID, email, numCel, endereco);
-        }
+            case 2 -> {
+                idUsuario = 1;
+                nome = jNome3.getText();
+                email = jEmail3.getText();
+                numCel = jContato3.getText();
+                endereco = jEndereco3.getText();
+                tipoID = jTipoID3.getSelectedIndex();
+                ID = jID3.getText();
+                float valorSalario = Float.parseFloat(jSalario.getText());
+                float comissaoLoc = Float.parseFloat(jComissao.getText());
+                novo = new Locador(valorSalario, comissaoLoc, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+            }
 
-        case 3 -> {
-            idUsuario = 1;
-            nome = jNome4.getText();
-            email = jEmail4.getText();
-            numCel = jContato4.getText();
-            endereco = jEndereco4.getText();
-            tipoID = jTipoID4.getSelectedIndex();
-            ID = jID4.getText();
-            float valorSalario = Float.parseFloat(jValorSalario.getText());
-            float comissaoVenda = Float.parseFloat(jComissaoVenda.getText());
-            novo = new Vendedor(valorSalario, comissaoVenda, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+            case 3 -> {
+                idUsuario = 1;
+                nome = jNome4.getText();
+                email = jEmail4.getText();
+                numCel = jContato4.getText();
+                endereco = jEndereco4.getText();
+                tipoID = jTipoID4.getSelectedIndex();
+                ID = jID4.getText();
+                float valorSalario = Float.parseFloat(jValorSalario.getText());
+                float comissaoVenda = Float.parseFloat(jComissaoVenda.getText());
+                novo = new Vendedor(valorSalario, comissaoVenda, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+            }
         }
+        return novo;
     }
-    return novo;
-}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCadastrar;

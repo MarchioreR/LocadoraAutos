@@ -14,6 +14,7 @@ import com.mycompany.locadoraauto.models.Obtencao;
 import com.mycompany.locadoraauto.models.RegistroFinanceiro;
 import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.util.UtilityView;
+import java.awt.Component;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ import static java.time.temporal.TemporalQueries.localDate;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 
 /**
  *
@@ -32,6 +34,7 @@ public class JTransacao extends javax.swing.JDialog {
     private Interface Locadora;
     private Controller control;
     private UtilityView util;
+
     /**
      * Creates new form JVenda
      */
@@ -333,12 +336,18 @@ public class JTransacao extends javax.swing.JDialog {
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConfirmarActionPerformed
-        try {
-            if (util.VerificarVazio(jPaneCompra)) {
-                return;
+        boolean vazio = false;
+
+        for (Component component : jPaneCompra.getComponents()) {
+            if (component instanceof JTextField textField) {
+                if (textField.getText().trim().isEmpty()) { // Check if the field is empty
+                    vazio = true;
+                    break; // Exit loop if an empty field is found
+                }
             }
-        } catch (RemoteException ex) {
-            Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (vazio == false) {
+            return;
         }
         int idUsuario = 0;
         int idRegistro = 0;

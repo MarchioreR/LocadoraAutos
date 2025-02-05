@@ -209,8 +209,8 @@ public class DataAccessObject {
             stmt.executeUpdate();
         }
     }
-
-    public static void adicionarVendedor(Vendedor vendedor) {
+    
+     public static void adicionarVendedor(Vendedor vendedor) {
         String sql = "INSERT INTO Usuario (nome, tipoID, ID, email, numCel, endereco) VALUES (?, ?, ?, ?, ?, ?)";
         String sqlVendedor = "INSERT INTO Vendedor (idUsuario, valorSalario, comissaoVenda) VALUES (?, ?, ?)";
 
@@ -234,6 +234,39 @@ public class DataAccessObject {
                 stmtVendedor.setInt(1, idUsuario);
                 stmtVendedor.setFloat(2, vendedor.getValorSalario());
                 stmtVendedor.setFloat(3, vendedor.getComissaoVenda());
+                stmtVendedor.executeUpdate();
+            }
+
+            System.out.println("Vendedor cadastrado com sucesso!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void adicionarMontadora(Montadora mont) {
+        String sql = "INSERT INTO Usuario (nome, tipoID, ID, email, numCel, endereco) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlVendedor = "INSERT INTO Vendedor (idUsuario, website, paisOrigem) VALUES (?, ?, ?)";
+
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmtUsuario = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); PreparedStatement stmtVendedor = conn.prepareStatement(sqlVendedor)) {
+
+            // Inserindo na tabela Usuario
+            stmtUsuario.setString(1, mont.getNome());
+            stmtUsuario.setString(2, mont.getTipoID().name()); // Enum convertido para String
+            stmtUsuario.setString(3, mont.getID());
+            stmtUsuario.setString(4, mont.getEmail());
+            stmtUsuario.setString(5, mont.getNumCel());
+            stmtUsuario.setString(6, mont.getEndereco());
+            stmtUsuario.executeUpdate();
+
+            // Obtendo o ID gerado para o usuário
+            var rs = stmtUsuario.getGeneratedKeys();
+            if (rs.next()) {
+                int idUsuario = rs.getInt(1);
+
+                // Inserindo na tabela Vendedor
+                stmtVendedor.setInt(1, idUsuario);
+                stmtVendedor.setString(2, mont.getWebsite());
+                stmtVendedor.setString(3, mont.getPaisOrigem());
                 stmtVendedor.executeUpdate();
             }
 

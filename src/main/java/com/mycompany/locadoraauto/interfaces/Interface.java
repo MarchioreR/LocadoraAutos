@@ -25,73 +25,12 @@ import javax.swing.JPanel;
  */
 public interface Interface extends Remote {
 
-    public void CriarUsuario(Usuario novo) throws RemoteException;
-
-    public void CriarLocador(int currentID) throws RemoteException;
-
-    public void CriarAlugador(int currentID) throws RemoteException;
-
-    public void CriarMontadora(Usuario montadora) throws RemoteException;
-
-    public void CriarVendedor(int currentID) throws RemoteException;
-
-    public void CriarAutomovel(int currentID) throws RemoteException;
-
-    public Seguro CriarSeguro() throws RemoteException;
-
+   
     public void CriarContrato(int currentID, Alugador alugador, Locador locador, Seguro seguro, float valorContrato, Automovel automovel) throws RemoteException;
 
     public void CriarObtencao(int currentID, Automovel automovel, Montadora montadora, float valorObt) throws RemoteException;
 
-    public void CriarVenda(int currentID) throws RemoteException;
-
     public void CriarRegistro(RegistroFinanceiro r) throws RemoteException;
-
-    public void AlterarAutomovel() throws RemoteException;
-
-    public void AlterarUsuário(int opcao) throws RemoteException;
-
-    public void AlterarLocador() throws RemoteException;
-
-    public void AlterarVendedor() throws RemoteException;
-
-    public void AlterarMontadora() throws RemoteException;
-
-    public void AlterarAlugador() throws RemoteException;
-
-    public void RemoverAutomovel() throws RemoteException;
-
-    public void RemoverLocador() throws RemoteException;
-
-    public void RemoverVendedor() throws RemoteException;
-
-    public void RemoverAlugador() throws RemoteException;
-
-    public void RemoverMontadora() throws RemoteException;
-
-    public void ImprimirContrato(int idx) throws RemoteException;
-
-    public void ImprimirObtencao(int idx) throws RemoteException;
-
-    public void ImprimirRegistro(int idx) throws RemoteException;
-
-    public void ImprimirVenda(int idx) throws RemoteException;
-
-    public int BuscarAutomovel() throws RemoteException;
-
-    public int BuscarUsuario() throws RemoteException;
-
-    public int BuscarLocador() throws RemoteException;
-
-    public int BuscarVendedor() throws RemoteException;
-
-    public int BuscarAlugador() throws RemoteException;
-
-    public int BuscarMontadora() throws RemoteException;
-
-    public int BuscarContrato() throws RemoteException;
-
-    public int BuscarVenda() throws RemoteException;
 
     public int UsuarioAtual() throws RemoteException;
 
@@ -110,5 +49,7 @@ public interface Interface extends Remote {
     public Automovel GetAutoAtPOS(int idx) throws RemoteException;
 
     public Usuario buscarUsuario(String nomeOuID) throws RemoteException;
+
+    public void CriarMontadora(Montadora user);
 
 }
