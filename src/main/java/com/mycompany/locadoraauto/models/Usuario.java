@@ -147,12 +147,4 @@ public class Usuario implements Serializable {
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
-
-    public int getId() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public String getIdenti() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

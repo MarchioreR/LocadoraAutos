@@ -3,11 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.locadoraauto.view;
+
+import com.mycompany.locadoraauto.controller.Controller;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JMenuItem;
 
 /**
  *
@@ -18,12 +21,20 @@ public class FMenu extends javax.swing.JFrame {
     private JCadastro dcad;
     private DLogin dlog;
     private jLocacao jloc;
+    private JTransacao jtra;
     private Interface Locadora;
-    
+    private Controller control;
+
     public FMenu(Interface Locadora) {
         this.Locadora = Locadora;
+        control = new Controller();
         boolean menu = false;
         initComponents();
+        jCadastro.setEnabled(false);
+        jAlterar.setEnabled(false);
+        jAlugar.setEnabled(false);
+        jVenda.setEnabled(false);
+        jLista.setEnabled(false);
     }
 
     /**
@@ -55,11 +66,11 @@ public class FMenu extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 666, Short.MAX_VALUE)
+            .addGap(0, 563, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGap(0, 173, Short.MAX_VALUE)
         );
 
         jLogin.setText("Login");
@@ -104,6 +115,11 @@ public class FMenu extends javax.swing.JFrame {
         jCompraVenda.setText("Compra/Venda");
 
         jVenda.setText("Venda");
+        jVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jVendaActionPerformed(evt);
+            }
+        });
         jCompraVenda.add(jVenda);
 
         jMenuBar1.add(jCompraVenda);
@@ -159,7 +175,7 @@ public class FMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jAlugarActionPerformed
 
     private void jLoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLoginButtonActionPerformed
-        dlog = new DLogin(this, true);
+        dlog = new DLogin(this, true, jCadastro, jAlterar, jAlugar, jVenda, jLista);
         dlog.setVisible(true);
     }//GEN-LAST:event_jLoginButtonActionPerformed
 
@@ -167,6 +183,12 @@ public class FMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jVendaActionPerformed
+        // TODO add your handling code here:
+        jtra = new JTransacao(this, rootPaneCheckingEnabled, Locadora, control);
+        jtra.setVisible(true);
+    }//GEN-LAST:event_jVendaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem jAlterar;

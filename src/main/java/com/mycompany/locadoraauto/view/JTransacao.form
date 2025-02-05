@@ -13,6 +13,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="-&gt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -25,6 +28,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="-&gt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -55,15 +61,33 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jButtonVoltar1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="jPanel1" min="-2" pref="520" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jButtonVoltar1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="12" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
+    <Component class="javax.swing.JButton" name="jButtonVoltar1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Voltar"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonVoltar1ActionPerformed"/>
+      </Events>
+    </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
@@ -78,12 +102,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="629" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="641" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="567" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="520" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -145,7 +169,7 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="214" max="32767" attributes="0"/>
+                              <EmptySpace pref="225" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -214,7 +238,7 @@
                               <Component id="jLabel31" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="202" max="32767" attributes="0"/>
+                      <EmptySpace pref="155" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -311,7 +335,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel26">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Tipo de Identificacao"/>
+                <Property name="text" type="java.lang.String" value=" "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="jTipoID2">
@@ -358,12 +382,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="629" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="641" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="567" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="520" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>

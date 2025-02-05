@@ -17,6 +17,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JPanel;
 
 /**
  *
@@ -30,7 +31,7 @@ public interface Interface extends Remote {
 
     public void CriarAlugador(int currentID) throws RemoteException;
 
-    public void CriarMontadora(int currentID) throws RemoteException;
+    public void CriarMontadora(Usuario montadora) throws RemoteException;
 
     public void CriarVendedor(int currentID) throws RemoteException;
 
@@ -42,9 +43,9 @@ public interface Interface extends Remote {
 
     public void CriarObtencao(int currentID, Automovel automovel, Montadora montadora, float valorObt) throws RemoteException;
 
-    public void CriarRegistro(int currentID) throws RemoteException;
-
     public void CriarVenda(int currentID) throws RemoteException;
+
+    public void CriarRegistro(RegistroFinanceiro r) throws RemoteException;
 
     public void AlterarAutomovel() throws RemoteException;
 
@@ -98,6 +99,8 @@ public interface Interface extends Remote {
 
     public int ContratoAtual() throws RemoteException;
 
+    public int RegistroAtual() throws RemoteException;
+
     public boolean Devolver(int id) throws RemoteException;
 
     public boolean Emprestar(int id) throws RemoteException;
@@ -107,4 +110,9 @@ public interface Interface extends Remote {
     public Automovel GetAutoAtPOS(int idx) throws RemoteException;
 
     public Usuario buscarUsuario(String nomeOuID) throws RemoteException;
+
+    public void Redefinir(JPanel panel) throws RemoteException;
+
+    public boolean VerificarVazio(JPanel panel) throws RemoteException;
+
 }

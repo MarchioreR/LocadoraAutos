@@ -721,16 +721,44 @@ public class JCadastro extends javax.swing.JDialog {
         jPanel2.revalidate();
 
         switch (jComboTipo.getSelectedIndex()) {
-            case 1 ->
-                Redefinir(jPanelAlugador);
-            case 2 ->
-                Redefinir(jPanelLocador);
-            case 3 ->
-                Redefinir(jPanelVendedor);
-            case 4 ->
-                Redefinir(jPanelMontadora);
+            case 1 -> {
+                try {
+                    Locadora.Redefinir(jPanelAlugador);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            case 2 -> {
+                try {
+                    Locadora.Redefinir(jPanelLocador);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            case 3 -> {
+                try {
+                    Locadora.Redefinir(jPanelVendedor);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            case 4 -> {
+                try {
+                    Locadora.Redefinir(jPanelMontadora);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
         }
-        Redefinir(jPanel2);
+        try {
+            Locadora.Redefinir(jPanel2);
+        } catch (RemoteException ex) {
+            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jRedefinirActionPerformed
 
     private void jID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jID1ActionPerformed
@@ -755,15 +783,19 @@ public class JCadastro extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
-        // TODO add your handling code here:
-        if (VerificarVazio(jPanel2)) {
-            return;
+        try {
+            // TODO add your handling code here:
+            if (Locadora.VerificarVazio(jPanel2)) {
+                return;
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
         int tipo = jComboTipo.getSelectedIndex();
 
         try {
             Usuario user = getFields(tipo);
-            dao.insertUsuario(user);
+            DataAccessObject.insertUsuario(user);
         } catch (RemoteException | SQLException ex) {
             Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -773,28 +805,6 @@ public class JCadastro extends javax.swing.JDialog {
     private void jValorSalarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jValorSalarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jValorSalarioActionPerformed
-
-    public boolean VerificarVazio(JPanel panel) {
-        boolean vazio = false;
-
-        for (Component component : panel.getComponents()) {
-            if (component instanceof JTextField textField) {
-                if (textField.getText().trim().isEmpty()) { // Check if the field is empty
-                    vazio = true;
-                    break; // Exit loop if an empty field is found
-                }
-            }
-        }
-        return vazio;
-    }
-
-    public void Redefinir(JPanel panel) {
-        for (Component componente : panel.getComponents()) {
-            if (componente instanceof JTextField jTextField) {
-                jTextField.setText("");
-            }
-        }
-    }
 
     private Usuario getFields(int tipoItem) throws RemoteException {
         int idUsuario = Locadora.UsuarioAtual();
@@ -847,6 +857,7 @@ public class JCadastro extends javax.swing.JDialog {
         }
         return novo;
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCadastrar;

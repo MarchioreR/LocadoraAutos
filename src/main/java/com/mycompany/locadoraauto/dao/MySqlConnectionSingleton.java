@@ -14,17 +14,19 @@ import java.sql.SQLException;
  */
 public class MySqlConnectionSingleton {
 
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://26.210.206.180/LocadoraAuto";
-    private static final String TIMEZONE = "useTimezone=true&serverTimezone=UTC";
+     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://26.210.206.180";
+    private static final String PORT = "3306";
     private static final String USER = "cliente";
     private static final String PASS = "ALFABET0!";
+    private static final String DATABASE = "LocadoraAuto";
+    private static final String TIMEZONE = "useTimezone=true&serverTimezone=UTC";
 
     private Connection conn;
     private static MySqlConnectionSingleton instance = null;
 
     private MySqlConnectionSingleton() {
-        String connect = URL + "?" + TIMEZONE;
+        String connect = URL + ":" + PORT + "/" + DATABASE + "?" + TIMEZONE;
         try {
             Class.forName(DRIVER);
             System.out.println("Criou DRIVER!");

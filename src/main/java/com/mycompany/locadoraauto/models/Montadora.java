@@ -18,8 +18,8 @@ public class Montadora extends Usuario {
     public Montadora() {
     }
 
-    public Montadora(String website, String paisOrigem, int idUsuario, String nome, int tipoID, String ID, String email, String numCel, String endereco) {
-        super(idUsuario, nome, tipoID, ID, email, numCel, endereco);
+    public Montadora(String website, String paisOrigem, int idUsuario, String nome,String ID, String email, String numCel, String endereco) {
+        super(idUsuario, nome, 2, ID, email, numCel, endereco);
         this.website = website;
         this.paisOrigem = paisOrigem;
     }

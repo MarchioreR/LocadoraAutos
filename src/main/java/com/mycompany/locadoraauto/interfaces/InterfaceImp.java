@@ -4,6 +4,7 @@
  */
 package com.mycompany.locadoraauto.interfaces;
 
+import com.mycompany.locadoraauto.dao.DataAccessObject;
 import com.mycompany.locadoraauto.enums.TipoID;
 import com.mycompany.locadoraauto.enums.TipoSeguro;
 import com.mycompany.locadoraauto.enums.TipoStatus;
@@ -19,16 +20,20 @@ import com.mycompany.locadoraauto.models.Seguro;
 import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.models.Venda;
 import com.mycompany.locadoraauto.models.Vendedor;
+import java.awt.Component;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * Implementation of the remote interface. Provides methods to manage various entities in the system.
@@ -154,29 +159,13 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     }
 
     @Override
-    public void CriarMontadora(int currentID) {
-        Scanner scan = new Scanner(System.in);
-        // Implementation logic here
-        String website;
-        String paisOrigem;
-
-        Usuario novo = new Montadora();
-
-        System.out.println("Cadastrar montadora: ");
-
-        CriarUsuario(novo);
-
-        System.out.println("Website da montadora: ");
-        website = scan.nextLine();
-        ((Montadora) novo).setWebsite(website);
-
-        System.out.println("País da montadora: ");
-        paisOrigem = scan.nextLine();
-        ((Montadora) novo).setWebsite(paisOrigem);
-
-        ((Montadora) novo).setIdUsuario(currentID);
-        usuarios.add(novo);
-        System.out.println("Montadora criado");
+    public void CriarMontadora(Usuario montadora) {
+        usuarios.add(montadora);
+        try {
+            DataAccessObject.insertUsuario(montadora);
+        } catch (SQLException ex) {
+            Logger.getLogger(InterfaceImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -320,6 +309,11 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         Contrato contrato = new Contrato(idContrato, alugador, dataIn, dataTer, valorContrato, locador, automovel);
         contrato.setSeguro(seguro);
         contratos.add(contrato);
+        try {
+            DataAccessObject.inserirContrato(contrato);
+        } catch (SQLException ex) {
+            Logger.getLogger(InterfaceImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println("Contrato criado");
     }
 
@@ -329,35 +323,14 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         obtencoes.add(obtencao);
     }
 
-    public void CriarRegistro(int currentID) {
-        Scanner scan = new Scanner(System.in);
-        int idx;
-        // Coletando dados para criar o registro financeiro
-        System.out.println("Cadastrar Registro Financeiro:");
+    public void CriarRegistro(RegistroFinanceiro r) throws RemoteException {
+        registros.add(r);
 
-        idx = BuscarAutomovel();
-        Automovel auto = automoveis.get(idx);
-
-        System.out.print("Valor de Compra: ");
-        float valorCompra = scan.nextFloat();
-
-        System.out.print("Valor de Venda: ");
-        float valorVenda = scan.nextFloat();
-
-        System.out.print("Valor da Diária: ");
-        float valorDiaria = scan.nextFloat();
-
-        System.out.print("Valor de Manutenção: ");
-        float valorManutencao = scan.nextFloat();
-
-        // Calculando o valor total
-        float valorTotal = valorCompra + valorManutencao;
-
-        // Criando o registro financeiro
-        RegistroFinanceiro registro = new RegistroFinanceiro(currentID, auto, valorCompra, valorVenda, valorDiaria, valorManutencao, valorTotal);
-        registros.add(registro);
-
-        System.out.println("Registro financeiro criado para o veículo: " + automoveis.get(idx).getModelo());
+        try {
+            DataAccessObject.inserirRegistroFinanceiro(r);
+        } catch (SQLException ex) {
+            Logger.getLogger(InterfaceImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void CriarVenda(int currentID) {
@@ -1070,9 +1043,14 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         int id = automoveis.size() - 1;
         return id;
     }
-    
+
     public int ContratoAtual() throws RemoteException {
         int id = contratos.size() - 1;
+        return id;
+    }
+
+    public int RegistroAtual() throws RemoteException {
+        int id = registros.size() - 1;
         return id;
     }
 
@@ -1118,4 +1096,26 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         return null;
 
     }
+    public boolean VerificarVazio(JPanel panel) throws RemoteException{
+        boolean vazio = false;
+
+        for (Component component : panel.getComponents()) {
+            if (component instanceof JTextField textField) {
+                if (textField.getText().trim().isEmpty()) { // Check if the field is empty
+                    vazio = true;
+                    break; // Exit loop if an empty field is found
+                }
+            }
+        }
+        return vazio;
+    }
+
+    public void Redefinir(JPanel panel)  throws RemoteException{
+        for (Component componente : panel.getComponents()){
+            if (componente instanceof JTextField jTextField) {
+                jTextField.setText("");
+            }
+        }
+    }
+
 }

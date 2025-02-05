@@ -20,14 +20,14 @@ public class RegistroFinanceiro implements Serializable {
     private float valorManutencao;
     private float valorTotal;
 
-    public RegistroFinanceiro(int idRegistro, Automovel automovel, float valorCompra, float valorVenda, float valorDiaria, float valorManutencao, float valorTotal) {
+    public RegistroFinanceiro(int idRegistro, Automovel automovel, float valorCompra, float valorVenda, float valorDiaria, float valorManutencao) {
         this.idRegistro = idRegistro;
         this.automovel = automovel;
         this.valorCompra = valorCompra;
         this.valorVenda = valorVenda;
         this.valorDiaria = valorDiaria;
         this.valorManutencao = valorManutencao;
-        this.valorTotal = valorTotal;
+        this.valorTotal = valorVenda + valorDiaria - valorManutencao - valorCompra;
     }
 
     /**

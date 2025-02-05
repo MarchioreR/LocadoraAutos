@@ -14,6 +14,7 @@ import com.mycompany.locadoraauto.models.Vendedor;
 import com.mycompany.locadoraauto.enums.TipoVeiculo;
 import com.mycompany.locadoraauto.enums.TipoStatus;
 import com.mycompany.locadoraauto.models.Contrato;
+import com.mycompany.locadoraauto.models.RegistroFinanceiro;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
@@ -70,7 +71,7 @@ public class DataAccessObject {
                     if (rsMontadora.next()) {
                         String paisOrigem = rsMontadora.getString("paisOrigem");
                         String website = rsMontadora.getString("website");
-                        usuario = new Montadora(website, paisOrigem, id, nome, tipoId, identi, email, numCel, endereco);
+                        usuario = new Montadora(website, paisOrigem, id, nome, identi, email, numCel, endereco);
                     }
                 }
 
@@ -93,51 +94,46 @@ public class DataAccessObject {
         return usuarios;
     }
 
-    public void insertUsuario(Usuario usuario) throws SQLException {
-        String sqlUsuario = "INSERT INTO Usuario (id, nome, tipo_id, identi, email, num_cel, endereco) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public static void insertUsuario(Usuario usuario) throws SQLException {
+        String sqlUsuario = "INSERT INTO Usuario (nome, tipo_id, identi, email, num_cel, endereco) VALUES (?, ?, ?, ?, ?, ?, ?)";
         String sqlSpecific = "";
         Connection conn = FactoryConnection.createConnection();
         if (usuario instanceof Alugador) {
-            sqlSpecific = "INSERT INTO Alugador (id, idade, genero) VALUES (?, ?, ?)";
+            sqlSpecific = "INSERT INTO Alugador (idade, genero) VALUES (?, ?)";
         } else if (usuario instanceof Locador) {
-            sqlSpecific = "INSERT INTO Locador (id, valor_salario, comissao_loc) VALUES (?, ?, ?)";
+            sqlSpecific = "INSERT INTO Locador (valor_salario, comissao_loc) VALUES (?, ?)";
         } else if (usuario instanceof Montadora) {
-            sqlSpecific = "INSERT INTO Montadora (id, paisOrigem, website) VALUES (?, ?, ?)";
+            sqlSpecific = "INSERT INTO Montadora (paisOrigem, website) VALUES (?, ?)";
         } else if (usuario instanceof Vendedor) {
-            sqlSpecific = "INSERT INTO Vendedor (id, valor_salario, comissao_venda) VALUES (?, ?, ?)";
+            sqlSpecific = "INSERT INTO Vendedor (valor_salario, comissao_venda) VALUES (?, ?";
         }
 
         try (conn; PreparedStatement pstmtUsuario = conn.prepareStatement(sqlUsuario); PreparedStatement pstmtSpecific = conn.prepareStatement(sqlSpecific)) {
 
             // Insert into Usuario table
-            pstmtUsuario.setInt(1, usuario.getIdUsuario());
-            pstmtUsuario.setString(2, usuario.getNome());
-            pstmtUsuario.setString(3, usuario.getTipoID().name());
-            pstmtUsuario.setString(4, usuario.getIdenti());
-            pstmtUsuario.setString(5, usuario.getEmail());
-            pstmtUsuario.setString(6, usuario.getNumCel());
-            pstmtUsuario.setString(7, usuario.getEndereco());
+            pstmtUsuario.setString(1, usuario.getNome());
+            pstmtUsuario.setString(2, usuario.getTipoID().name());
+            pstmtUsuario.setString(3, usuario.getID());
+            pstmtUsuario.setString(4, usuario.getEmail());
+            pstmtUsuario.setString(5, usuario.getNumCel());
+            pstmtUsuario.setString(6, usuario.getEndereco());
             pstmtUsuario.executeUpdate();
 
             // Insert into specific table
             switch (usuario) {
                 case Alugador alugador -> {
-                    pstmtSpecific.setInt(1, alugador.getId());
                     pstmtSpecific.setInt(2, alugador.getIdade());
                     pstmtSpecific.setString(3, alugador.getGenero());
                 }
                 case Locador locador -> {
-                    pstmtSpecific.setInt(1, locador.getId());
                     pstmtSpecific.setDouble(2, locador.getValorSalario());
                     pstmtSpecific.setDouble(3, locador.getComissaoLoc());
                 }
                 case Montadora montadora -> {
-                    pstmtSpecific.setInt(1, montadora.getId());
                     pstmtSpecific.setString(2, montadora.getPaisOrigem());
                     pstmtSpecific.setString(3, montadora.getWebsite());
                 }
                 case Vendedor vendedor -> {
-                    pstmtSpecific.setInt(1, vendedor.getId());
                     pstmtSpecific.setDouble(2, vendedor.getValorSalario());
                     pstmtSpecific.setDouble(3, vendedor.getComissaoVenda());
                 }
@@ -152,14 +148,6 @@ public class DataAccessObject {
 
     }
 
-    /*id INT AUTO_INCREMENT PRIMARY KEY,
-    id_alugador INT,
-    id_seguro INT,
-    data_inicio DATE NOT NULL,
-    data_termino DATE NOT NULL,
-    valor_contrato DECIMAL(10, 2),
-    FOREIGN KEY (id_alugador) REFERENCES Alugador(id),
-    FOREIGN KEY (id_seguro) REFERENCES Seguro(id)*/
     public static void inserirContrato(Contrato cont) throws SQLException {
         Connection conn = FactoryConnection.createConnection();
         String sql = "INSERT INTO Contrato (id_alugador, seguro, data_inicio, data_termino, valor_contrato) VALUES (?, ?, ?, ?, ?)";
@@ -196,16 +184,16 @@ public class DataAccessObject {
         }
     }
 
-    public static void inserirRegistroFinanceiro(int idAutomovel, double valorCompra, double valorVenda, double valorDiaria, double valorManutencao, double valorTotal) throws SQLException {
+    public static void inserirRegistroFinanceiro(RegistroFinanceiro r) throws SQLException {
         Connection conn = FactoryConnection.createConnection();
         String sql = "INSERT INTO RegistroFinanceiro (id_automovel, valor_compra, valor_venda, valor_diaria, valor_manutencao, valor_total) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idAutomovel);
-            stmt.setDouble(2, valorCompra);
-            stmt.setDouble(3, valorVenda);
-            stmt.setDouble(4, valorDiaria);
-            stmt.setDouble(5, valorManutencao);
-            stmt.setDouble(6, valorTotal);
+            stmt.setInt(1, r.getAutomovel().getIdAutomovel());
+            stmt.setDouble(2, r.getValorCompra());
+            stmt.setDouble(3, r.getValorVenda());
+            stmt.setDouble(4, r.getValorDiaria());
+            stmt.setDouble(5, r.getValorManutencao());
+            stmt.setDouble(6, r.getValorTotal());
             stmt.executeUpdate();
         }
     }
@@ -236,12 +224,11 @@ public class DataAccessObject {
         Connection conn = FactoryConnection.createConnection();
         String sql = "INSERT INTO Automovel (modelo, placa, tipo_veiculo, valor_dia, status) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idAutomovel);
-            stmt.setString(2, modelo);
-            stmt.setString(3, placa);
-            stmt.setString(4, tipoveic.getDescricao());
-            stmt.setBigDecimal(5, BigDecimal.valueOf(valordia));
-            stmt.setString(6, status.getDescricao());
+            stmt.setString(1, modelo);
+            stmt.setString(2, placa);
+            stmt.setString(3, tipoveic.getDescricao());
+            stmt.setBigDecimal(4, BigDecimal.valueOf(valordia));
+            stmt.setString(5, status.getDescricao());
             stmt.executeUpdate();
         }
     }

@@ -10,6 +10,7 @@ import com.mycompany.locadoraauto.enums.TipoID;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.models.Montadora;
+import com.mycompany.locadoraauto.models.RegistroFinanceiro;
 import com.mycompany.locadoraauto.models.Usuario;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author vitor
  */
-public class JVenda extends javax.swing.JDialog {
+public class JTransacao extends javax.swing.JDialog {
 
     private Interface Locadora;
     private Controller control;
@@ -29,7 +30,7 @@ public class JVenda extends javax.swing.JDialog {
     /**
      * Creates new form JVenda
      */
-    public JVenda(java.awt.Frame parent, boolean modal, Interface Locadora, Controller control) {
+    public JTransacao(java.awt.Frame parent, boolean modal, Interface Locadora, Controller control) {
         this.control = control;
         super(parent, modal);
         this.Locadora = Locadora;
@@ -44,6 +45,7 @@ public class JVenda extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButtonVoltar1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPaneVazio = new javax.swing.JPanel();
         jPaneCompra = new javax.swing.JPanel();
@@ -77,17 +79,24 @@ public class JVenda extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jButtonVoltar1.setText("Voltar");
+        jButtonVoltar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVoltar1ActionPerformed(evt);
+            }
+        });
+
         jPanel1.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout jPaneVazioLayout = new javax.swing.GroupLayout(jPaneVazio);
         jPaneVazio.setLayout(jPaneVazioLayout);
         jPaneVazioLayout.setHorizontalGroup(
             jPaneVazioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 629, Short.MAX_VALUE)
+            .addGap(0, 641, Short.MAX_VALUE)
         );
         jPaneVazioLayout.setVerticalGroup(
             jPaneVazioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 567, Short.MAX_VALUE)
+            .addGap(0, 520, Short.MAX_VALUE)
         );
 
         jPanel1.add(jPaneVazio, "card3");
@@ -128,7 +137,7 @@ public class JVenda extends javax.swing.JDialog {
 
         jLabel7.setText("Montadora");
 
-        jLabel26.setText("Tipo de Identificacao");
+        jLabel26.setText(" ");
 
         jTipoID2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CNPJ" }));
         jTipoID2.addActionListener(new java.awt.event.ActionListener() {
@@ -189,7 +198,7 @@ public class JVenda extends javax.swing.JDialog {
                                             .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jID2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addContainerGap(214, Short.MAX_VALUE))))
+                        .addContainerGap(225, Short.MAX_VALUE))))
         );
         jPaneCompraLayout.setVerticalGroup(
             jPaneCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,7 +253,7 @@ public class JVenda extends javax.swing.JDialog {
                         .addComponent(jTipoID2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel31)))
-                .addContainerGap(202, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPaneCompra, "card3");
@@ -253,11 +262,11 @@ public class JVenda extends javax.swing.JDialog {
         jPaneVenda.setLayout(jPaneVendaLayout);
         jPaneVendaLayout.setHorizontalGroup(
             jPaneVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 629, Short.MAX_VALUE)
+            .addGap(0, 641, Short.MAX_VALUE)
         );
         jPaneVendaLayout.setVerticalGroup(
             jPaneVendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 567, Short.MAX_VALUE)
+            .addGap(0, 520, Short.MAX_VALUE)
         );
 
         jPanel1.add(jPaneVenda, "card4");
@@ -265,6 +274,11 @@ public class JVenda extends javax.swing.JDialog {
         jMenu1.setText("Compra");
 
         jMenuItem1.setText("->");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
@@ -272,6 +286,11 @@ public class JVenda extends javax.swing.JDialog {
         jMenu2.setText("Venda");
 
         jMenuItem2.setText("->");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem2);
 
         jMenuBar1.add(jMenu2);
@@ -283,10 +302,18 @@ public class JVenda extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonVoltar1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonVoltar1)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -301,47 +328,88 @@ public class JVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConfirmarActionPerformed
+        try {
+            if (Locadora.VerificarVazio(jPaneCompra)) {
+                return;
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         int idUsuario = 0;
+        int idRegistro = 0;
+        RegistroFinanceiro r = null;
         try {
             idUsuario = Locadora.UsuarioAtual();
         } catch (RemoteException ex) {
-            Logger.getLogger(JVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
-            idUsuario = Locadora.UsuarioAtual();
-        } catch (RemoteException ex) {
-            Logger.getLogger(JVenda.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String nome;
-        int tipoID;
-        String ID;
-        String numCel;
+
         Automovel novo = null;
         Usuario user = null;
+        float valorC = Float.parseFloat(jValorCompra.getText());
         try {
             // TODO add your handling code here:
             novo = getFieldsAuto();
-            control.InserirAuto(novo, Float.parseFloat(jValorCompra.getText()));
-            idUsuario = 1;
-            nome = jMontadora.getText();
-            numCel = jContato2.getText();
-            tipoID = 2;
-            ID = jID2.getText();
-            user = new Montadora("a", "a", idUsuario, nome, tipoID, ID, "a", numCel, "a");
+            user = getFieldsM();
+            r = getFieldsR(novo, valorC);
+            Locadora.CriarMontadora(user);
+            Locadora.CriarRegistro(r);
+            control.InserirAuto(novo, r);
+
         } catch (RemoteException | SQLException ex) {
-            Logger.getLogger(JVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             //int currentID, Automovel automovel, Montadora montadora, float valorObt
-            Locadora.CriarObtencao(idUsuario, novo, (Montadora) user, Float.parseFloat(jValorCompra.getText()));
+            Locadora.CriarObtencao(idUsuario, novo, (Montadora) user, valorC);
         } catch (RemoteException ex) {
-            Logger.getLogger(JVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jConfirmarActionPerformed
 
     private void jID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jID2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jID2ActionPerformed
+
+    private void jButtonVoltar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltar1ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jButtonVoltar1ActionPerformed
+
+    private Usuario getFieldsM() throws RemoteException {
+        int idUsuario = Locadora.UsuarioAtual();
+        String nome = jMontadora.getText();
+        String ID = jID2.getText();
+        String numCel = jContato2.getText();
+        Usuario novo = null;
+        novo = new Montadora("a", "a", idUsuario, nome, ID, "a", numCel, "a");
+        return novo;
+    }
+
+    public RegistroFinanceiro getFieldsR(Automovel novo, float valorC) throws RemoteException {
+        int idRegistro = 0;
+        try {
+            idRegistro = Locadora.RegistroAtual();
+        } catch (RemoteException ex) {
+            Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        RegistroFinanceiro r = new RegistroFinanceiro(idRegistro, novo, valorC, 0, novo.getValorDia(), 0);
+        return r;
+    }
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        jPanel1.removeAll();
+        jPanel1.add(jPaneCompra);
+        jPanel1.repaint();
+        jPanel1.revalidate();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        jPanel1.removeAll();
+        jPanel1.add(jPaneVenda);
+        jPanel1.repaint();
+        jPanel1.revalidate();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jTipoID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTipoID2ActionPerformed
         // TODO add your handling code here:
@@ -351,16 +419,19 @@ public class JVenda extends javax.swing.JDialog {
         int idAuto = Locadora.AutoAtual();
         String modelo = jModelo.getText();
         String placa = jPlaca.getText();
-        float diaria = Integer.parseInt(jValorDiaria.getText());
+        float diaria = Float.parseFloat(jValorDiaria.getText());
         int tipoauto = jComboBox1.getSelectedIndex();
         int status = jComboBox2.getSelectedIndex();
-        return new Automovel(idAuto, modelo, placa, tipoauto, diaria, status);
+        Automovel auto = new Automovel(idAuto, modelo, placa, tipoauto, diaria, status);
+
+        return auto;
     }
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonVoltar1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JButton jConfirmar;

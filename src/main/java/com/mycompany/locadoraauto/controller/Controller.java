@@ -8,6 +8,7 @@ import com.mycompany.locadoraauto.dao.DataAccessObject;
 import static com.mycompany.locadoraauto.dao.DataAccessObject.getAutomoveis;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Automovel;
+import com.mycompany.locadoraauto.models.RegistroFinanceiro;
 import com.mycompany.locadoraauto.view.FMenu;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -57,8 +58,12 @@ public class Controller {
         }
     }
 
-    public final void InserirAuto(Automovel novo, float valorCompra) throws SQLException {
+    public final void InserirAuto(Automovel novo, RegistroFinanceiro r) throws SQLException {
         DataAccessObject.inserirAutos(novo.getIdAutomovel(), novo.getModelo(), novo.getPlaca(), novo.getTipoVeic(), novo.getValorDia(), novo.getStatus());
-        DataAccessObject.inserirRegistroFinanceiro(novo.getIdAutomovel(), valorCompra, 0, novo.getValorDia(), 0, (valorCompra + novo.getValorDia()));
     }
+
+    public final void InserirRegistro(RegistroFinanceiro r) throws SQLException {
+        DataAccessObject.inserirRegistroFinanceiro(r);
+    }
+    
 }
