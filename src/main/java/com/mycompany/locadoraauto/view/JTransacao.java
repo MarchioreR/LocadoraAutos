@@ -12,6 +12,7 @@ import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.models.Montadora;
 import com.mycompany.locadoraauto.models.RegistroFinanceiro;
 import com.mycompany.locadoraauto.models.Usuario;
+import com.mycompany.locadoraauto.util.UtilityView;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -26,7 +27,7 @@ public class JTransacao extends javax.swing.JDialog {
 
     private Interface Locadora;
     private Controller control;
-
+    private UtilityView util;
     /**
      * Creates new form JVenda
      */
@@ -329,7 +330,7 @@ public class JTransacao extends javax.swing.JDialog {
 
     private void jConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConfirmarActionPerformed
         try {
-            if (Locadora.VerificarVazio(jPaneCompra)) {
+            if (util.VerificarVazio(jPaneCompra)) {
                 return;
             }
         } catch (RemoteException ex) {
@@ -354,9 +355,11 @@ public class JTransacao extends javax.swing.JDialog {
             r = getFieldsR(novo, valorC);
             Locadora.CriarMontadora(user);
             Locadora.CriarRegistro(r);
-            control.InserirAuto(novo, r);
+            control.InserirAuto(novo);
 
-        } catch (RemoteException | SQLException ex) {
+        } catch (RemoteException ex) {
+            Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {

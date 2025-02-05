@@ -4,6 +4,7 @@
  */
 package com.mycompany.locadoraauto.view;
 
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
@@ -13,19 +14,17 @@ import javax.swing.JOptionPane;
  */
 public class DLogin extends javax.swing.JDialog {
 
-    private JMenuItem jCadastro;
-    private JMenuItem jAlterar;
-    private JMenuItem jAlugar;
-    private JMenuItem jVenda;
-    private JMenuItem jLista;
+    private JButton loc;
+    private JButton reg;
+    private JButton comp;
+    private JButton cont;
 
-    public DLogin(java.awt.Frame parent, boolean modal, JMenuItem jCadastro, JMenuItem jAlterar, JMenuItem jAlugar, JMenuItem jVenda, JMenuItem jLista) {
+    public DLogin(java.awt.Frame parent, boolean modal, JButton jloc, JButton jreg, JButton jcomp, JButton jcont) {
         super(parent, modal);
-        this.jCadastro = jCadastro;
-        this.jAlterar = jAlterar;
-        this.jAlugar = jAlugar;
-        this.jVenda = jVenda;
-        this.jLista = jLista;
+        this.loc = jloc;
+        this.reg = jreg;
+        this.comp = jcomp;
+        this.cont = jcont;
         initComponents();
 
     }
@@ -36,11 +35,10 @@ public class DLogin extends javax.swing.JDialog {
         String senha = String.valueOf(txtSenha.getPassword());
 
         if (usuario.equals("user") && senha.equals("123")) {
-            jCadastro.setEnabled(true);
-            jAlterar.setEnabled(true);
-            jAlugar.setEnabled(true);
-            jVenda.setEnabled(true);
-            jLista.setEnabled(true);
+            loc.setEnabled(true);
+            reg.setEnabled(true);
+            comp.setEnabled(true);
+            cont.setEnabled(true);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Favor, entrar com usuário e senha corretos!", "Erro ao logar no sistema", JOptionPane.ERROR_MESSAGE);

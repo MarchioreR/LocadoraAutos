@@ -58,12 +58,12 @@ public class Controller {
         }
     }
 
-    public final void InserirAuto(Automovel novo, RegistroFinanceiro r) throws SQLException {
-        DataAccessObject.inserirAutos(novo.getIdAutomovel(), novo.getModelo(), novo.getPlaca(), novo.getTipoVeic(), novo.getValorDia(), novo.getStatus());
+    public final void InserirAuto(Automovel novo) throws SQLException {
+        DataAccessObject.adicionarAutomovel(novo);
     }
 
     public final void InserirRegistro(RegistroFinanceiro r) throws SQLException {
-        DataAccessObject.inserirRegistroFinanceiro(r);
+        DataAccessObject.adicionarRegistroFinanceiro(r);
     }
     
 }

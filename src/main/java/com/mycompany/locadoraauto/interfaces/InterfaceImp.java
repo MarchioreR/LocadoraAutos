@@ -1096,26 +1096,4 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         return null;
 
     }
-    public boolean VerificarVazio(JPanel panel) throws RemoteException{
-        boolean vazio = false;
-
-        for (Component component : panel.getComponents()) {
-            if (component instanceof JTextField textField) {
-                if (textField.getText().trim().isEmpty()) { // Check if the field is empty
-                    vazio = true;
-                    break; // Exit loop if an empty field is found
-                }
-            }
-        }
-        return vazio;
-    }
-
-    public void Redefinir(JPanel panel)  throws RemoteException{
-        for (Component componente : panel.getComponents()){
-            if (componente instanceof JTextField jTextField) {
-                jTextField.setText("");
-            }
-        }
-    }
-
 }

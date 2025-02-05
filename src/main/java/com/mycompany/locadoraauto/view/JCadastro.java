@@ -13,6 +13,7 @@ import com.mycompany.locadoraauto.models.Locador;
 import com.mycompany.locadoraauto.models.Montadora;
 import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.models.Vendedor;
+import com.mycompany.locadoraauto.util.UtilityView;
 import java.awt.Component;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -29,10 +30,12 @@ import javax.swing.JTextField;
  *
  * @author vitor
  */
+
 public class JCadastro extends javax.swing.JDialog {
 
     private Interface Locadora;
     private DataAccessObject dao;
+    private UtilityView util;
 
     /**
      * Creates new form JCadastro
@@ -722,43 +725,42 @@ public class JCadastro extends javax.swing.JDialog {
 
         switch (jComboTipo.getSelectedIndex()) {
             case 1 -> {
-                try {
-                    Locadora.Redefinir(jPanelAlugador);
-                } catch (RemoteException ex) {
-                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                util.Redefinir(jPanelAlugador);
+            } catch (RemoteException ex) {
+                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            }
             case 2 -> {
-                try {
-                    Locadora.Redefinir(jPanelLocador);
-                } catch (RemoteException ex) {
-                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                util.Redefinir(jPanelLocador);
+            } catch (RemoteException ex) {
+                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
 
             case 3 -> {
-                try {
-                    Locadora.Redefinir(jPanelVendedor);
-                } catch (RemoteException ex) {
-                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                util.Redefinir(jPanelVendedor);
+            } catch (RemoteException ex) {
+                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            }
             case 4 -> {
-                try {
-                    Locadora.Redefinir(jPanelMontadora);
-                } catch (RemoteException ex) {
-                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                util.Redefinir(jPanelMontadora);
+            } catch (RemoteException ex) {
+                Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            }
         }
+
         try {
-            Locadora.Redefinir(jPanel2);
+            util.Redefinir(jPanel2);
         } catch (RemoteException ex) {
             Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_jRedefinirActionPerformed
 
     private void jID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jID1ActionPerformed
@@ -783,9 +785,9 @@ public class JCadastro extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
+
         try {
-            // TODO add your handling code here:
-            if (Locadora.VerificarVazio(jPanel2)) {
+            if (util.VerificarVazio(jPanel2)) {
                 return;
             }
         } catch (RemoteException ex) {
@@ -807,57 +809,56 @@ public class JCadastro extends javax.swing.JDialog {
     }//GEN-LAST:event_jValorSalarioActionPerformed
 
     private Usuario getFields(int tipoItem) throws RemoteException {
-        int idUsuario = Locadora.UsuarioAtual();
-        String nome;
-        int tipoID;
-        String ID;
-        String email;
-        String numCel;
-        String endereco;
-        Usuario novo = null;
-        switch (tipoItem) {
-            case 1 -> {
-                idUsuario = 1;
-                nome = jNome1.getText();
-                email = jEmail1.getText();
-                numCel = jContato1.getText();
-                endereco = jEndereco1.getText();
-                tipoID = jTipoID1.getSelectedIndex();
-                ID = jID1.getText();
-                int idade = Integer.parseInt(jIdade.getText());
-                String genero = jGenero.getText();
-                novo = new Alugador(idade, genero, idUsuario, nome, tipoID, ID, email, numCel, endereco);
-            }
-
-            case 2 -> {
-                idUsuario = 1;
-                nome = jNome3.getText();
-                email = jEmail3.getText();
-                numCel = jContato3.getText();
-                endereco = jEndereco3.getText();
-                tipoID = jTipoID3.getSelectedIndex();
-                ID = jID3.getText();
-                float valorSalario = Float.parseFloat(jSalario.getText());
-                float comissaoLoc = Float.parseFloat(jComissao.getText());
-                novo = new Locador(valorSalario, comissaoLoc, idUsuario, nome, tipoID, ID, email, numCel, endereco);
-            }
-
-            case 3 -> {
-                idUsuario = 1;
-                nome = jNome4.getText();
-                email = jEmail4.getText();
-                numCel = jContato4.getText();
-                endereco = jEndereco4.getText();
-                tipoID = jTipoID4.getSelectedIndex();
-                ID = jID4.getText();
-                float valorSalario = Float.parseFloat(jValorSalario.getText());
-                float comissaoVenda = Float.parseFloat(jComissaoVenda.getText());
-                novo = new Vendedor(valorSalario, comissaoVenda, idUsuario, nome, tipoID, ID, email, numCel, endereco);
-            }
+    int idUsuario = Locadora.UsuarioAtual();
+    String nome;
+    int tipoID;
+    String ID;
+    String email;
+    String numCel;
+    String endereco;
+    Usuario novo = null;
+    switch (tipoItem) {
+        case 1 -> {
+            idUsuario = 1;
+            nome = jNome1.getText();
+            email = jEmail1.getText();
+            numCel = jContato1.getText();
+            endereco = jEndereco1.getText();
+            tipoID = jTipoID1.getSelectedIndex();
+            ID = jID1.getText();
+            int idade = Integer.parseInt(jIdade.getText());
+            String genero = jGenero.getText();
+            novo = new Alugador(idade, genero, idUsuario, nome, tipoID, ID, email, numCel, endereco);
         }
-        return novo;
-    }
 
+        case 2 -> {
+            idUsuario = 1;
+            nome = jNome3.getText();
+            email = jEmail3.getText();
+            numCel = jContato3.getText();
+            endereco = jEndereco3.getText();
+            tipoID = jTipoID3.getSelectedIndex();
+            ID = jID3.getText();
+            float valorSalario = Float.parseFloat(jSalario.getText());
+            float comissaoLoc = Float.parseFloat(jComissao.getText());
+            novo = new Locador(valorSalario, comissaoLoc, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+        }
+
+        case 3 -> {
+            idUsuario = 1;
+            nome = jNome4.getText();
+            email = jEmail4.getText();
+            numCel = jContato4.getText();
+            endereco = jEndereco4.getText();
+            tipoID = jTipoID4.getSelectedIndex();
+            ID = jID4.getText();
+            float valorSalario = Float.parseFloat(jValorSalario.getText());
+            float comissaoVenda = Float.parseFloat(jComissaoVenda.getText());
+            novo = new Vendedor(valorSalario, comissaoVenda, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+        }
+    }
+    return novo;
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCadastrar;

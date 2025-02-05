@@ -111,8 +111,4 @@ public interface Interface extends Remote {
 
     public Usuario buscarUsuario(String nomeOuID) throws RemoteException;
 
-    public void Redefinir(JPanel panel) throws RemoteException;
-
-    public boolean VerificarVazio(JPanel panel) throws RemoteException;
-
 }

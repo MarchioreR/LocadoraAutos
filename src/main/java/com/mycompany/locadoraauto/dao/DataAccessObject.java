@@ -14,6 +14,7 @@ import com.mycompany.locadoraauto.models.Vendedor;
 import com.mycompany.locadoraauto.enums.TipoVeiculo;
 import com.mycompany.locadoraauto.enums.TipoStatus;
 import com.mycompany.locadoraauto.models.Contrato;
+import com.mycompany.locadoraauto.models.Obtencao;
 import com.mycompany.locadoraauto.models.RegistroFinanceiro;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -209,6 +210,39 @@ public class DataAccessObject {
         }
     }
 
+    public static void adicionarVendedor(Vendedor vendedor) {
+        String sql = "INSERT INTO Usuario (nome, tipoID, ID, email, numCel, endereco) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlVendedor = "INSERT INTO Vendedor (idUsuario, valorSalario, comissaoVenda) VALUES (?, ?, ?)";
+
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmtUsuario = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); PreparedStatement stmtVendedor = conn.prepareStatement(sqlVendedor)) {
+
+            // Inserindo na tabela Usuario
+            stmtUsuario.setString(1, vendedor.getNome());
+            stmtUsuario.setString(2, vendedor.getTipoID().name()); // Enum convertido para String
+            stmtUsuario.setString(3, vendedor.getID());
+            stmtUsuario.setString(4, vendedor.getEmail());
+            stmtUsuario.setString(5, vendedor.getNumCel());
+            stmtUsuario.setString(6, vendedor.getEndereco());
+            stmtUsuario.executeUpdate();
+
+            // Obtendo o ID gerado para o usuário
+            var rs = stmtUsuario.getGeneratedKeys();
+            if (rs.next()) {
+                int idUsuario = rs.getInt(1);
+
+                // Inserindo na tabela Vendedor
+                stmtVendedor.setInt(1, idUsuario);
+                stmtVendedor.setFloat(2, vendedor.getValorSalario());
+                stmtVendedor.setFloat(3, vendedor.getComissaoVenda());
+                stmtVendedor.executeUpdate();
+            }
+
+            System.out.println("Vendedor cadastrado com sucesso!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void inserirVenda(int idAutomovel, int idVendedor, double valorVenda) throws SQLException {
         Connection conn = FactoryConnection.createConnection();
         String sql = "INSERT INTO Venda (id_automovel, id_vendedor, valor_venda) VALUES (?, ?, ?)";
@@ -220,16 +254,56 @@ public class DataAccessObject {
         }
     }
 
-    public static void inserirAutos(int idAutomovel, String modelo, String placa, TipoVeiculo tipoveic, float valordia, TipoStatus status) throws SQLException {
-        Connection conn = FactoryConnection.createConnection();
-        String sql = "INSERT INTO Automovel (modelo, placa, tipo_veiculo, valor_dia, status) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, modelo);
-            stmt.setString(2, placa);
-            stmt.setString(3, tipoveic.getDescricao());
-            stmt.setBigDecimal(4, BigDecimal.valueOf(valordia));
-            stmt.setString(5, status.getDescricao());
+    public static void adicionarAutomovel(Automovel automovel) {
+        String sql = "INSERT INTO Automovel (modelo, placa, tipoVeic, valorDia, status) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, automovel.getModelo());
+            stmt.setString(2, automovel.getPlaca());
+            stmt.setString(3, automovel.getTipoVeic().name()); // Enum convertido para String
+            stmt.setFloat(4, automovel.getValorDia());
+            stmt.setString(5, automovel.getStatus().name()); // Enum convertido para String
+
             stmt.executeUpdate();
+            System.out.println("Automóvel cadastrado com sucesso!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void adicionarObtencao(Obtencao obtencao) {
+        String sql = "INSERT INTO Obtencao (idAutomovel, idMontadora, dataObt, valorObt) VALUES (?, ?, ?, ?)";
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, obtencao.getAutomovel().getIdAutomovel());
+            stmt.setInt(2, obtencao.getMontadora().getIdUsuario()); // Montadora herda de Usuario
+            stmt.setDate(3, new java.sql.Date(obtencao.getDataObt().getTime())); // Convertendo LocalDate para SQL Date
+            stmt.setFloat(4, obtencao.getValorObt());
+
+            stmt.executeUpdate();
+            System.out.println("Obtenção cadastrada com sucesso!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void adicionarRegistroFinanceiro(RegistroFinanceiro registro) {
+        String sql = "INSERT INTO RegistroFinanceiro (idAutomovel, valorCompra, valorVenda, valorDiaria, valorManutencao, valorTotal) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, registro.getAutomovel().getIdAutomovel());
+            stmt.setFloat(2, registro.getValorCompra());
+            stmt.setFloat(3, registro.getValorVenda());
+            stmt.setFloat(4, registro.getValorDiaria());
+            stmt.setFloat(5, registro.getValorManutencao());
+            stmt.setFloat(6, registro.getValorTotal());
+
+            stmt.executeUpdate();
+            System.out.println("Registro financeiro cadastrado com sucesso!");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
