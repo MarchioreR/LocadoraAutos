@@ -11,6 +11,7 @@ import com.mycompany.locadoraauto.enums.TipoID;
  * @author vitor
  */
 public class Usuario {
+
     private int idUsuario;
     private String nome;
     private TipoID tipoID;
@@ -20,17 +21,21 @@ public class Usuario {
     private String endereco;
 
     public Usuario() {
-        
+
     }
 
     public Usuario(int idUsuario, String nome, int tipoID, String ID, String email, String numCel, String endereco) {
         this.idUsuario = idUsuario;
         this.nome = nome;
         switch (tipoID) {
-            case 1 ->
+            case 1 -> {
                 this.tipoID = TipoID.CPF;
-            case 2 ->
+                break;
+            }
+            case 2 -> {
                 this.tipoID = TipoID.CNPJ;
+                break;
+            }
             default ->
                 throw new AssertionError();
         }
@@ -39,7 +44,6 @@ public class Usuario {
         this.numCel = numCel;
         this.endereco = endereco;
     }
-    
 
     /**
      * @return the nome
@@ -54,7 +58,7 @@ public class Usuario {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
     /**
      * @return the email
      */
@@ -96,9 +100,9 @@ public class Usuario {
     public void setTipoID(TipoID tipoID) {
         this.tipoID = tipoID;
     }
-    
-    public void ImprimirUsuario(){
-        System.out.println(" Nome: " + getNome() + "\n " + getTipoID().name() + ": " + getID()+ "\n Email: " + email + "\n Celular:" + numCel + "\n Endereço: " + getEndereco());
+
+    public void ImprimirUsuario() {
+        System.out.println(" Nome: " + getNome() + "\n " + getTipoID().name() + ": " + getID() + "\n Email: " + email + "\n Celular:" + numCel + "\n Endereço: " + getEndereco());
     }
 
     /**

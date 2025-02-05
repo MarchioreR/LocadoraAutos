@@ -21,7 +21,7 @@ public final class Automovel {
     private TipoStatus status;
 
     public Automovel() {
-        
+
     }
 
     public Automovel(int idAutomovel, String modelo, String placa, int tipoveiculo, float valorDia, int tipostatus) {
@@ -29,28 +29,39 @@ public final class Automovel {
         this.modelo = modelo;
         this.placa = placa;
         switch (tipoveiculo) {
-            case 1 ->
+            case 1 -> {
                 tipoVeic = TipoVeiculo.HIBRIDO;
-            case 2 ->
+                break;
+            }
+            case 2 -> {
                 tipoVeic = TipoVeiculo.ELETRICO;
-            case 3 ->
+                break;
+            }
+            case 3 -> {
                 tipoVeic = TipoVeiculo.COMBUSTAO;
+                break;
+            }
             default ->
                 throw new AssertionError();
         }
         this.valorDia = valorDia;
         switch (tipostatus) {
-            case 1 ->
+            case 1 -> {
                 status = TipoStatus.DISPONIVEL;
-            case 2 ->
+                break;
+            }
+            case 2 -> {
                 status = TipoStatus.INDISPONIVEL;
-            case 3 ->
+                break;
+            }
+            case 3 -> {
                 status = TipoStatus.MANUTENCAO;
+                break;
+            }
             default ->
                 throw new AssertionError();
         }
     }
-
 
     /**
      * @return the idAutomovel

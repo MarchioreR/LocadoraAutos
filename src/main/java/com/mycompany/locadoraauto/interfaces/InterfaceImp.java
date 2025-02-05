@@ -23,9 +23,12 @@ import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of the remote interface. Provides methods to manage various entities in the system.
@@ -309,100 +312,20 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         return seguro;
     }
 
-    public void CriarContrato(int currentID) {
-        Scanner scan = new Scanner(System.in);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        dateFormat.setLenient(false);
+    public void CriarContrato(int currentID, Alugador alugador, Locador locador, Seguro seguro, float valorContrato, Automovel automovel) throws RemoteException {
+        int idContrato = currentID;
+        LocalDate dataIn = LocalDate.now();
+        LocalDate dataTer = LocalDate.now().plusDays(3);
 
-        Seguro seguro = null;
-        int idContrato = currentID, idxA, idxL, idxC;
-        Date dataIn = null;
-        Date dataTer = null;
-        float valorContrato;
-        String aux;
-        System.out.println("Cadastrar Contrato:");
-
-        do {
-            System.out.println("Insira a data do início do contrato(formato dd/MM/yyyy)): ");
-            aux = scan.nextLine();
-            try {
-                // Parse the input string into a Date object
-                dataIn = dateFormat.parse(aux);
-            } catch (ParseException e) {
-                System.out.println("Formato de data Inválido. Use dd/MM/yyyy.");
-            }
-        } while (dataIn == null);
-
-        do {
-            System.out.println("Insira a data do fim do contrato(formato dd/MM/yyyy)): ");
-            aux = scan.nextLine();
-            try {
-                // Parse the input string into a Date object
-                dataTer = dateFormat.parse(aux);
-            } catch (ParseException e) {
-                System.out.println("Formato de data Inválido. Use dd/MM/yyyy.");
-            }
-        } while (dataTer == null);
-
-        System.out.println("Valor do Contrato: ");
-        valorContrato = scan.nextFloat();
-
-        System.out.println("Escolha do Automóvel:");
-        idxA = BuscarAutomovel();
-
-        System.out.println("Escolha do Locador:");
-        idxL = BuscarLocador();
-
-        System.out.println("Escolha do Alugador:");
-        idxC = BuscarAlugador();
-
-        Usuario usuarioC = usuarios.get(idxC);
-        Alugador alugador = (Alugador) usuarioC;
-
-        Usuario usuarioL = usuarios.get(idxL);
-        Locador locador = (Locador) usuarioL;
-
-        seguro = CriarSeguro();
-
-        Contrato contrato = new Contrato(idContrato, alugador, dataIn, dataTer, valorContrato, locador, automoveis.get(idxA));
+        Contrato contrato = new Contrato(idContrato, alugador, dataIn, dataTer, valorContrato, locador, automovel);
         contrato.setSeguro(seguro);
         contratos.add(contrato);
         System.out.println("Contrato criado");
     }
 
-    public void CriarObtencao(int currentID) {
-        Date dataObt = null;
-        int idxA, idxM;
-        float valorObt;
-        String aux;
-        Scanner scan = new Scanner(System.in);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        dateFormat.setLenient(false);
-
-        do {
-            System.out.println("Insira a data do início do contrato(formato dd/MM/yyyy)): ");
-            aux = scan.nextLine();
-            try {
-                // Parse the input string into a Date object
-                dataObt = dateFormat.parse(aux);
-            } catch (ParseException e) {
-                System.out.println("Formato de data Inválido. Use dd/MM/yyyy.");
-            }
-        } while (dataObt == null);
-
-        System.out.println("Insira o valor da compra: ");
-        valorObt = scan.nextFloat();
-
-        System.out.println("Escolha do Automóvel:");
-        idxA = BuscarAutomovel();
-
-        System.out.println("Escolha da Montadora:");
-        idxM = BuscarMontadora();
-
-        Usuario usuarioM = usuarios.get(idxM);
-        Montadora montadora = (Montadora) usuarioM;
-
-        Obtencao obtencao = new Obtencao(currentID, automoveis.get(idxA), montadora, dataObt, valorObt);
+    public void CriarObtencao(int currentID, Automovel automovel, Montadora montadora, float valorObt) throws RemoteException {
+        Date dataObt = new Date();
+        Obtencao obtencao = new Obtencao(currentID, automovel, montadora, dataObt, valorObt);
         obtencoes.add(obtencao);
     }
 
@@ -1074,8 +997,8 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         Alugador alug = contratos.get(idx).getAlugador();
         Locador loca = contratos.get(idx).getLocador();
         Seguro seguro = contratos.get(idx).getSeguro();
-        Date dataIn = contratos.get(idx).getDataIn();
-        Date dataTer = contratos.get(idx).getDataTer();
+        LocalDate dataIn = contratos.get(idx).getDataIn();
+        LocalDate dataTer = contratos.get(idx).getDataTer();
         float valorContrato = contratos.get(idx).getValorContrato();
 
         System.out.println("Contrato " + idx + "\n\nID: " + idContrato + "\nData Início: " + dataIn.toString() + "     Data Fim: " + dataTer.toString());
@@ -1147,6 +1070,11 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         int id = automoveis.size() - 1;
         return id;
     }
+    
+    public int ContratoAtual() throws RemoteException {
+        int id = contratos.size() - 1;
+        return id;
+    }
 
     public synchronized boolean Devolver(int id) throws RemoteException {
         if (id <= automoveis.size() && automoveis.get(id).getStatus() == TipoStatus.INDISPONIVEL) {
@@ -1165,8 +1093,29 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
             return false;
         }
     }
-    
-    public ArrayList<Automovel> PassarAutomoveis() throws RemoteException{
+
+    public ArrayList<Automovel> PassarAutomoveis() throws RemoteException {
         return automoveis;
+    }
+
+    public Automovel GetAutoAtPOS(int idx) throws RemoteException {
+        return automoveis.get(idx);
+    }
+
+    public Usuario buscarUsuario(String nomeOuID) throws RemoteException {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getNome().equalsIgnoreCase(nomeOuID) || usuario.getID().equals(nomeOuID)) {
+                return usuario; // Retorna o primeiro usuário encontrado
+            }
+        }
+        return null; // Retorna null se nenhum usuário for encontrado
+    }
+
+    public Usuario GetLocAtPOS(int idx) throws RemoteException {
+        if (idx < usuarios.size() && idx >= 0) {
+            return usuarios.get(idx);
+        }
+        return null;
+
     }
 }

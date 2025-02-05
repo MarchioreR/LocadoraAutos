@@ -4,6 +4,7 @@
  */
 package com.mycompany.locadoraauto.models;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -11,16 +12,17 @@ import java.util.Date;
  * @author vitor
  */
 public class Contrato {
+
     private int idContrato;
     private Alugador alugador;
     private Locador locador;
     private Automovel automovel;
     private Seguro seguro;
-    private Date dataIn;
-    private Date dataTer;
+    private LocalDate dataIn;
+    private LocalDate dataTer;
     private float valorContrato;
 
-    public Contrato(int idContrato, Alugador alugador, Date dataIn, Date dataTer, float valorContrato, Locador locador, Automovel automovel) {
+    public Contrato(int idContrato, Alugador alugador, LocalDate dataIn, LocalDate dataTer, float valorContrato, Locador locador, Automovel automovel) {
         this.idContrato = idContrato;
         this.alugador = alugador;
         this.locador = locador;
@@ -43,32 +45,32 @@ public class Contrato {
     public void setIdContrato(int idContrato) {
         this.idContrato = idContrato;
     }
-    
+
     /**
      * @return the dataIn
      */
-    public Date getDataIn() {
+    public LocalDate getDataIn() {
         return dataIn;
     }
 
     /**
      * @param dataIn the dataIn to set
      */
-    public void setDataIn(Date dataIn) {
+    public void setDataIn(LocalDate dataIn) {
         this.dataIn = dataIn;
     }
 
     /**
      * @return the dataTer
      */
-    public Date getDataTer() {
+    public LocalDate getDataTer() {
         return dataTer;
     }
 
     /**
      * @param dataTer the dataTer to set
      */
-    public void setDataTer(Date dataTer) {
+    public void setDataTer(LocalDate dataTer) {
         this.dataTer = dataTer;
     }
 
@@ -142,5 +144,4 @@ public class Contrato {
         this.automovel = automovel;
     }
 
-    
 }

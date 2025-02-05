@@ -13,8 +13,10 @@ import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.models.Vendedor;
 import com.mycompany.locadoraauto.enums.TipoVeiculo;
 import com.mycompany.locadoraauto.enums.TipoStatus;
+import com.mycompany.locadoraauto.models.Contrato;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -150,15 +152,23 @@ public class DataAccessObject {
 
     }
 
-    public static void inserirContrato(int idAlugador, int idSeguro, String dataInicio, String dataTermino, double valorContrato) throws SQLException {
+    /*id INT AUTO_INCREMENT PRIMARY KEY,
+    id_alugador INT,
+    id_seguro INT,
+    data_inicio DATE NOT NULL,
+    data_termino DATE NOT NULL,
+    valor_contrato DECIMAL(10, 2),
+    FOREIGN KEY (id_alugador) REFERENCES Alugador(id),
+    FOREIGN KEY (id_seguro) REFERENCES Seguro(id)*/
+    public static void inserirContrato(Contrato cont) throws SQLException {
         Connection conn = FactoryConnection.createConnection();
-        String sql = "INSERT INTO Contrato (id_alugador, id_seguro, data_inicio, data_termino, valor_contrato) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Contrato (id_alugador, seguro, data_inicio, data_termino, valor_contrato) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idAlugador);
-            stmt.setInt(2, idSeguro);
-            stmt.setString(3, dataInicio);
-            stmt.setString(4, dataTermino);
-            stmt.setDouble(5, valorContrato);
+            stmt.setInt(1, cont.getAlugador().getIdUsuario());
+            stmt.setString(2, cont.getSeguro().getTipoSeguro().getDescricao());
+            stmt.setDate(3, Date.valueOf(cont.getDataIn()));
+            stmt.setDate(4, Date.valueOf(cont.getDataTer()));
+            stmt.setDouble(5, cont.getValorContrato());
             stmt.executeUpdate();
         }
     }

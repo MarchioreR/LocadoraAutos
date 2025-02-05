@@ -8,6 +8,11 @@ import javax.swing.JOptionPane;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.controller.Controller;
+import com.mycompany.locadoraauto.interfaces.InterfaceImp;
+import com.mycompany.locadoraauto.models.Alugador;
+import com.mycompany.locadoraauto.models.Locador;
+import com.mycompany.locadoraauto.models.Seguro;
+import com.mycompany.locadoraauto.models.Usuario;
 import java.awt.Component;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
@@ -20,7 +25,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author vitor
@@ -29,6 +33,7 @@ public class jLocacao extends javax.swing.JDialog {
 
     private Interface Locadora;
     private Controller control;
+
     /**
      * Creates new form jLocacao
      */
@@ -39,6 +44,8 @@ public class jLocacao extends javax.swing.JDialog {
         jScrollPane1 = new JScrollPane();
         this.Locadora = Locadora;
         initComponents();
+        jButton2.setVisible(false);
+        jToggleFound.setSelected(false);
     }
 
     /**
@@ -59,6 +66,17 @@ public class jLocacao extends javax.swing.JDialog {
         jAlugar = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jComboBusca = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jTextBusca = new javax.swing.JTextField();
+        jToggleFound = new javax.swing.JToggleButton();
+        jButtonBuscar = new javax.swing.JButton();
+        jTextLocador = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jComboSeguro = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -77,7 +95,7 @@ public class jLocacao extends javax.swing.JDialog {
         );
         jPanelVazioLayout.setVerticalGroup(
             jPanelVazioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+            .addGap(0, 459, Short.MAX_VALUE)
         );
 
         jPanel1.add(jPanelVazio, "card4");
@@ -127,7 +145,7 @@ public class jLocacao extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(182, Short.MAX_VALUE))
+                .addContainerGap(324, Short.MAX_VALUE))
         );
 
         jPanel1.add(jDevolucao, "card3");
@@ -151,18 +169,105 @@ public class jLocacao extends javax.swing.JDialog {
         });
         jTable1.setFillsViewportHeight(true);
         jTable1.setRowHeight(40);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Selecione o automóvel a ser alugado");
+
+        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButton2.setText("Alugar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jComboBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBusca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "ID" }));
+
+        jLabel4.setText("Buscar Cliente");
+
+        jButtonBuscar.setText("Buscar");
+        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarActionPerformed(evt);
+            }
+        });
+
+        jTextLocador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel5.setText("ID Locador");
+
+        jComboSeguro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboSeguro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Avancado", "Intermediario", "Basico" }));
+
+        jLabel6.setText("Seguro");
 
         javax.swing.GroupLayout jAlugarLayout = new javax.swing.GroupLayout(jAlugar);
         jAlugar.setLayout(jAlugarLayout);
         jAlugarLayout.setHorizontalGroup(
             jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
+            .addGroup(jAlugarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jAlugarLayout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))
+                    .addGroup(jAlugarLayout.createSequentialGroup()
+                        .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jAlugarLayout.createSequentialGroup()
+                                .addComponent(jComboBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(283, 283, 283)
+                                .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextLocador, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(29, 29, 29)
+                                .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboSeguro, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jAlugarLayout.createSequentialGroup()
+                        .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jAlugarLayout.createSequentialGroup()
+                                .addComponent(jTextBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jToggleFound, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButtonBuscar))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jAlugarLayout.setVerticalGroup(
             jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jAlugarLayout.createSequentialGroup()
-                .addGap(0, 106, Short.MAX_VALUE)
+                .addGap(14, 14, 14)
+                .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addGap(4, 4, 4)
+                .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jComboSeguro, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                    .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jTextLocador)
+                        .addComponent(jComboBusca, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToggleFound, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonBuscar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -231,8 +336,6 @@ public class jLocacao extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jIDContratoActionPerformed
 
-    
-
     public boolean VerificarVazio(JPanel panel) {
         boolean vazio = false;
 
@@ -277,14 +380,83 @@ public class jLocacao extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (VerificarVazio(jAlugar)) {
+            return;
+        }
+        int idContrato = 0;
+        try {
+            idContrato = Locadora.ContratoAtual();
+        } catch (RemoteException ex) {
+            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String busca = jTextBusca.getText();
+        Locador locador = null;
+        Automovel auto = null;
+        Alugador alug = null;
+        Seguro seguro = new Seguro(jComboSeguro.getSelectedIndex());
+
+        try {
+            locador = (Locador) Locadora.buscarUsuario(busca);
+        } catch (RemoteException ex) {
+            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        int a = (int) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        try {
+            auto = Locadora.GetAutoAtPOS(a);
+        } catch (RemoteException ex) {
+            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            alug = (Alugador) Locadora.buscarUsuario(busca);
+        } catch (RemoteException ex) {
+            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            Locadora.CriarContrato(idContrato, alug, locador, seguro, auto.getValorDia(), auto);
+        } catch (RemoteException ex) {
+            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+        // TODO add your handling code here:
+        String busca = jTextBusca.getText();
+        Usuario user = null;
+        boolean valor = false;
+        try {
+            user = Locadora.buscarUsuario(busca);
+        } catch (RemoteException ex) {
+            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (user == null) {
+            valor = true;
+            jToggleFound.setText(valor ? "Encontrado" : "");
+            jButton2.setVisible(true);
+        }
+    }//GEN-LAST:event_jButtonBuscarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jAlugar;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonBuscar;
+    private javax.swing.JComboBox<String> jComboBusca;
+    private javax.swing.JComboBox<String> jComboSeguro;
     private javax.swing.JPanel jDevolucao;
     private javax.swing.JTextField jIDCliente;
     private javax.swing.JTextField jIDContrato;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -294,5 +466,8 @@ public class jLocacao extends javax.swing.JDialog {
     private javax.swing.JPanel jPanelVazio;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextBusca;
+    private javax.swing.JTextField jTextLocador;
+    private javax.swing.JToggleButton jToggleFound;
     // End of variables declaration//GEN-END:variables
 }

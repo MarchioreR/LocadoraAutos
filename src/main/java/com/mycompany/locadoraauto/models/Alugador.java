@@ -51,7 +51,7 @@ public class Alugador extends Usuario {
     public void setGenero(String genero) {
         this.genero = genero;
     }
-    
+
     @Override
     public void ImprimirUsuario() {
         super.ImprimirUsuario();

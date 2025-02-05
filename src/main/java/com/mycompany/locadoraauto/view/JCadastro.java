@@ -4,6 +4,7 @@
  */
 package com.mycompany.locadoraauto.view;
 
+import com.mycompany.locadoraauto.dao.DataAccessObject;
 import com.mycompany.locadoraauto.enums.TipoID;
 import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.interfaces.Interface;
@@ -31,12 +32,14 @@ import javax.swing.JTextField;
 public class JCadastro extends javax.swing.JDialog {
 
     private Interface Locadora;
+    private DataAccessObject dao;
 
     /**
      * Creates new form JCadastro
      */
     public JCadastro(java.awt.Frame parent, boolean modal, Interface Locadora) {
         super(parent, modal);
+        dao = new DataAccessObject();
         this.Locadora = Locadora;
         initComponents();
     }
@@ -127,7 +130,7 @@ public class JCadastro extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jComboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Cliente", "Locador", "Vendedor", "Montadora" }));
+        jComboTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Cliente", "Locador", "Vendedor" }));
         jComboTipo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboTipoActionPerformed(evt);
@@ -760,7 +763,8 @@ public class JCadastro extends javax.swing.JDialog {
 
         try {
             Usuario user = getFields(tipo);
-        } catch (RemoteException ex) {
+            dao.insertUsuario(user);
+        } catch (RemoteException | SQLException ex) {
             Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
         dispose();

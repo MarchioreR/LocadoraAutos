@@ -13,6 +13,7 @@ import com.mycompany.locadoraauto.models.Montadora;
 import com.mycompany.locadoraauto.models.Usuario;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -300,7 +301,12 @@ public class JVenda extends javax.swing.JDialog {
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConfirmarActionPerformed
-        int idUsuario;
+        int idUsuario = 0;
+        try {
+            idUsuario = Locadora.UsuarioAtual();
+        } catch (RemoteException ex) {
+            Logger.getLogger(JVenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             idUsuario = Locadora.UsuarioAtual();
         } catch (RemoteException ex) {
@@ -310,10 +316,11 @@ public class JVenda extends javax.swing.JDialog {
         int tipoID;
         String ID;
         String numCel;
+        Automovel novo = null;
         Usuario user = null;
         try {
             // TODO add your handling code here:
-            Automovel novo = getFieldsAuto();
+            novo = getFieldsAuto();
             control.InserirAuto(novo, Float.parseFloat(jValorCompra.getText()));
             idUsuario = 1;
             nome = jMontadora.getText();
@@ -322,6 +329,12 @@ public class JVenda extends javax.swing.JDialog {
             ID = jID2.getText();
             user = new Montadora("a", "a", idUsuario, nome, tipoID, ID, "a", numCel, "a");
         } catch (RemoteException | SQLException ex) {
+            Logger.getLogger(JVenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            //int currentID, Automovel automovel, Montadora montadora, float valorObt
+            Locadora.CriarObtencao(idUsuario, novo, (Montadora) user, Float.parseFloat(jValorCompra.getText()));
+        } catch (RemoteException ex) {
             Logger.getLogger(JVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jConfirmarActionPerformed

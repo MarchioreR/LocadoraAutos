@@ -11,12 +11,37 @@ import com.mycompany.locadoraauto.enums.TipoSeguro;
  * @author vitor
  */
 public class Seguro {
+
     private TipoSeguro tipoSeguro; //CRIAR ENUM
     private float valorSeguro;
     private String seguradora;
 
     public Seguro() {
 
+    }
+
+    public Seguro(int tipoSeguro) {
+        switch (tipoSeguro) {
+            case 1 -> {
+                this.tipoSeguro = TipoSeguro.AVANCADO;
+                this.valorSeguro = 50;
+                break;
+            }
+            case 2 -> {
+                this.tipoSeguro = TipoSeguro.INTERMEDIARIO;
+                this.valorSeguro = 30;
+                break;
+            }
+            case 3 -> {
+                this.tipoSeguro = TipoSeguro.BASICO;
+                this.valorSeguro = 15;
+                break;
+            }
+            default ->
+                throw new AssertionError();
+        }
+        
+        this.seguradora = "Seguradora";
     }
 
     /**
@@ -60,8 +85,8 @@ public class Seguro {
     public void setTipoSeguro(TipoSeguro tipoSeguro) {
         this.tipoSeguro = tipoSeguro;
     }
-    
-    public void ImprimirSeguro(){
+
+    public void ImprimirSeguro() {
         System.out.println(" Seguradora: " + getSeguradora() + "\n Tipo: " + getTipoSeguro().name() + "\n Valor: " + getValorSeguro());
     }
 }
