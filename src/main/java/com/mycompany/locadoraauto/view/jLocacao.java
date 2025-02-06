@@ -34,22 +34,27 @@ import javax.swing.table.DefaultTableModel;
 public class jLocacao extends javax.swing.JDialog {
 
     private Interface Locadora;
+    ArrayList<Automovel> automoveis;
+    DefaultTableModel model;
 
     /**
      * Creates new form jLocacao
      */
-    public jLocacao(java.awt.Frame parent, boolean modal, Interface Locadora) throws RemoteException, SQLException {
+    public jLocacao(java.awt.Frame parent, boolean modal, Interface Locadora, ArrayList<Automovel> automoveis) throws RemoteException, SQLException {
         super(parent, modal);
         jTable1 = new JTable();
         jScrollPane1 = new JScrollPane();
         this.Locadora = Locadora;
         initComponents();
+        model = new DefaultTableModel(new String[]{"Modelo", "Tipo", "Valor Diaria", "Status"}, 0);
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
         try {
             Locadora = (Interface) r.lookup("Ola");
+            System.out.println("OLA");
         } catch (NotBoundException | AccessException ex) {
             Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
+        this.automoveis = automoveis;
         jButton2.setVisible(false);
         jToggleFound.setSelected(false);
     }
@@ -337,7 +342,7 @@ public class jLocacao extends javax.swing.JDialog {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         try {
             try {
-                Locadora.AddDataCad(jTable1, jScrollPane1);
+                Locadora.AddDataCad(jTable1, jScrollPane1, automoveis);
             } catch (RemoteException ex) {
                 Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -465,6 +470,32 @@ public class jLocacao extends javax.swing.JDialog {
             jButton2.setVisible(true);
         }
     }//GEN-LAST:event_jButtonBuscarActionPerformed
+
+    public void AddDataCad(JTable jTable1, JScrollPane jScrollPane1) {
+        jTable1.setModel(model);
+        jScrollPane1.setViewportView(jTable1);
+
+        try {
+            String[] linha = new String[4]; // Array to hold data for each row
+            Automovel aux = null; // Temporary variable to hold each Automovel object
+
+            // Loop through the ArrayList of Automovel objects
+            for (int i = 0; i < automoveis.size(); i++) {
+                aux = automoveis.get(i); // Get the current Automovel object
+
+                // Populate the row with data from the Automovel object
+                linha[0] = aux.getModelo(); // modelo
+                linha[1] = aux.getTipoVeic().getDescricao(); // tipo_veiculo (enum value as String)
+                linha[2] = String.valueOf(aux.getValorDia()); // valor_dia (converted to String)
+                linha[3] = aux.getStatus().getDescricao(); // status (enum value as String)
+
+                // Add the row to the JTable model
+                model.addRow(linha);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
         // TODO add your handling code here:

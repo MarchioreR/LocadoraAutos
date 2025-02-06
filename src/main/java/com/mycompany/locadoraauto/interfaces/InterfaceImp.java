@@ -26,6 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -46,7 +47,6 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     private ArrayList<Obtencao> obtencoes = new ArrayList<>();
     private ArrayList<Usuario> usuarios = new ArrayList<>();
     DefaultTableModel model;
-
     // Constructor
     public InterfaceImp() throws RemoteException {
         super(); // Call the parent class constructor
@@ -78,11 +78,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     public void CriarRegistro(RegistroFinanceiro r) throws RemoteException {
         registros.add(r);
 
-        try {
-            inserirRegistroFinanceiro(r);
-        } catch (SQLException ex) {
-            Logger.getLogger(InterfaceImp.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        adicionarRegistroFinanceiro(r);
     }
 
     public int UsuarioAtual() throws RemoteException {
@@ -283,12 +279,15 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     public void inserirContrato(Contrato cont) throws SQLException, RemoteException {
         Connection conn = FactoryConnection.createConnection();
+        Date DataIn = Date.from(cont.getDataIn().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date DataTer = Date.from(cont.getDataTer().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
         String sql = "INSERT INTO Contrato (id_alugador, seguro, data_inicio, data_termino, valor_contrato) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, cont.getAlugador().getIdUsuario());
             stmt.setString(2, cont.getSeguro().getTipoSeguro().getDescricao());
-            stmt.setDate(3, java.sql.Date.valueOf(cont.getDataIn()));
-            stmt.setDate(4, java.sql.Date.valueOf(cont.getDataTer()));
+            stmt.setDate(3, new java.sql.Date(DataIn.getTime()));
+            stmt.setDate(4, new java.sql.Date(DataTer.getTime()));
             stmt.setDouble(5, cont.getValorContrato());
             stmt.executeUpdate();
         }
@@ -307,11 +306,11 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     public void inserirObtencao(Obtencao obt) throws SQLException, RemoteException {
         Connection conn = FactoryConnection.createConnection();
-        String sql = "INSERT INTO Obtencao (id_automovel, id_montadora, data_obtencao, valor_obtencao) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Obtencao (idautomovel, idmontadora, dataobt, valorobt) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, obt.getAutomovel().getIdAutomovel());
             stmt.setInt(2, obt.getMontadora().getIdUsuario());
-            stmt.setDate(3, (java.sql.Date) obt.getDataObt());
+            stmt.setDate(3, new java.sql.Date(obt.getDataObt().getTime()));
             stmt.setDouble(4, obt.getValorObt());
             stmt.executeUpdate();
         }
@@ -319,7 +318,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     public void inserirRegistroFinanceiro(RegistroFinanceiro r) throws SQLException, RemoteException {
         Connection conn = FactoryConnection.createConnection();
-        String sql = "INSERT INTO RegistroFinanceiro (id_automovel, valor_compra, valor_venda, valor_diaria, valor_manutencao, valor_total) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO RegistroFinanceiro (idautomovel, valorcompra, valorvenda, valordiaria, valormanutencao, valortotal) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, r.getAutomovel().getIdAutomovel());
             stmt.setDouble(2, r.getValorCompra());
@@ -333,7 +332,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     public void inserirSeguro(String tipoSeguro, double valorSeguro, String seguradora) throws SQLException, RemoteException {
         Connection conn = FactoryConnection.createConnection();
-        String sql = "INSERT INTO Seguro (tipo_seguro, valor_seguro, seguradora) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Seguro (tiposeguro, valorseguro, seguradora) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, tipoSeguro);
             stmt.setDouble(2, valorSeguro);
@@ -376,9 +375,9 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     public void adicionarMontadora(Montadora mont) throws RemoteException {
         String sql = "INSERT INTO Usuario (nome, tipoID, ID, email, numCel, endereco) VALUES (?, ?, ?, ?, ?, ?)";
-        String sqlVendedor = "INSERT INTO Vendedor (idUsuario, website, paisOrigem) VALUES (?, ?, ?)";
+        String sqlMontadora = "INSERT INTO Montadora (idUsuario, website, paisOrigem) VALUES (?, ?, ?)";
 
-        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmtUsuario = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); PreparedStatement stmtVendedor = conn.prepareStatement(sqlVendedor)) {
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmtUsuario = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); PreparedStatement stmtMontadora = conn.prepareStatement(sqlMontadora)) {
 
             // Inserindo na tabela Usuario
             stmtUsuario.setString(1, mont.getNome());
@@ -395,10 +394,10 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                 int idUsuario = rs.getInt(1);
 
                 // Inserindo na tabela Vendedor
-                stmtVendedor.setInt(1, idUsuario);
-                stmtVendedor.setString(2, mont.getWebsite());
-                stmtVendedor.setString(3, mont.getPaisOrigem());
-                stmtVendedor.executeUpdate();
+                stmtMontadora.setInt(1, idUsuario);
+                stmtMontadora.setString(2, mont.getWebsite());
+                stmtMontadora.setString(3, mont.getPaisOrigem());
+                stmtMontadora.executeUpdate();
             }
 
             System.out.println("Vendedor cadastrado com sucesso!");
@@ -408,7 +407,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     public void inserirVenda(int idAutomovel, int idVendedor, double valorVenda) throws RemoteException, SQLException {
         Connection conn = FactoryConnection.createConnection();
-        String sql = "INSERT INTO Venda (id_automovel, id_vendedor, valor_venda) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Venda (idautomovel, idvendedor, valorvenda) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idAutomovel);
             stmt.setInt(2, idVendedor);
@@ -499,8 +498,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     //
     ///
     //
-    public void AddDataCad(JTable jTable1, JScrollPane jScrollPane1) throws SQLException, RemoteException {
-        ArrayList<Automovel> novalista = listarAutomoveis();
+    public void AddDataCad(JTable jTable1, JScrollPane jScrollPane1,  ArrayList<Automovel> novalista) throws SQLException, RemoteException {
         jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 

@@ -37,6 +37,7 @@ public class JCadastro extends javax.swing.JDialog {
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
         try {
             Locadora = (Interface) r.lookup("Ola");
+            System.out.println("OLA");
         } catch (NotBoundException | AccessException ex) {
             Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }

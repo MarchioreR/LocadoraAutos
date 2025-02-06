@@ -89,5 +89,5 @@ public interface Interface extends Remote {
 
     public void InserirAuto(Automovel novo) throws SQLException, RemoteException;
 
-    public void AddDataCad(JTable jTable1, JScrollPane jScrollPane1) throws SQLException, RemoteException;
+    public void AddDataCad(JTable jTable1, JScrollPane jScrollPane1, ArrayList<Automovel> novalista) throws SQLException, RemoteException;
 }

@@ -39,6 +39,7 @@ public class JTransacao extends javax.swing.JDialog {
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
         try {
             Locadora = (Interface) r.lookup("Ola");
+            System.out.println("OLA");
         } catch (NotBoundException | AccessException ex) {
             Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -344,21 +345,15 @@ public class JTransacao extends javax.swing.JDialog {
             if (component instanceof JTextField textField) {
                 if (textField.getText().trim().isEmpty()) { // Check if the field is empty
                     vazio = true;
+                    System.out.println("VAZIO");
                     break; // Exit loop if an empty field is found
                 }
             }
         }
-        if (vazio == false) {
+        if (vazio == true) {
             return;
         }
-        int idUsuario = 0;
-        int idRegistro = 0;
         RegistroFinanceiro r = null;
-        try {
-            idUsuario = Locadora.UsuarioAtual();
-        } catch (RemoteException ex) {
-            Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
         Automovel novo = null;
         Montadora user = null;
@@ -375,10 +370,10 @@ public class JTransacao extends javax.swing.JDialog {
         } catch (RemoteException | SQLException ex) {
             Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        LocalDate data = LocalDate.now();
+        /*LocalDate data = LocalDate.now();
         Date dataI = Date.from(data.atStartOfDay(ZoneId.systemDefault()).toInstant());
         //int currentID, Automovel automovel, Montadora montadora, float valorObt
-        Obtencao obt = new Obtencao(idUsuario, novo, user, dataI, valorC);
+        Obtencao obt = new Obtencao(user.getIdUsuario(), novo, user, dataI, valorC);
         try {
             try {
                 Locadora.inserirObtencao(obt);
@@ -387,8 +382,8 @@ public class JTransacao extends javax.swing.JDialog {
             }
         } catch (SQLException ex) {
             Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        }*/
+        dispose();
     }//GEN-LAST:event_jConfirmarActionPerformed
 
     private void jID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jID2ActionPerformed

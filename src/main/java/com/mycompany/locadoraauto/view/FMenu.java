@@ -6,12 +6,14 @@ package com.mycompany.locadoraauto.view;
 
 import com.mycompany.locadoraauto.util.UtilityView;
 import com.mycompany.locadoraauto.interfaces.Interface;
+import com.mycompany.locadoraauto.models.Automovel;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,22 +28,25 @@ public class FMenu extends javax.swing.JFrame {
     private jLocacao jloc;
     private JTransacao jtra;
     private Interface Locadora;
-    private UtilityView util;
+    ArrayList<Automovel> automoveis = new ArrayList<>();
 
     public FMenu(Interface Locadora) throws RemoteException {
         this.Locadora = Locadora;
-        boolean menu = false;
+        boolean menu = true;
         initComponents();
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
         try {
             Locadora = (Interface) r.lookup("Ola");
+            System.out.println("OLA");
         } catch (NotBoundException | AccessException ex) {
             Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jButtonCompra.setEnabled(false);
-        jButtonCont.setEnabled(false);
-        jButtonLoc.setEnabled(false);
-        jButtonReg.setEnabled(false);
+        Locadora.listarAutomoveis();
+        automoveis = Locadora.listarAutomoveis();
+        jButtonCompra.setEnabled(menu);
+        jButtonCont.setEnabled(menu);
+        jButtonLoc.setEnabled(menu);
+        jButtonReg.setEnabled(menu);
     }
 
     /**
@@ -173,7 +178,7 @@ public class FMenu extends javax.swing.JFrame {
 
     private void jButtonLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLocActionPerformed
         try {
-            jloc = new jLocacao(this, true, Locadora);
+            jloc = new jLocacao(this, true, Locadora, automoveis);
         } catch (RemoteException | SQLException ex) {
             Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
