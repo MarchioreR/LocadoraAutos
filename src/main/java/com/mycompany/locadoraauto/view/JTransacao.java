@@ -357,7 +357,7 @@ public class JTransacao extends javax.swing.JDialog {
         } catch (RemoteException ex) {
             Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         Automovel novo = null;
         Montadora user = null;
         float valorC = Float.parseFloat(jValorCompra.getText());

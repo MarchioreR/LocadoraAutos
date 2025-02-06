@@ -50,6 +50,6 @@ public interface Interface extends Remote {
 
     public Usuario buscarUsuario(String nomeOuID) throws RemoteException;
 
-    public void CriarMontadora(Montadora user);
+    public void CriarMontadora(Montadora user) throws RemoteException;
 
 }

@@ -157,7 +157,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     }
 
     @Override
-    public void CriarMontadora(Montadora user) {
+    public void CriarMontadora(Montadora user) throws RemoteException {
         usuarios.add(user);
 
         DataAccessObject.adicionarMontadora(user);
