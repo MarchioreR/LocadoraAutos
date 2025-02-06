@@ -6,6 +6,7 @@ package com.mycompany.locadoraauto;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.interfaces.InterfaceImp;
 import java.net.MalformedURLException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -19,19 +20,16 @@ import java.util.logging.Logger;
  */
 public class LocadoraAuto {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AlreadyBoundException {
         try {
 
             Interface ci = new InterfaceImp();
-            String nome = "rmi://26.210.206.180/LocadoraAuto";
             System.out.println("Registrando objeto no RMI Registry...");
-            LocateRegistry.createRegistry(1099);
-            Naming.rebind(nome, ci);
+            Registry registry = LocateRegistry.createRegistry(1099);
+            registry.bind("Ola", ci);
             System.out.println("Servidor pronto.");
 
         } catch (RemoteException e) {
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(LocadoraAuto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

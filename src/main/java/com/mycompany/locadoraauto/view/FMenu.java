@@ -5,13 +5,15 @@
 package com.mycompany.locadoraauto.view;
 
 import com.mycompany.locadoraauto.util.UtilityView;
-import com.mycompany.locadoraauto.controller.Controller;
 import com.mycompany.locadoraauto.interfaces.Interface;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JMenuItem;
 
 /**
  *
@@ -25,13 +27,17 @@ public class FMenu extends javax.swing.JFrame {
     private JTransacao jtra;
     private Interface Locadora;
     private UtilityView util;
-    private Controller control;
 
-    public FMenu(Interface Locadora) {
+    public FMenu(Interface Locadora) throws RemoteException {
         this.Locadora = Locadora;
-        control = new Controller();
         boolean menu = false;
         initComponents();
+        Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
+        try {
+            Locadora = (Interface) r.lookup("Ola");
+        } catch (NotBoundException | AccessException ex) {
+            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jButtonCompra.setEnabled(false);
         jButtonCont.setEnabled(false);
         jButtonLoc.setEnabled(false);
@@ -180,12 +186,20 @@ public class FMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButtonContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonContActionPerformed
-        dcad = new JCadastro(this, true, Locadora);
+        try {
+            dcad = new JCadastro(this, true, Locadora);
+        } catch (RemoteException ex) {
+            Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         dcad.setVisible(true);
     }//GEN-LAST:event_jButtonContActionPerformed
 
     private void jButtonCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompraActionPerformed
-        jtra = new JTransacao(this, true, Locadora, control);
+        try {
+            jtra = new JTransacao(this, true, Locadora);
+        } catch (RemoteException ex) {
+            Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jtra.setVisible(true);
     }//GEN-LAST:event_jButtonCompraActionPerformed
 

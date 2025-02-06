@@ -4,26 +4,21 @@
  */
 package com.mycompany.locadoraauto.view;
 
-import com.mycompany.locadoraauto.dao.DataAccessObject;
-import com.mycompany.locadoraauto.enums.TipoID;
-import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Alugador;
 import com.mycompany.locadoraauto.models.Locador;
-import com.mycompany.locadoraauto.models.Montadora;
 import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.models.Vendedor;
 import com.mycompany.locadoraauto.util.UtilityView;
 import java.awt.Component;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.SQLException;
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
@@ -33,15 +28,19 @@ import javax.swing.JTextField;
 public class JCadastro extends javax.swing.JDialog {
 
     private Interface Locadora;
-    private DataAccessObject dao;
     private UtilityView util;
 
     /**
      * Creates new form JCadastro
      */
-    public JCadastro(java.awt.Frame parent, boolean modal, Interface Locadora) {
+    public JCadastro(java.awt.Frame parent, boolean modal, Interface Locadora) throws RemoteException {
+        Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
+        try {
+            Locadora = (Interface) r.lookup("Ola");
+        } catch (NotBoundException | AccessException ex) {
+            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
         super(parent, modal);
-        dao = new DataAccessObject();
         this.Locadora = Locadora;
         initComponents();
     }
@@ -801,7 +800,7 @@ public class JCadastro extends javax.swing.JDialog {
 
         try {
             Usuario user = getFields(tipo);
-            DataAccessObject.insertUsuario(user);
+            Locadora.insertUsuario(user);
         } catch (RemoteException | SQLException ex) {
             Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }

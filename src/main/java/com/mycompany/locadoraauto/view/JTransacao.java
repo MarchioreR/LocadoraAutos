@@ -4,22 +4,21 @@
  */
 package com.mycompany.locadoraauto.view;
 
-import com.mycompany.locadoraauto.controller.Controller;
-import com.mycompany.locadoraauto.dao.DataAccessObject;
-import com.mycompany.locadoraauto.enums.TipoID;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.models.Montadora;
 import com.mycompany.locadoraauto.models.Obtencao;
 import com.mycompany.locadoraauto.models.RegistroFinanceiro;
-import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.util.UtilityView;
 import java.awt.Component;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import static java.time.temporal.TemporalQueries.localDate;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,14 +31,17 @@ import javax.swing.JTextField;
 public class JTransacao extends javax.swing.JDialog {
 
     private Interface Locadora;
-    private Controller control;
-    private UtilityView util;
 
     /**
      * Creates new form JVenda
      */
-    public JTransacao(java.awt.Frame parent, boolean modal, Interface Locadora, Controller control) {
-        this.control = control;
+    public JTransacao(java.awt.Frame parent, boolean modal, Interface Locadora) throws RemoteException {
+        Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
+        try {
+            Locadora = (Interface) r.lookup("Ola");
+        } catch (NotBoundException | AccessException ex) {
+            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
         super(parent, modal);
         this.Locadora = Locadora;
 
@@ -357,7 +359,7 @@ public class JTransacao extends javax.swing.JDialog {
         } catch (RemoteException ex) {
             Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         Automovel novo = null;
         Montadora user = null;
         float valorC = Float.parseFloat(jValorCompra.getText());
@@ -368,11 +370,9 @@ public class JTransacao extends javax.swing.JDialog {
             r = getFieldsR(novo, valorC);
             Locadora.CriarMontadora(user);
             Locadora.CriarRegistro(r);
-            control.InserirAuto(novo);
+            Locadora.InserirAuto(novo);
 
-        } catch (RemoteException ex) {
-            Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (RemoteException | SQLException ex) {
             Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
         LocalDate data = LocalDate.now();
@@ -380,10 +380,15 @@ public class JTransacao extends javax.swing.JDialog {
         //int currentID, Automovel automovel, Montadora montadora, float valorObt
         Obtencao obt = new Obtencao(idUsuario, novo, user, dataI, valorC);
         try {
-            DataAccessObject.inserirObtencao(obt);
+            try {
+                Locadora.inserirObtencao(obt);
+            } catch (RemoteException ex) {
+                Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }//GEN-LAST:event_jConfirmarActionPerformed
 
     private void jID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jID2ActionPerformed

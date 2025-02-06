@@ -7,14 +7,16 @@ package com.mycompany.locadoraauto.view;
 import javax.swing.JOptionPane;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Automovel;
-import com.mycompany.locadoraauto.controller.Controller;
-import com.mycompany.locadoraauto.interfaces.InterfaceImp;
 import com.mycompany.locadoraauto.models.Alugador;
 import com.mycompany.locadoraauto.models.Locador;
 import com.mycompany.locadoraauto.models.Seguro;
 import com.mycompany.locadoraauto.models.Usuario;
 import java.awt.Component;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -32,18 +34,22 @@ import javax.swing.table.DefaultTableModel;
 public class jLocacao extends javax.swing.JDialog {
 
     private Interface Locadora;
-    private Controller control;
 
     /**
      * Creates new form jLocacao
      */
     public jLocacao(java.awt.Frame parent, boolean modal, Interface Locadora) throws RemoteException, SQLException {
         super(parent, modal);
-        control = new Controller();
         jTable1 = new JTable();
         jScrollPane1 = new JScrollPane();
         this.Locadora = Locadora;
         initComponents();
+        Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
+        try {
+            Locadora = (Interface) r.lookup("Ola");
+        } catch (NotBoundException | AccessException ex) {
+            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jButton2.setVisible(false);
         jToggleFound.setSelected(false);
     }
@@ -330,7 +336,11 @@ public class jLocacao extends javax.swing.JDialog {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         try {
-            control.AddDataCad(jTable1, jScrollPane1);
+            try {
+                Locadora.AddDataCad(jTable1, jScrollPane1);
+            } catch (RemoteException ex) {
+                Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
