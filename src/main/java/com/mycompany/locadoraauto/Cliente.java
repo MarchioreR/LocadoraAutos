@@ -17,13 +17,6 @@ import java.util.Scanner;
  *
  * @author VITOR MARCHIORE LOPES
  */
-// Trabalho está incompleto, não consegui fazer funcionar o RMI, 
-// a interface está incompleta e há algum problema ao cadastrar objetos.
-// Infelizmente o código foi feito apenas por mim, 
-// a minha dupla João Vitor não foi de muita ajuda na codificação, 
-// mas trocamos algumas ideias no processo de estruturação do projeto,
-// foram só algumas ideias pois é fácil de perceber que o código está uma bagunça
-// pois queria fazer muitas coisas ao mesmo simultaneamente com pouco tempo
 public class Cliente {
 
     public static void main(String[] args) {
