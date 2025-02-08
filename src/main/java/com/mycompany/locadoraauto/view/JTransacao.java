@@ -76,7 +76,6 @@ public class JTransacao extends javax.swing.JDialog {
         jMontadora = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jTipoID2 = new javax.swing.JComboBox<>();
         jLabel31 = new javax.swing.JLabel();
         jID2 = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
@@ -150,13 +149,6 @@ public class JTransacao extends javax.swing.JDialog {
 
         jLabel26.setText(" ");
 
-        jTipoID2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CNPJ" }));
-        jTipoID2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTipoID2ActionPerformed(evt);
-            }
-        });
-
         jLabel31.setText("Identificacao");
 
         jID2.addActionListener(new java.awt.event.ActionListener() {
@@ -181,8 +173,6 @@ public class JTransacao extends javax.swing.JDialog {
                         .addGap(110, 110, 110))
                     .addGroup(jPaneCompraLayout.createSequentialGroup()
                         .addGroup(jPaneCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPaneCompraLayout.createSequentialGroup()
                                 .addGroup(jPaneCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -197,19 +187,20 @@ public class JTransacao extends javax.swing.JDialog {
                                         .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGap(49, 49, 49)
                                 .addGroup(jPaneCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jContato2)
                                     .addGroup(jPaneCompraLayout.createSequentialGroup()
                                         .addGroup(jPaneCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPaneCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jLabel26)
-                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jMontadora)
-                                                .addComponent(jTipoID2, 0, 180, Short.MAX_VALUE))
                                             .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jID2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addContainerGap(225, Short.MAX_VALUE))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel26))
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPaneCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jContato2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jMontadora, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(218, Short.MAX_VALUE))))
         );
         jPaneCompraLayout.setVerticalGroup(
             jPaneCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,9 +233,7 @@ public class JTransacao extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPaneCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jID2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
                         .addGap(12, 12, 12)
@@ -256,14 +245,19 @@ public class JTransacao extends javax.swing.JDialog {
                     .addGroup(jPaneCompraLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jLabel30)
-                        .addGap(7, 7, 7)
-                        .addComponent(jContato2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(11, 11, 11)
-                        .addComponent(jLabel26)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTipoID2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel31)))
+                        .addGroup(jPaneCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPaneCompraLayout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addComponent(jLabel26))
+                            .addGroup(jPaneCompraLayout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(jContato2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPaneCompraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPaneCompraLayout.createSequentialGroup()
+                                        .addGap(20, 20, 20)
+                                        .addComponent(jID2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel31))))))
                 .addContainerGap(155, Short.MAX_VALUE))
         );
 
@@ -364,8 +358,8 @@ public class JTransacao extends javax.swing.JDialog {
             user = getFieldsM();
             r = getFieldsR(novo, valorC);
             Locadora.CriarMontadora(user);
-            Locadora.CriarRegistro(r);
             Locadora.InserirAuto(novo);
+            Locadora.CriarRegistro(r);
 
         } catch (RemoteException | SQLException ex) {
             Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
@@ -430,10 +424,6 @@ public class JTransacao extends javax.swing.JDialog {
         jPanel1.revalidate();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jTipoID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTipoID2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTipoID2ActionPerformed
-
     public Automovel getFieldsAuto() throws RemoteException {
         int idAuto = Locadora.AutoAtual();
         String modelo = jModelo.getText();
@@ -478,7 +468,6 @@ public class JTransacao extends javax.swing.JDialog {
     private javax.swing.JPanel jPaneVenda;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jPlaca;
-    private javax.swing.JComboBox<String> jTipoID2;
     private javax.swing.JTextField jValorCompra;
     private javax.swing.JTextField jValorDiaria;
     // End of variables declaration//GEN-END:variables

@@ -7,6 +7,8 @@ package com.mycompany.locadoraauto.view;
 import com.mycompany.locadoraauto.util.UtilityView;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Automovel;
+import com.mycompany.locadoraauto.models.RegistroFinanceiro;
+import com.mycompany.locadoraauto.models.Usuario;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -29,6 +31,7 @@ public class FMenu extends javax.swing.JFrame {
     private JTransacao jtra;
     private Interface Locadora;
     ArrayList<Automovel> automoveis = new ArrayList<>();
+    ArrayList<Usuario> usuarios = new ArrayList<>();
 
     public FMenu(Interface Locadora) throws RemoteException {
         this.Locadora = Locadora;
@@ -41,7 +44,7 @@ public class FMenu extends javax.swing.JFrame {
         } catch (NotBoundException | AccessException ex) {
             Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Locadora.listarAutomoveis();
+        usuarios = Locadora.listarUsuarios();
         automoveis = Locadora.listarAutomoveis();
         jButtonCompra.setEnabled(menu);
         jButtonCont.setEnabled(menu);
@@ -192,7 +195,7 @@ public class FMenu extends javax.swing.JFrame {
 
     private void jButtonContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonContActionPerformed
         try {
-            dcad = new JCadastro(this, true, Locadora);
+            dcad = new JCadastro(this, true, Locadora, usuarios);
         } catch (RemoteException ex) {
             Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
         }

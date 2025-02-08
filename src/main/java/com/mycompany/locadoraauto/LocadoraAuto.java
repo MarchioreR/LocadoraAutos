@@ -5,14 +5,10 @@ package com.mycompany.locadoraauto;
 
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.interfaces.InterfaceImp;
-import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

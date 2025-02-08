@@ -19,14 +19,21 @@ import java.util.Scanner;
  */
 public class Cliente {
 
+    public Cliente() {
+        
+    }
+
+
     public static void main(String[] args) {
         try {
             Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
-            Interface Locadora = (Interface) r.lookup("Ola");
+            Interface locadora = (Interface) r.lookup("Ola");
             System.out.println("OLA");
-            FMenu x = new FMenu(Locadora);
+            FMenu x = new FMenu(locadora);
             x.setVisible(true);
         } catch (NotBoundException | RemoteException e) {
+
         }
+
     }
 }

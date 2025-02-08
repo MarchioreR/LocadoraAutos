@@ -13,15 +13,11 @@ import com.mycompany.locadoraauto.models.Obtencao;
 import com.mycompany.locadoraauto.models.RegistroFinanceiro;
 import com.mycompany.locadoraauto.models.Seguro;
 import com.mycompany.locadoraauto.models.Usuario;
-import com.mycompany.locadoraauto.models.Venda;
 import com.mycompany.locadoraauto.models.Vendedor;
-import java.rmi.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -58,6 +54,8 @@ public interface Interface extends Remote {
     public void CriarMontadora(Montadora montadora) throws RemoteException;
 
     public ArrayList<Automovel> listarAutomoveis() throws RemoteException;
+
+    public ArrayList<Usuario> listarUsuarios() throws RemoteException;
 
     public void adicionarRegistroFinanceiro(RegistroFinanceiro registro) throws RemoteException;
 

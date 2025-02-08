@@ -5,6 +5,7 @@
 package com.mycompany.locadoraauto.interfaces;
 
 import com.mycompany.locadoraauto.dao.FactoryConnection;
+import com.mycompany.locadoraauto.enums.TipoID;
 import com.mycompany.locadoraauto.enums.TipoStatus;
 import com.mycompany.locadoraauto.enums.TipoVeiculo;
 import com.mycompany.locadoraauto.models.Alugador;
@@ -47,6 +48,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     private ArrayList<Obtencao> obtencoes = new ArrayList<>();
     private ArrayList<Usuario> usuarios = new ArrayList<>();
     DefaultTableModel model;
+
     // Constructor
     public InterfaceImp() throws RemoteException {
         super(); // Call the parent class constructor
@@ -145,10 +147,10 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     }
 
     // DAO
-    ///
-    ///
     //
-    ///
+    //
+    //
+    //
     //
     //
     //
@@ -226,6 +228,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     public void insertUsuario(Usuario usuario) throws SQLException, RemoteException {
         String sqlUsuario = "INSERT INTO Usuario (nome, tipo_id, identi, email, num_cel, endereco) VALUES (?, ?, ?, ?, ?, ?, ?)";
         String sqlSpecific = "";
+        String nome = usuario.getNome();
         Connection conn = FactoryConnection.createConnection();
         if (usuario instanceof Alugador) {
             sqlSpecific = "INSERT INTO Alugador (idade, genero) VALUES (?, ?)";
@@ -240,8 +243,8 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         try (conn; PreparedStatement pstmtUsuario = conn.prepareStatement(sqlUsuario); PreparedStatement pstmtSpecific = conn.prepareStatement(sqlSpecific)) {
 
             // Insert into Usuario table
-            pstmtUsuario.setString(1, usuario.getNome());
-            pstmtUsuario.setString(2, usuario.getTipoID().name());
+            pstmtUsuario.setString(1, nome);
+            pstmtUsuario.setString(2, usuario.getTipoID().getDescricao());
             pstmtUsuario.setString(3, usuario.getID());
             pstmtUsuario.setString(4, usuario.getEmail());
             pstmtUsuario.setString(5, usuario.getNumCel());
@@ -453,7 +456,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
         try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, registro.getAutomovel().getIdAutomovel());
+            stmt.setInt(1, (registro.getAutomovel().getIdAutomovel() + 1));
             stmt.setFloat(2, registro.getValorCompra());
             stmt.setFloat(3, registro.getValorVenda());
             stmt.setFloat(4, registro.getValorDiaria());
@@ -464,6 +467,32 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
             System.out.println("Registro financeiro cadastrado com sucesso!");
         } catch (SQLException e) {
         }
+    }
+
+    public ArrayList<Usuario> listarUsuarios() throws RemoteException {
+        ArrayList<Usuario> novalista = new ArrayList<>();
+        String sql = "SELECT * FROM Usuario", enom;
+        TipoID tp;
+
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Usuario user = new Usuario();
+                user.setIdUsuario(rs.getInt("idUsuario"));
+                enom = rs.getString("tipoID");
+                tp = TipoID.valueOf(enom);
+                user.setTipoID(tp);
+                user.setID(rs.getString("ID"));
+                user.setEmail(rs.getString("email"));
+                user.setNumCel(rs.getString("numCel"));
+                user.setEndereco(rs.getString("endereco"));
+
+                novalista.add(user);
+            }
+
+        } catch (SQLException e) {
+        }
+        return novalista;
     }
 
     public ArrayList<Automovel> listarAutomoveis() throws RemoteException {
@@ -498,7 +527,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     //
     ///
     //
-    public void AddDataCad(JTable jTable1, JScrollPane jScrollPane1,  ArrayList<Automovel> novalista) throws SQLException, RemoteException {
+    public void AddDataCad(JTable jTable1, JScrollPane jScrollPane1, ArrayList<Automovel> novalista) throws SQLException, RemoteException {
         jTable1.setModel(model);
         jScrollPane1.setViewportView(jTable1);
 

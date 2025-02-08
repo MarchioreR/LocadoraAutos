@@ -55,7 +55,7 @@ public class jLocacao extends javax.swing.JDialog {
             Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.automoveis = automoveis;
-        jButton2.setVisible(false);
+        jConfirmAluga.setVisible(false);
         jToggleFound.setSelected(false);
     }
 
@@ -79,7 +79,7 @@ public class jLocacao extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        jConfirmAluga = new javax.swing.JButton();
         jComboBusca = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jTextBusca = new javax.swing.JTextField();
@@ -198,11 +198,11 @@ public class jLocacao extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Selecione o automóvel a ser alugado");
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton2.setText("Alugar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jConfirmAluga.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jConfirmAluga.setText("Alugar");
+        jConfirmAluga.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jConfirmAlugaActionPerformed(evt);
             }
         });
 
@@ -238,7 +238,7 @@ public class jLocacao extends javax.swing.JDialog {
                     .addGroup(jAlugarLayout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jConfirmAluga, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30))
                     .addGroup(jAlugarLayout.createSequentialGroup()
                         .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,7 +268,7 @@ public class jLocacao extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jAlugarLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jConfirmAluga, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
@@ -414,7 +414,7 @@ public class jLocacao extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jConfirmAlugaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConfirmAlugaActionPerformed
         if (VerificarVazio(jAlugar)) {
             return;
         }
@@ -452,7 +452,7 @@ public class jLocacao extends javax.swing.JDialog {
         } catch (RemoteException ex) {
             Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jConfirmAlugaActionPerformed
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
@@ -467,7 +467,7 @@ public class jLocacao extends javax.swing.JDialog {
         if (user == null) {
             valor = true;
             jToggleFound.setText(valor ? "Encontrado" : "");
-            jButton2.setVisible(true);
+            jConfirmAluga.setVisible(true);
         }
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
@@ -505,11 +505,11 @@ public class jLocacao extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jAlugar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JComboBox<String> jComboBusca;
     private javax.swing.JComboBox<String> jComboSeguro;
+    private javax.swing.JButton jConfirmAluga;
     private javax.swing.JPanel jDevolucao;
     private javax.swing.JTextField jIDCliente;
     private javax.swing.JTextField jIDContrato;

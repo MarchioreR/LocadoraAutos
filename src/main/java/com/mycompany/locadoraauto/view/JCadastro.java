@@ -17,6 +17,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextField;
@@ -29,11 +30,12 @@ public class JCadastro extends javax.swing.JDialog {
 
     private Interface Locadora;
     private UtilityView util;
+    ArrayList<Usuario> usuarios = new ArrayList<>();
 
     /**
      * Creates new form JCadastro
      */
-    public JCadastro(java.awt.Frame parent, boolean modal, Interface Locadora) throws RemoteException {
+    public JCadastro(java.awt.Frame parent, boolean modal, Interface Locadora, ArrayList<Usuario> usuarios) throws RemoteException {
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
         try {
             Locadora = (Interface) r.lookup("Ola");
@@ -801,11 +803,19 @@ public class JCadastro extends javax.swing.JDialog {
 
         try {
             Usuario user = getFields(tipo);
+            usuarios.add(user);
             Locadora.insertUsuario(user);
         } catch (RemoteException | SQLException ex) {
             Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
-        dispose();
+        try {
+            util.Redefinir(jPanel2);
+        } catch (RemoteException ex) {
+            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jComboTipo.setEditable(true);
+        jComboTipo.setEnabled(true);
+        jButtonTipo.setEnabled(true);
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
 
     private void jValorSalarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jValorSalarioActionPerformed
@@ -813,54 +823,67 @@ public class JCadastro extends javax.swing.JDialog {
     }//GEN-LAST:event_jValorSalarioActionPerformed
 
     private Usuario getFields(int tipoItem) throws RemoteException {
-        int idUsuario = Locadora.UsuarioAtual();
-        String nome;
-        int tipoID;
-        String ID;
-        String email;
-        String numCel;
-        String endereco;
+        int user = Locadora.UsuarioAtual();
         Usuario novo = null;
         switch (tipoItem) {
             case 1 -> {
-                idUsuario = 1;
-                nome = jNome1.getText();
-                email = jEmail1.getText();
-                numCel = jContato1.getText();
-                endereco = jEndereco1.getText();
-                tipoID = jTipoID1.getSelectedIndex();
-                ID = jID1.getText();
-                int idade = Integer.parseInt(jIdade.getText());
-                String genero = jGenero.getText();
-                novo = new Alugador(idade, genero, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+                novo = NovoAlugador(user);
             }
 
             case 2 -> {
-                idUsuario = 1;
-                nome = jNome3.getText();
-                email = jEmail3.getText();
-                numCel = jContato3.getText();
-                endereco = jEndereco3.getText();
-                tipoID = jTipoID3.getSelectedIndex();
-                ID = jID3.getText();
-                float valorSalario = Float.parseFloat(jSalario.getText());
-                float comissaoLoc = Float.parseFloat(jComissao.getText());
-                novo = new Locador(valorSalario, comissaoLoc, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+                novo = NovoLocador(user);
             }
 
             case 3 -> {
-                idUsuario = 1;
-                nome = jNome4.getText();
-                email = jEmail4.getText();
-                numCel = jContato4.getText();
-                endereco = jEndereco4.getText();
-                tipoID = jTipoID4.getSelectedIndex();
-                ID = jID4.getText();
-                float valorSalario = Float.parseFloat(jValorSalario.getText());
-                float comissaoVenda = Float.parseFloat(jComissaoVenda.getText());
-                novo = new Vendedor(valorSalario, comissaoVenda, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+                novo = NovoVendedor(user);
             }
         }
+        return novo;
+    }
+
+    private ArrayList<Usuario> RetornarListaUsers() {
+        return usuarios;
+    }
+
+    private Alugador NovoAlugador(int iduser) throws RemoteException {
+        int idUsuario = iduser;
+        String nome = jNome1.getText();
+        String email = jEmail1.getText();
+        String numCel = jContato1.getText();
+        String endereco = jEndereco1.getText();
+        int tipoID = jTipoID1.getSelectedIndex();
+        String ID = jID1.getText();
+        int idade = Integer.parseInt(jIdade.getText());
+        String genero = jGenero.getText();
+        Alugador novo = new Alugador(idade, genero, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+        return novo;
+    }
+
+    private Locador NovoLocador(int iduser) throws RemoteException {
+        int idUsuario = iduser;
+        String nome = jNome3.getText();
+        String email = jEmail3.getText();
+        String numCel = jContato3.getText();
+        String endereco = jEndereco3.getText();
+        int tipoID = jTipoID3.getSelectedIndex();
+        String ID = jID3.getText();
+        float valorSalario = Float.parseFloat(jSalario.getText());
+        float comissaoLoc = Float.parseFloat(jComissao.getText());
+        Locador novo = new Locador(valorSalario, comissaoLoc, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+        return novo;
+    }
+
+    private Vendedor NovoVendedor(int iduser) throws RemoteException {
+        int idUsuario = iduser;
+        String nome = jNome4.getText();
+        String email = jEmail4.getText();
+        String numCel = jContato4.getText();
+        String endereco = jEndereco4.getText();
+        int tipoID = jTipoID4.getSelectedIndex();
+        String ID = jID4.getText();
+        float valorSalario = Float.parseFloat(jValorSalario.getText());
+        float comissaoVenda = Float.parseFloat(jComissaoVenda.getText());
+        Vendedor novo = new Vendedor(valorSalario, comissaoVenda, idUsuario, nome, tipoID, ID, email, numCel, endereco);
         return novo;
     }
 
