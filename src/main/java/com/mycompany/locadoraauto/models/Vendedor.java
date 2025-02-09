@@ -18,8 +18,8 @@ public class Vendedor extends Usuario {
     public Vendedor() {
     }
 
-    public Vendedor(float valorSalario, float comissaoVenda, int idUsuario, String nome, int tipoID, String ID, String email, String numCel, String endereco) {
-        super(idUsuario, nome, tipoID, ID, email, numCel, endereco);
+    public Vendedor(float valorSalario, float comissaoVenda, int idUsuario, String nome, String ID, String email, String numCel, String endereco) {
+        super(idUsuario, nome, 1, ID, email, numCel, endereco);
         this.valorSalario = valorSalario;
         this.comissaoVenda = comissaoVenda;
     }

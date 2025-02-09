@@ -4,8 +4,6 @@
  */
 package com.mycompany.locadoraauto.models;
 
-import com.mycompany.locadoraauto.enums.TipoID;
-
 /**
  *
  * @author vitor
@@ -18,8 +16,8 @@ public class Alugador extends Usuario {
     public Alugador() {
     }
 
-    public Alugador(int idade, String genero, int idUsuario, String nome, int tipoID, String ID, String email, String numCel, String endereco) {
-        super(idUsuario, nome, tipoID, ID, email, numCel, endereco);
+    public Alugador(int idade, String genero, int idUsuario, String nome, String ID, String email, String numCel, String endereco) {
+        super(idUsuario, nome, 1, ID, email, numCel, endereco);
         this.idade = idade;
         this.genero = genero;
     }

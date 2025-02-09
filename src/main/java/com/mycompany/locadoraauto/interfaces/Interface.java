@@ -57,6 +57,8 @@ public interface Interface extends Remote {
 
     public ArrayList<Usuario> listarUsuarios() throws RemoteException;
 
+    public ArrayList<RegistroFinanceiro> listarRegistros(ArrayList<Automovel> auto) throws RemoteException;
+
     public void adicionarRegistroFinanceiro(RegistroFinanceiro registro) throws RemoteException;
 
     public void adicionarObtencao(Obtencao obtencao) throws RemoteException;
@@ -68,6 +70,10 @@ public interface Interface extends Remote {
     public void adicionarMontadora(Montadora mont) throws RemoteException;
 
     public void adicionarVendedor(Vendedor vendedor) throws RemoteException;
+
+    public void adicionarAlugador(Alugador alug) throws RemoteException;
+
+    public void adicionarLocador(Locador loc) throws RemoteException;
 
     public void inserirSeguro(String tipoSeguro, double valorSeguro, String seguradora) throws SQLException, RemoteException;
 
@@ -88,4 +94,6 @@ public interface Interface extends Remote {
     public void InserirAuto(Automovel novo) throws SQLException, RemoteException;
 
     public void AddDataCad(JTable jTable1, JScrollPane jScrollPane1, ArrayList<Automovel> novalista) throws SQLException, RemoteException;
+
+    public void AddDataRegistro(JTable jTable1, JScrollPane jScrollPane1, ArrayList<RegistroFinanceiro> novalista) throws SQLException, RemoteException;
 }

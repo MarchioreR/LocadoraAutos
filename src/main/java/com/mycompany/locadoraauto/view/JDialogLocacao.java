@@ -31,7 +31,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author vitor
  */
-public class jLocacao extends javax.swing.JDialog {
+public class JDialogLocacao extends javax.swing.JDialog {
 
     private Interface Locadora;
     ArrayList<Automovel> automoveis;
@@ -40,7 +40,7 @@ public class jLocacao extends javax.swing.JDialog {
     /**
      * Creates new form jLocacao
      */
-    public jLocacao(java.awt.Frame parent, boolean modal, Interface Locadora, ArrayList<Automovel> automoveis) throws RemoteException, SQLException {
+    public JDialogLocacao(java.awt.Frame parent, boolean modal, Interface Locadora, ArrayList<Automovel> automoveis) throws RemoteException, SQLException {
         super(parent, modal);
         jTable1 = new JTable();
         jScrollPane1 = new JScrollPane();
@@ -52,7 +52,7 @@ public class jLocacao extends javax.swing.JDialog {
             Locadora = (Interface) r.lookup("Ola");
             System.out.println("OLA");
         } catch (NotBoundException | AccessException ex) {
-            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.automoveis = automoveis;
         jConfirmAluga.setVisible(false);
@@ -344,10 +344,10 @@ public class jLocacao extends javax.swing.JDialog {
             try {
                 Locadora.AddDataCad(jTable1, jScrollPane1, automoveis);
             } catch (RemoteException ex) {
-                Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
         jPanel1.removeAll();
         jPanel1.add(jAlugar);
@@ -400,7 +400,7 @@ public class jLocacao extends javax.swing.JDialog {
                         dispose();
                     }
                 } catch (RemoteException ex) {
-                    Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             case JOptionPane.NO_OPTION ->
@@ -422,7 +422,7 @@ public class jLocacao extends javax.swing.JDialog {
         try {
             idContrato = Locadora.ContratoAtual();
         } catch (RemoteException ex) {
-            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
         String busca = jTextBusca.getText();
         Locador locador = null;
@@ -433,24 +433,24 @@ public class jLocacao extends javax.swing.JDialog {
         try {
             locador = (Locador) Locadora.buscarUsuario(busca);
         } catch (RemoteException ex) {
-            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         int a = (int) jTable1.getValueAt(jTable1.getSelectedRow(), 0);
         try {
             auto = Locadora.GetAutoAtPOS(a);
         } catch (RemoteException ex) {
-            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             alug = (Alugador) Locadora.buscarUsuario(busca);
         } catch (RemoteException ex) {
-            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             Locadora.CriarContrato(idContrato, alug, locador, seguro, auto.getValorDia(), auto);
         } catch (RemoteException ex) {
-            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jConfirmAlugaActionPerformed
 
@@ -462,7 +462,7 @@ public class jLocacao extends javax.swing.JDialog {
         try {
             user = Locadora.buscarUsuario(busca);
         } catch (RemoteException ex) {
-            Logger.getLogger(jLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (user == null) {
             valor = true;
@@ -493,7 +493,7 @@ public class jLocacao extends javax.swing.JDialog {
                 model.addRow(linha);
             }
         } catch (Exception ex) {
-            Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

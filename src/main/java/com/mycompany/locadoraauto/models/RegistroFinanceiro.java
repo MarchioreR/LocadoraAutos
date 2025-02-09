@@ -30,6 +30,9 @@ public class RegistroFinanceiro implements Serializable {
         this.valorTotal = valorVenda + valorDiaria - valorManutencao - valorCompra;
     }
 
+    public RegistroFinanceiro() {
+    }
+
     /**
      * @return the idRegistro
      */

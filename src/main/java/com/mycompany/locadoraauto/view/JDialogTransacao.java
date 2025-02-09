@@ -22,30 +22,32 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
  *
  * @author vitor
  */
-public class JTransacao extends javax.swing.JDialog {
+public class JDialogTransacao extends javax.swing.JDialog {
 
     private Interface Locadora;
+    private UtilityView util;
 
     /**
      * Creates new form JVenda
      */
-    public JTransacao(java.awt.Frame parent, boolean modal, Interface Locadora) throws RemoteException {
+    public JDialogTransacao(java.awt.Frame parent, boolean modal, Interface Locadora) throws RemoteException {
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
         try {
             Locadora = (Interface) r.lookup("Ola");
             System.out.println("OLA");
         } catch (NotBoundException | AccessException ex) {
-            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
         super(parent, modal);
         this.Locadora = Locadora;
-
+        util = new UtilityView();
         initComponents();
     }
 
@@ -362,13 +364,13 @@ public class JTransacao extends javax.swing.JDialog {
             Locadora.CriarRegistro(r);
 
         } catch (RemoteException | SQLException ex) {
-            Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /*LocalDate data = LocalDate.now();
+        LocalDate data = LocalDate.now();
         Date dataI = Date.from(data.atStartOfDay(ZoneId.systemDefault()).toInstant());
         //int currentID, Automovel automovel, Montadora montadora, float valorObt
         Obtencao obt = new Obtencao(user.getIdUsuario(), novo, user, dataI, valorC);
-        try {
+        /*try {
             try {
                 Locadora.inserirObtencao(obt);
             } catch (RemoteException ex) {
@@ -377,7 +379,12 @@ public class JTransacao extends javax.swing.JDialog {
         } catch (SQLException ex) {
             Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-        dispose();
+        try {
+            util.Redefinir(jPaneCompra);
+        } catch (RemoteException ex) {
+            Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog(jPaneCompra, "Veiculo cadastrado", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jConfirmarActionPerformed
 
     private void jID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jID2ActionPerformed
@@ -404,7 +411,7 @@ public class JTransacao extends javax.swing.JDialog {
         try {
             idRegistro = Locadora.RegistroAtual();
         } catch (RemoteException ex) {
-            Logger.getLogger(JTransacao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogTransacao.class.getName()).log(Level.SEVERE, null, ex);
         }
         RegistroFinanceiro r = new RegistroFinanceiro(idRegistro, novo, valorC, 0, novo.getValorDia(), 0);
         return r;

@@ -17,8 +17,8 @@ public class Locador extends Usuario{
     public Locador() {
     }
 
-    public Locador(float valorSalario, float comissaoLoc, int idUsuario, String nome, int tipoID, String ID, String email, String numCel, String endereco) {
-        super(idUsuario, nome, tipoID, ID, email, numCel, endereco);
+    public Locador(float valorSalario, float comissaoLoc, int idUsuario, String nome, String ID, String email, String numCel, String endereco) {
+        super(idUsuario, nome, 1, ID, email, numCel, endereco);
         this.valorSalario = valorSalario;
         this.comissaoLoc = comissaoLoc;
     }

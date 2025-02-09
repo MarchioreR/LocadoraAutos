@@ -12,14 +12,14 @@ import javax.swing.JOptionPane;
  *
  * @author vitor
  */
-public class DLogin extends javax.swing.JDialog {
+public class JDialogLogin extends javax.swing.JDialog {
 
     private JButton loc;
     private JButton reg;
     private JButton comp;
     private JButton cont;
 
-    public DLogin(java.awt.Frame parent, boolean modal, JButton jloc, JButton jreg, JButton jcomp, JButton jcont) {
+    public JDialogLogin(java.awt.Frame parent, boolean modal, JButton jloc, JButton jreg, JButton jcomp, JButton jcont) {
         super(parent, modal);
         this.loc = jloc;
         this.reg = jreg;

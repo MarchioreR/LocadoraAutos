@@ -4,7 +4,6 @@
  */
 package com.mycompany.locadoraauto.view;
 
-import com.mycompany.locadoraauto.util.UtilityView;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.models.RegistroFinanceiro;
@@ -23,17 +22,19 @@ import java.util.logging.Logger;
  *
  * @author vitor
  */
-public class FMenu extends javax.swing.JFrame {
+public class JFrameMenu extends javax.swing.JFrame {
 
-    private JCadastro dcad;
-    private DLogin dlog;
-    private jLocacao jloc;
-    private JTransacao jtra;
+    private JDialogCadastro dcad;
+    private JDialogLogin dlog;
+    private JDialogLocacao jloc;
+    private JDialogTransacao jtra;
+    private JDialogRegistro jregi;
     private Interface Locadora;
     ArrayList<Automovel> automoveis = new ArrayList<>();
     ArrayList<Usuario> usuarios = new ArrayList<>();
+    ArrayList<RegistroFinanceiro> registro = new ArrayList<>();
 
-    public FMenu(Interface Locadora) throws RemoteException {
+    public JFrameMenu(Interface Locadora) throws RemoteException {
         this.Locadora = Locadora;
         boolean menu = true;
         initComponents();
@@ -42,14 +43,20 @@ public class FMenu extends javax.swing.JFrame {
             Locadora = (Interface) r.lookup("Ola");
             System.out.println("OLA");
         } catch (NotBoundException | AccessException ex) {
-            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
         usuarios = Locadora.listarUsuarios();
         automoveis = Locadora.listarAutomoveis();
+        registro = Locadora.listarRegistros(automoveis);
+
         jButtonCompra.setEnabled(menu);
         jButtonCont.setEnabled(menu);
         jButtonLoc.setEnabled(menu);
         jButtonReg.setEnabled(menu);
+
+        for (RegistroFinanceiro reg : registro) {
+            System.out.println(reg.getAutomovel().getModelo());
+        }
     }
 
     /**
@@ -181,38 +188,48 @@ public class FMenu extends javax.swing.JFrame {
 
     private void jButtonLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLocActionPerformed
         try {
-            jloc = new jLocacao(this, true, Locadora, automoveis);
+            jloc = new JDialogLocacao(this, true, Locadora, automoveis);
+            dlog.setLocationRelativeTo(null);
         } catch (RemoteException | SQLException ex) {
-            Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
         jloc.setVisible(true);
     }//GEN-LAST:event_jButtonLocActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        dlog = new DLogin(this, true, jButtonCompra, jButtonCont, jButtonLoc, jButtonReg);
+        dlog = new JDialogLogin(this, true, jButtonCompra, jButtonCont, jButtonLoc, jButtonReg);
+        dlog.setLocationRelativeTo(null);
         dlog.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButtonContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonContActionPerformed
         try {
-            dcad = new JCadastro(this, true, Locadora, usuarios);
+            dcad = new JDialogCadastro(this, true, Locadora, usuarios);
+            dcad.setLocationRelativeTo(null);
         } catch (RemoteException ex) {
-            Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
         dcad.setVisible(true);
     }//GEN-LAST:event_jButtonContActionPerformed
 
     private void jButtonCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompraActionPerformed
         try {
-            jtra = new JTransacao(this, true, Locadora);
+            jtra = new JDialogTransacao(this, true, Locadora);
+            jtra.setLocationRelativeTo(null);
         } catch (RemoteException ex) {
-            Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
         jtra.setVisible(true);
     }//GEN-LAST:event_jButtonCompraActionPerformed
 
     private void jButtonRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegActionPerformed
-        // TODO add your handling code here:
+        try {
+            jregi = new JDialogRegistro(this, true, Locadora, registro);
+            jregi.setLocationRelativeTo(null);
+        } catch (RemoteException ex) {
+            Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jregi.setVisible(true);
     }//GEN-LAST:event_jButtonRegActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

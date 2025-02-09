@@ -19,7 +19,7 @@ import com.mycompany.locadoraauto.models.Seguro;
 import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.models.Venda;
 import com.mycompany.locadoraauto.models.Vendedor;
-import com.mycompany.locadoraauto.view.FMenu;
+import com.mycompany.locadoraauto.view.JFrameMenu;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
@@ -131,7 +131,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     public Usuario buscarUsuario(String nomeOuID) throws RemoteException {
         for (Usuario usuario : usuarios) {
-            if (usuario.getNome().equalsIgnoreCase(nomeOuID) || usuario.getID().equals(nomeOuID)) {
+            if (usuario.getID().equals(nomeOuID) || usuario.getNome().equalsIgnoreCase(nomeOuID)) {
                 return usuario; // Retorna o primeiro usuário encontrado
             }
         }
@@ -184,7 +184,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                     if (rsAlugador.next()) {
                         String genero = rsAlugador.getString("genero");
                         int idade = rsAlugador.getInt("idade");
-                        usuario = new Alugador(idade, genero, id, nome, tipoId, identi, email, numCel, endereco);
+                        usuario = new Alugador(idade, genero, id, nome, identi, email, numCel, endereco);
                     }
                 }
 
@@ -193,7 +193,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                     if (rsLocador.next()) {
                         var valorSalario = rsLocador.getBigDecimal("valor_salario").floatValue();
                         var comissaoLoc = rsLocador.getBigDecimal("comissao_loc").floatValue();
-                        usuario = new Locador(valorSalario, comissaoLoc, id, nome, tipoId, identi, email, numCel, endereco);
+                        usuario = new Locador(valorSalario, comissaoLoc, id, nome, identi, email, numCel, endereco);
                     }
                 }
 
@@ -211,7 +211,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                     if (rsVendedor.next()) {
                         var valorSalario = rsVendedor.getBigDecimal("valor_salario").floatValue();
                         var comissaoVenda = rsVendedor.getBigDecimal("comissao_venda").floatValue();
-                        usuario = new Vendedor(valorSalario, comissaoVenda, id, nome, tipoId, identi, email, numCel, endereco);
+                        usuario = new Vendedor(valorSalario, comissaoVenda, id, nome, identi, email, numCel, endereco);
                     }
                 }
 
@@ -231,13 +231,13 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         String nome = usuario.getNome();
         Connection conn = FactoryConnection.createConnection();
         if (usuario instanceof Alugador) {
-            sqlSpecific = "INSERT INTO Alugador (idade, genero) VALUES (?, ?)";
+            sqlSpecific = "INSERT INTO Alugador (idusuario, idade, genero) VALUES (?, ?, ?)";
         } else if (usuario instanceof Locador) {
-            sqlSpecific = "INSERT INTO Locador (valor_salario, comissao_loc) VALUES (?, ?)";
+            sqlSpecific = "INSERT INTO Locador (idusuario, valor_salario, comissao_loc) VALUES (?, ?, ?)";
         } else if (usuario instanceof Montadora) {
-            sqlSpecific = "INSERT INTO Montadora (paisOrigem, website) VALUES (?, ?)";
+            sqlSpecific = "INSERT INTO Montadora (idusuario, paisOrigem, website) VALUES (?, ?, ?)";
         } else if (usuario instanceof Vendedor) {
-            sqlSpecific = "INSERT INTO Vendedor (valor_salario, comissao_venda) VALUES (?, ?";
+            sqlSpecific = "INSERT INTO Vendedor (idusuario, valor_salario, comissao_venda) VALUES (?, ?, ?)";
         }
 
         try (conn; PreparedStatement pstmtUsuario = conn.prepareStatement(sqlUsuario); PreparedStatement pstmtSpecific = conn.prepareStatement(sqlSpecific)) {
@@ -254,18 +254,22 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
             // Insert into specific table
             switch (usuario) {
                 case Alugador alugador -> {
+                    pstmtSpecific.setInt(1, (alugador.getIdUsuario() + 1));
                     pstmtSpecific.setInt(2, alugador.getIdade());
                     pstmtSpecific.setString(3, alugador.getGenero());
                 }
                 case Locador locador -> {
+                    pstmtSpecific.setInt(1, locador.getIdUsuario() + 1);
                     pstmtSpecific.setDouble(2, locador.getValorSalario());
                     pstmtSpecific.setDouble(3, locador.getComissaoLoc());
                 }
                 case Montadora montadora -> {
+                    pstmtSpecific.setInt(1, montadora.getIdUsuario() + 1);
                     pstmtSpecific.setString(2, montadora.getPaisOrigem());
                     pstmtSpecific.setString(3, montadora.getWebsite());
                 }
                 case Vendedor vendedor -> {
+                    pstmtSpecific.setInt(1, vendedor.getIdUsuario() + 1);
                     pstmtSpecific.setDouble(2, vendedor.getValorSalario());
                     pstmtSpecific.setDouble(3, vendedor.getComissaoVenda());
                 }
@@ -311,8 +315,8 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         Connection conn = FactoryConnection.createConnection();
         String sql = "INSERT INTO Obtencao (idautomovel, idmontadora, dataobt, valorobt) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, obt.getAutomovel().getIdAutomovel());
-            stmt.setInt(2, obt.getMontadora().getIdUsuario());
+            stmt.setInt(1, (obt.getAutomovel().getIdAutomovel() + 1));
+            stmt.setInt(2, (obt.getMontadora().getIdUsuario() + 1));
             stmt.setDate(3, new java.sql.Date(obt.getDataObt().getTime()));
             stmt.setDouble(4, obt.getValorObt());
             stmt.executeUpdate();
@@ -396,14 +400,78 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
             if (rs.next()) {
                 int idUsuario = rs.getInt(1);
 
-                // Inserindo na tabela Vendedor
+                // Inserindo na tabela Montadora
                 stmtMontadora.setInt(1, idUsuario);
                 stmtMontadora.setString(2, mont.getWebsite());
                 stmtMontadora.setString(3, mont.getPaisOrigem());
                 stmtMontadora.executeUpdate();
             }
 
-            System.out.println("Vendedor cadastrado com sucesso!");
+            System.out.println("Montadora cadastrado com sucesso!");
+        } catch (SQLException e) {
+        }
+    }
+
+    public void adicionarAlugador(Alugador alug) throws RemoteException {
+        String sql = "INSERT INTO Usuario (nome, tipoID, ID, email, numCel, endereco) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlAlugador = "INSERT INTO Alugador (idUsuario, idade, genero) VALUES (?, ?, ?)";
+
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmtUsuario = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); PreparedStatement stmtAlugador = conn.prepareStatement(sqlAlugador)) {
+
+            // Inserindo na tabela Usuario
+            stmtUsuario.setString(1, alug.getNome());
+            stmtUsuario.setString(2, alug.getTipoID().name()); // Enum convertido para String
+            stmtUsuario.setString(3, alug.getID());
+            stmtUsuario.setString(4, alug.getEmail());
+            stmtUsuario.setString(5, alug.getNumCel());
+            stmtUsuario.setString(6, alug.getEndereco());
+            stmtUsuario.executeUpdate();
+
+            // Obtendo o ID gerado para o usuário
+            var rs = stmtUsuario.getGeneratedKeys();
+            if (rs.next()) {
+                int idUsuario = rs.getInt(1);
+
+                // Inserindo na tabela Alugador
+                stmtAlugador.setInt(1, idUsuario);
+                stmtAlugador.setInt(2, alug.getIdade());
+                stmtAlugador.setString(3, alug.getGenero());
+                stmtAlugador.executeUpdate();
+            }
+
+            System.out.println("Cliente cadastrado com sucesso!");
+        } catch (SQLException e) {
+        }
+    }
+
+    public void adicionarLocador(Locador loc) throws RemoteException {
+        String sql = "INSERT INTO Usuario (nome, tipoID, ID, email, numCel, endereco) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlLocador = "INSERT INTO Locador (idUsuario, valorsalario, comissaoloc) VALUES (?, ?, ?)";
+
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmtUsuario = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS); PreparedStatement stmtLocador = conn.prepareStatement(sqlLocador)) {
+
+            // Inserindo na tabela Usuario
+            stmtUsuario.setString(1, loc.getNome());
+            stmtUsuario.setString(2, loc.getTipoID().name()); // Enum convertido para String
+            stmtUsuario.setString(3, loc.getID());
+            stmtUsuario.setString(4, loc.getEmail());
+            stmtUsuario.setString(5, loc.getNumCel());
+            stmtUsuario.setString(6, loc.getEndereco());
+            stmtUsuario.executeUpdate();
+
+            // Obtendo o ID gerado para o usuário
+            var rs = stmtUsuario.getGeneratedKeys();
+            if (rs.next()) {
+                int idUsuario = rs.getInt(1);
+
+                // Inserindo na tabela Locador
+                stmtLocador.setInt(1, idUsuario);
+                stmtLocador.setFloat(2, loc.getValorSalario());
+                stmtLocador.setFloat(3, loc.getComissaoLoc());
+                stmtLocador.executeUpdate();
+            }
+
+            System.out.println("Locador cadastrado com sucesso!");
         } catch (SQLException e) {
         }
     }
@@ -440,8 +508,8 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         String sql = "INSERT INTO Obtencao (idAutomovel, idMontadora, dataObt, valorObt) VALUES (?, ?, ?, ?)";
         try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, obtencao.getAutomovel().getIdAutomovel());
-            stmt.setInt(2, obtencao.getMontadora().getIdUsuario()); // Montadora herda de Usuario
+            stmt.setInt(1, (obtencao.getAutomovel().getIdAutomovel() + 1));
+            stmt.setInt(2, (obtencao.getMontadora().getIdUsuario() + 1)); // Montadora herda de Usuario
             stmt.setDate(3, new java.sql.Date(obtencao.getDataObt().getTime())); // Convertendo LocalDate para SQL Date
             stmt.setFloat(4, obtencao.getValorObt());
 
@@ -503,7 +571,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
             while (rs.next()) {
                 Automovel automovel = new Automovel();
-                automovel.setIdAutomovel(rs.getInt("idAutomovel"));
+                automovel.setIdAutomovel(rs.getInt("idAutomovel") - 1);
                 automovel.setModelo(rs.getString("modelo"));
                 automovel.setPlaca(rs.getString("placa"));
                 automovel.setTipoVeic(TipoVeiculo.valueOf(rs.getString("tipoVeic"))); // Converte de String para Enum
@@ -511,6 +579,32 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                 automovel.setStatus(TipoStatus.valueOf(rs.getString("status"))); // Converte de String para Enum
 
                 novalista.add(automovel);
+            }
+
+        } catch (SQLException e) {
+        }
+        return novalista;
+    }
+
+    public ArrayList<RegistroFinanceiro> listarRegistros(ArrayList<Automovel> auto) throws RemoteException {
+        ArrayList<RegistroFinanceiro> novalista = new ArrayList<>();
+        String sql = "SELECT * FROM RegistroFinanceiro";
+        int idAuto;
+        Automovel aux;
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                RegistroFinanceiro registro = new RegistroFinanceiro();
+                idAuto = (rs.getInt("idAutomovel") - 1);
+                aux = auto.get(idAuto);
+                registro.setAutomovel(aux);
+                registro.setIdRegistro(rs.getInt("idregistro") - 1);
+                registro.setValorCompra(rs.getFloat("valorcompra"));
+                registro.setValorDiaria(rs.getFloat("valordiaria"));
+                registro.setValorManutencao(rs.getFloat("valormanutencao"));
+                registro.setValorTotal(rs.getFloat("valortotal"));
+                registro.setValorVenda(rs.getFloat("valorvenda"));
+                novalista.add(registro);
             }
 
         } catch (SQLException e) {
@@ -549,7 +643,28 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                 model.addRow(linha);
             }
         } catch (Exception ex) {
-            Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void AddDataRegistro(JTable jTable1, JScrollPane jScrollPane1, ArrayList<RegistroFinanceiro> novalista) throws SQLException, RemoteException {
+        jTable1.setModel(model);
+        jScrollPane1.setViewportView(jTable1);
+
+        try {
+            String[] linha = new String[4];
+            RegistroFinanceiro aux = null;
+
+            for (int i = 0; i < novalista.size(); i++) {
+                aux = novalista.get(i);
+                linha[0] = aux.getAutomovel().getModelo();
+                linha[1] = String.valueOf(aux.getValorDiaria());
+                linha[2] = String.valueOf(aux.getValorManutencao());
+                linha[3] = String.valueOf(aux.getValorTotal());
+                model.addRow(linha);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

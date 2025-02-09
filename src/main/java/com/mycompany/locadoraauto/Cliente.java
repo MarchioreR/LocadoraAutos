@@ -4,7 +4,7 @@
  */
 package com.mycompany.locadoraauto;
 
-import com.mycompany.locadoraauto.view.FMenu;
+import com.mycompany.locadoraauto.view.JFrameMenu;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -29,7 +29,8 @@ public class Cliente {
             Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
             Interface locadora = (Interface) r.lookup("Ola");
             System.out.println("OLA");
-            FMenu x = new FMenu(locadora);
+            JFrameMenu x = new JFrameMenu(locadora);
+            x.setLocationRelativeTo(null);
             x.setVisible(true);
         } catch (NotBoundException | RemoteException e) {
 

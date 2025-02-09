@@ -26,7 +26,7 @@ import javax.swing.JTextField;
  *
  * @author vitor
  */
-public class JCadastro extends javax.swing.JDialog {
+public class JDialogCadastro extends javax.swing.JDialog {
 
     private Interface Locadora;
     private UtilityView util;
@@ -35,14 +35,15 @@ public class JCadastro extends javax.swing.JDialog {
     /**
      * Creates new form JCadastro
      */
-    public JCadastro(java.awt.Frame parent, boolean modal, Interface Locadora, ArrayList<Usuario> usuarios) throws RemoteException {
+    public JDialogCadastro(java.awt.Frame parent, boolean modal, Interface Locadora, ArrayList<Usuario> usuarios) throws RemoteException {
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
         try {
             Locadora = (Interface) r.lookup("Ola");
             System.out.println("OLA");
         } catch (NotBoundException | AccessException ex) {
-            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
+        util = new UtilityView();
         super(parent, modal);
         this.Locadora = Locadora;
         initComponents();
@@ -729,14 +730,14 @@ public class JCadastro extends javax.swing.JDialog {
                 try {
                     util.Redefinir(jPanelAlugador);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             case 2 -> {
                 try {
                     util.Redefinir(jPanelLocador);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
@@ -744,22 +745,23 @@ public class JCadastro extends javax.swing.JDialog {
                 try {
                     util.Redefinir(jPanelVendedor);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             case 4 -> {
                 try {
                     util.Redefinir(jPanelMontadora);
                 } catch (RemoteException ex) {
-                    Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+
         }
 
         try {
             util.Redefinir(jPanel2);
         } catch (RemoteException ex) {
-            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jRedefinirActionPerformed
@@ -787,7 +789,7 @@ public class JCadastro extends javax.swing.JDialog {
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
         boolean vazio = false;
-
+        Usuario user = null;
         for (Component component : jPanel2.getComponents()) {
             if (component instanceof JTextField textField) {
                 if (textField.getText().trim().isEmpty()) { // Check if the field is empty
@@ -796,22 +798,50 @@ public class JCadastro extends javax.swing.JDialog {
                 }
             }
         }
-        if (vazio == false) {
+        if (vazio == true) {
             return;
         }
         int tipo = jComboTipo.getSelectedIndex();
 
         try {
-            Usuario user = getFields(tipo);
+            user = getFields(tipo);
             usuarios.add(user);
-            Locadora.insertUsuario(user);
-        } catch (RemoteException | SQLException ex) {
-            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        switch (tipo) {
+            case 1 -> {
+                try {
+                    Locadora.adicionarAlugador((Alugador) user);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            case 2 -> {
+                try {
+                    Locadora.adicionarLocador((Locador) user);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            case 3 -> {
+                try {
+                    Locadora.adicionarVendedor((Vendedor) user);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            default ->
+                throw new AssertionError();
         }
         try {
             util.Redefinir(jPanel2);
         } catch (RemoteException ex) {
-            Logger.getLogger(JCadastro.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
         jComboTipo.setEditable(true);
         jComboTipo.setEnabled(true);
@@ -851,11 +881,10 @@ public class JCadastro extends javax.swing.JDialog {
         String email = jEmail1.getText();
         String numCel = jContato1.getText();
         String endereco = jEndereco1.getText();
-        int tipoID = jTipoID1.getSelectedIndex();
         String ID = jID1.getText();
         int idade = Integer.parseInt(jIdade.getText());
         String genero = jGenero.getText();
-        Alugador novo = new Alugador(idade, genero, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+        Alugador novo = new Alugador(idade, genero, idUsuario, nome, ID, email, numCel, endereco);
         return novo;
     }
 
@@ -865,11 +894,10 @@ public class JCadastro extends javax.swing.JDialog {
         String email = jEmail3.getText();
         String numCel = jContato3.getText();
         String endereco = jEndereco3.getText();
-        int tipoID = jTipoID3.getSelectedIndex();
         String ID = jID3.getText();
         float valorSalario = Float.parseFloat(jSalario.getText());
         float comissaoLoc = Float.parseFloat(jComissao.getText());
-        Locador novo = new Locador(valorSalario, comissaoLoc, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+        Locador novo = new Locador(valorSalario, comissaoLoc, idUsuario, nome, ID, email, numCel, endereco);
         return novo;
     }
 
@@ -879,11 +907,10 @@ public class JCadastro extends javax.swing.JDialog {
         String email = jEmail4.getText();
         String numCel = jContato4.getText();
         String endereco = jEndereco4.getText();
-        int tipoID = jTipoID4.getSelectedIndex();
         String ID = jID4.getText();
         float valorSalario = Float.parseFloat(jValorSalario.getText());
         float comissaoVenda = Float.parseFloat(jComissaoVenda.getText());
-        Vendedor novo = new Vendedor(valorSalario, comissaoVenda, idUsuario, nome, tipoID, ID, email, numCel, endereco);
+        Vendedor novo = new Vendedor(valorSalario, comissaoVenda, idUsuario, nome, ID, email, numCel, endereco);
         return novo;
     }
 
