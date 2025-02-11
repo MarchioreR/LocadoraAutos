@@ -35,10 +35,10 @@ public class JDialogCadastro extends javax.swing.JDialog {
     /**
      * Creates new form JCadastro
      */
-    public JDialogCadastro(java.awt.Frame parent, boolean modal, Interface Locadora, ArrayList<Usuario> usuarios) throws RemoteException {
+    public JDialogCadastro(java.awt.Frame parent, boolean modal, ArrayList<Usuario> usuarios) throws RemoteException {
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
         try {
-            Locadora = (Interface) r.lookup("Ola");
+            this.Locadora = (Interface) r.lookup("Ola");
             System.out.println("OLA");
         } catch (NotBoundException | AccessException ex) {
             Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
@@ -846,6 +846,7 @@ public class JDialogCadastro extends javax.swing.JDialog {
         jComboTipo.setEditable(true);
         jComboTipo.setEnabled(true);
         jButtonTipo.setEnabled(true);
+        dispose();
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
 
     private void jValorSalarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jValorSalarioActionPerformed

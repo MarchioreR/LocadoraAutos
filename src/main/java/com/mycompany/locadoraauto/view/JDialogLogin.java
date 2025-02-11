@@ -29,20 +29,31 @@ public class JDialogLogin extends javax.swing.JDialog {
 
     }
 
-    private void logar() {
+    public int logar() {
         // TODO add your handling code here:
         String usuario = txtUser.getText();
         String senha = String.valueOf(txtSenha.getPassword());
 
-        if (usuario.equals("user") && senha.equals("123")) {
+        if (usuario.equals("Gerente") && senha.equals("234")) {
             loc.setEnabled(true);
             reg.setEnabled(true);
             comp.setEnabled(true);
             cont.setEnabled(true);
-            dispose();
+            return 1;
+
+        } else if (usuario.equals("Funcionario") && senha.equals("345")) {
+            loc.setEnabled(true);
+            comp.setEnabled(true);
+            return 2;
+
+        } else if (usuario.equals("Cliente") && senha.equals("456")) {
+            loc.setEnabled(true);
+            return 3;
+
         } else {
             JOptionPane.showMessageDialog(this, "Favor, entrar com usuário e senha corretos!", "Erro ao logar no sistema", JOptionPane.ERROR_MESSAGE);
         }
+        return 3;
     }
 
     /**
@@ -142,6 +153,7 @@ public class JDialogLogin extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         logar();
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed

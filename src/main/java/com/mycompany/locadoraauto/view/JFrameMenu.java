@@ -54,8 +54,8 @@ public class JFrameMenu extends javax.swing.JFrame {
         jButtonLoc.setEnabled(menu);
         jButtonReg.setEnabled(menu);
 
-        for (RegistroFinanceiro reg : registro) {
-            System.out.println(reg.getAutomovel().getModelo());
+        for (Automovel aut : automoveis) {
+            System.out.println(aut.getIdAutomovel());
         }
     }
 
@@ -189,7 +189,7 @@ public class JFrameMenu extends javax.swing.JFrame {
     private void jButtonLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLocActionPerformed
         try {
             jloc = new JDialogLocacao(this, true, Locadora, automoveis);
-            dlog.setLocationRelativeTo(null);
+            jloc.setLocationRelativeTo(this);
         } catch (RemoteException | SQLException ex) {
             Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -198,14 +198,15 @@ public class JFrameMenu extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         dlog = new JDialogLogin(this, true, jButtonCompra, jButtonCont, jButtonLoc, jButtonReg);
-        dlog.setLocationRelativeTo(null);
+        dlog.setLocationRelativeTo(this);
         dlog.setVisible(true);
+        System.out.println(dlog.logar());
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButtonContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonContActionPerformed
         try {
-            dcad = new JDialogCadastro(this, true, Locadora, usuarios);
-            dcad.setLocationRelativeTo(null);
+            dcad = new JDialogCadastro(this, true, usuarios);
+            dcad.setLocationRelativeTo(this);
         } catch (RemoteException ex) {
             Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -214,8 +215,8 @@ public class JFrameMenu extends javax.swing.JFrame {
 
     private void jButtonCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompraActionPerformed
         try {
-            jtra = new JDialogTransacao(this, true, Locadora);
-            jtra.setLocationRelativeTo(null);
+            jtra = new JDialogTransacao(this, true);
+            jtra.setLocationRelativeTo(this);
         } catch (RemoteException ex) {
             Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -224,12 +225,12 @@ public class JFrameMenu extends javax.swing.JFrame {
 
     private void jButtonRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegActionPerformed
         try {
-            jregi = new JDialogRegistro(this, true, Locadora, registro);
-            jregi.setLocationRelativeTo(null);
-        } catch (RemoteException ex) {
+            jregi = new JDialogRegistro(this, true, registro);
+            jregi.setLocationRelativeTo(this);
+            jregi.setVisible(true);
+        } catch (RemoteException | SQLException ex) {
             Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jregi.setVisible(true);
     }//GEN-LAST:event_jButtonRegActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

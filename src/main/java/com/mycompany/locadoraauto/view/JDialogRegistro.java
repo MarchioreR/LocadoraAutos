@@ -5,7 +5,6 @@
 package com.mycompany.locadoraauto.view;
 
 import com.mycompany.locadoraauto.interfaces.Interface;
-import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.models.RegistroFinanceiro;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
@@ -16,8 +15,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,39 +23,45 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JDialogRegistro extends javax.swing.JDialog {
 
+    ArrayList<RegistroFinanceiro> registro;
+    private Interface Locadora;
+    private DefaultTableModel modelR;
+
     /**
      * Creates new form JDialogRegistro
      */
-    private Interface Locadora;
-    DefaultTableModel model;
-    ArrayList<RegistroFinanceiro> registro;
-
-    public JDialogRegistro(java.awt.Frame parent, boolean modal, Interface Locadora, ArrayList<RegistroFinanceiro> registro) throws RemoteException {
+    public JDialogRegistro(java.awt.Frame parent, boolean modal, ArrayList<RegistroFinanceiro> registro) throws RemoteException, SQLException {
         super(parent, modal);
-        initComponents();
-        this.Locadora = Locadora;
-        this.registro = registro;
-        jTable1 = new JTable();
-        jScrollPane1 = new JScrollPane();
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
         try {
-            Locadora = (Interface) r.lookup("Ola");
+            this.Locadora = (Interface) r.lookup("Ola");
             System.out.println("OLA");
         } catch (NotBoundException | AccessException ex) {
             Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
-        model = new DefaultTableModel(new String[]{"Automovel", "Valor Diaria", "Valor Manutencao", "Total"}, 0);
+        this.registro = registro;
+        initComponents();
+        modelR = new DefaultTableModel(new String[]{"Modelo", "Valor Diaria", "Valor Manutencao", "Total"}, 0);
+        jTable1.setModel(modelR);
+        jScrollPane1.setViewportView(jTable1);
 
         try {
-            try {
-                Locadora.AddDataRegistro(jTable1, jScrollPane1, registro);
-            } catch (RemoteException ex) {
-                Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            String[] linha = new String[4];
+            RegistroFinanceiro aux = null;
 
+            for (int i = 0; i < registro.size(); i++) {
+                aux = registro.get(i);
+                linha[0] = aux.getAutomovel().getModelo();
+                linha[1] = String.valueOf(aux.getValorDiaria());
+                linha[2] = String.valueOf(aux.getValorManutencao());
+                linha[3] = String.valueOf(aux.getValorTotal());
+                modelR.addRow(linha);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jTable1.revalidate();
+        jTable1.repaint();
     }
 
     /**
@@ -68,25 +71,40 @@ public class JDialogRegistro extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 595, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 117, Short.MAX_VALUE)
+        );
+
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
-                "Automovel", "Valor Diaria", "Valor Manutencao", "Total"
+                "Modelo", "Valor Diaria", "Valor Manutencao", "Total"
             }
-        ));
-        jTable1.setFillsViewportHeight(true);
-        jTable1.setRowHeight(40);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -95,31 +113,31 @@ public class JDialogRegistro extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 439, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(44, 44, 44)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTable1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

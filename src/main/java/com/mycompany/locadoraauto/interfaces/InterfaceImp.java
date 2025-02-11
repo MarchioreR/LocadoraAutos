@@ -47,12 +47,14 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     private ArrayList<Contrato> contratos = new ArrayList<>();
     private ArrayList<Obtencao> obtencoes = new ArrayList<>();
     private ArrayList<Usuario> usuarios = new ArrayList<>();
-    DefaultTableModel model;
+    private DefaultTableModel modelL;
+    private DefaultTableModel modelR;
 
     // Constructor
     public InterfaceImp() throws RemoteException {
         super(); // Call the parent class constructor
-        model = new DefaultTableModel(new String[]{"Modelo", "Tipo", "Valor Diaria", "Status"}, 0);
+        modelL = new DefaultTableModel(new String[]{"Modelo", "Tipo", "Valor Diaria", "Status"}, 0);
+        modelR = new DefaultTableModel(new String[]{"Modelo", "Valor Diaria", "Valor Manutencao", "Total"}, 0);
     }
 
     public void CriarContrato(int currentID, Alugador alugador, Locador locador, Seguro seguro, float valorContrato, Automovel automovel) throws RemoteException {
@@ -129,18 +131,26 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         return automoveis.get(idx);
     }
 
-    public Usuario buscarUsuario(String nomeOuID) throws RemoteException {
+    public int buscarUsuario(String nomeOuID) throws RemoteException {
         for (Usuario usuario : usuarios) {
             if (usuario.getID().equals(nomeOuID) || usuario.getNome().equalsIgnoreCase(nomeOuID)) {
-                return usuario; // Retorna o primeiro usuário encontrado
+                return usuario.getIdUsuario(); // Retorna o primeiro usuário encontrado
             }
         }
-        return null; // Retorna null se nenhum usuário for encontrado
+        return 0; // Retorna null se nenhum usuário for encontrado
     }
 
-    public Usuario GetLocAtPOS(int idx) throws RemoteException {
-        if (idx < usuarios.size() && idx >= 0) {
-            return usuarios.get(idx);
+    public Locador GetLocAtPOS(int idx) throws RemoteException {
+        if (idx < usuarios.size() && idx >= 0 && (usuarios.get(idx)) instanceof Locador) {
+            return (Locador) usuarios.get(idx);
+        }
+        return null;
+
+    }
+    
+    public Alugador GetAlugAtPOS(int idx) throws RemoteException {
+        if (idx < usuarios.size() && idx >= 0 && (usuarios.get(idx)) instanceof Alugador) {
+            return (Alugador) usuarios.get(idx);
         }
         return null;
 
@@ -289,13 +299,15 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         Date DataIn = Date.from(cont.getDataIn().atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date DataTer = Date.from(cont.getDataTer().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        String sql = "INSERT INTO Contrato (id_alugador, seguro, data_inicio, data_termino, valor_contrato) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Contrato (idalugador, idlocador, idautomovel, idseguro, datain, datater, valorcontrato) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, cont.getAlugador().getIdUsuario());
-            stmt.setString(2, cont.getSeguro().getTipoSeguro().getDescricao());
-            stmt.setDate(3, new java.sql.Date(DataIn.getTime()));
-            stmt.setDate(4, new java.sql.Date(DataTer.getTime()));
-            stmt.setDouble(5, cont.getValorContrato());
+            stmt.setInt(2, cont.getLocador().getIdUsuario());
+            stmt.setInt(3, cont.getAutomovel().getIdAutomovel());
+            stmt.setString(4, cont.getSeguro().getTipoSeguro().getDescricao());
+            stmt.setDate(5, new java.sql.Date(DataIn.getTime()));
+            stmt.setDate(6, new java.sql.Date(DataTer.getTime()));
+            stmt.setFloat(7, cont.getValorContrato());
             stmt.executeUpdate();
         }
     }
@@ -560,6 +572,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
         } catch (SQLException e) {
         }
+        usuarios = novalista;
         return novalista;
     }
 
@@ -583,6 +596,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
         } catch (SQLException e) {
         }
+        automoveis = novalista;
         return novalista;
     }
 
@@ -609,6 +623,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
         } catch (SQLException e) {
         }
+        registros  = novalista;
         return novalista;
     }
 
@@ -621,8 +636,8 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     //
     ///
     //
-    public void AddDataCad(JTable jTable1, JScrollPane jScrollPane1, ArrayList<Automovel> novalista) throws SQLException, RemoteException {
-        jTable1.setModel(model);
+    public void AddDataCad(JTable jTable1, JScrollPane jScrollPane1, ArrayList<Automovel> lista) throws SQLException, RemoteException {
+        jTable1.setModel(modelL);
         jScrollPane1.setViewportView(jTable1);
 
         try {
@@ -630,8 +645,8 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
             Automovel aux = null; // Temporary variable to hold each Automovel object
 
             // Loop through the ArrayList of Automovel objects
-            for (int i = 0; i < novalista.size(); i++) {
-                aux = novalista.get(i); // Get the current Automovel object
+            for (int i = 0; i < lista.size(); i++) {
+                aux = lista.get(i); // Get the current Automovel object
 
                 // Populate the row with data from the Automovel object
                 linha[0] = aux.getModelo(); // modelo
@@ -640,32 +655,36 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                 linha[3] = aux.getStatus().getDescricao(); // status (enum value as String)
 
                 // Add the row to the JTable model
-                model.addRow(linha);
+                modelL.addRow(linha);
             }
         } catch (Exception ex) {
             Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
+        jTable1.revalidate();
+        jTable1.repaint();
     }
 
-    public void AddDataRegistro(JTable jTable1, JScrollPane jScrollPane1, ArrayList<RegistroFinanceiro> novalista) throws SQLException, RemoteException {
-        jTable1.setModel(model);
+    public void AddDataRegistro(JTable jTable1, JScrollPane jScrollPane1, ArrayList<RegistroFinanceiro> lista) throws SQLException, RemoteException {
+        jTable1.setModel(modelR);
         jScrollPane1.setViewportView(jTable1);
 
         try {
             String[] linha = new String[4];
             RegistroFinanceiro aux = null;
 
-            for (int i = 0; i < novalista.size(); i++) {
-                aux = novalista.get(i);
+            for (int i = 0; i < lista.size(); i++) {
+                aux = lista.get(i);
                 linha[0] = aux.getAutomovel().getModelo();
                 linha[1] = String.valueOf(aux.getValorDiaria());
                 linha[2] = String.valueOf(aux.getValorManutencao());
                 linha[3] = String.valueOf(aux.getValorTotal());
-                model.addRow(linha);
+                modelR.addRow(linha);
             }
         } catch (Exception ex) {
             Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
+        jTable1.revalidate();
+        jTable1.repaint();
     }
 
     public void InserirAuto(Automovel novo) throws SQLException, RemoteException {

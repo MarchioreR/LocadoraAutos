@@ -9,6 +9,7 @@ import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.models.Montadora;
 import com.mycompany.locadoraauto.models.Obtencao;
 import com.mycompany.locadoraauto.models.RegistroFinanceiro;
+import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.util.UtilityView;
 import java.awt.Component;
 import java.rmi.AccessException;
@@ -19,6 +20,7 @@ import java.rmi.registry.Registry;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,14 +35,13 @@ public class JDialogTransacao extends javax.swing.JDialog {
 
     private Interface Locadora;
     private UtilityView util;
-
     /**
      * Creates new form JVenda
      */
-    public JDialogTransacao(java.awt.Frame parent, boolean modal, Interface Locadora) throws RemoteException {
+    public JDialogTransacao(java.awt.Frame parent, boolean modal) throws RemoteException {
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
         try {
-            Locadora = (Interface) r.lookup("Ola");
+            this.Locadora = (Interface) r.lookup("Ola");
             System.out.println("OLA");
         } catch (NotBoundException | AccessException ex) {
             Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
