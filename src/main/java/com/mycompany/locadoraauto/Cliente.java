@@ -29,7 +29,7 @@ public class Cliente {
             Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
             Interface locadora = (Interface) r.lookup("Ola");
             System.out.println("OLA");
-            JFrameMenu x = new JFrameMenu(locadora);
+            JFrameMenu x = new JFrameMenu();
             x.setLocationRelativeTo(null);
             x.setVisible(true);
         } catch (NotBoundException | RemoteException e) {

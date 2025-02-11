@@ -41,20 +41,21 @@ public class JDialogRegistro extends javax.swing.JDialog {
         }
         this.registro = registro;
         initComponents();
-        modelR = new DefaultTableModel(new String[]{"Modelo", "Valor Diaria", "Valor Manutencao", "Total"}, 0);
+        modelR = new DefaultTableModel(new String[]{"ID", "Modelo", "Valor Diaria", "Valor Manutencao", "Total"}, 0);
         jTable1.setModel(modelR);
         jScrollPane1.setViewportView(jTable1);
 
         try {
-            String[] linha = new String[4];
+            String[] linha = new String[5];
             RegistroFinanceiro aux = null;
 
             for (int i = 0; i < registro.size(); i++) {
                 aux = registro.get(i);
-                linha[0] = aux.getAutomovel().getModelo();
-                linha[1] = String.valueOf(aux.getValorDiaria());
-                linha[2] = String.valueOf(aux.getValorManutencao());
-                linha[3] = String.valueOf(aux.getValorTotal());
+                linha[0] = String.valueOf(aux.getIdRegistro());
+                linha[1] = aux.getAutomovel().getModelo();
+                linha[2] = String.valueOf(aux.getValorDiaria());
+                linha[3] = String.valueOf(aux.getValorManutencao());
+                linha[4] = String.valueOf(aux.getValorTotal());
                 modelR.addRow(linha);
             }
         } catch (Exception ex) {

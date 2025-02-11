@@ -48,6 +48,8 @@ public interface Interface extends Remote {
 
     public Locador GetLocAtPOS(int idx) throws RemoteException;
 
+    public Usuario GetUserAtPOS(int idx) throws RemoteException;
+
     public void InserirAuto(Automovel novo) throws SQLException, RemoteException;
 
     public void InserirRegistro(RegistroFinanceiro r) throws SQLException, RemoteException;
@@ -76,7 +78,7 @@ public interface Interface extends Remote {
 
     public int RegistroAtual() throws RemoteException;
 
-    public int buscarUsuario(String nomeOuID) throws RemoteException;
+    public Usuario buscarUsuario(String nome) throws RemoteException ;
 
     public ArrayList<Usuario> carregarUsuariosDoBanco() throws SQLException, RemoteException;
 

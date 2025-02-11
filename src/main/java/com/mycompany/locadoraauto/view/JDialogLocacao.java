@@ -62,7 +62,7 @@ public class JDialogLocacao extends javax.swing.JDialog {
 
         jTable1.revalidate();
         jTable1.repaint();
-        jConfirmAluga.setVisible(false);
+        jConfirmAluga.setEnabled(false);
         jToggleFound.setSelected(false);
     }
 
@@ -88,17 +88,12 @@ public class JDialogLocacao extends javax.swing.JDialog {
         jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jConfirmAluga = new javax.swing.JButton();
-        jComboBusca = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jTextBusca = new javax.swing.JTextField();
         jToggleFound = new javax.swing.JToggleButton();
         jButtonBuscar = new javax.swing.JButton();
-        jTextLocador = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         jComboSeguro = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        jToggleFound1 = new javax.swing.JToggleButton();
-        jButtonBuscar1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -225,10 +220,7 @@ public class JDialogLocacao extends javax.swing.JDialog {
             }
         });
 
-        jComboBusca.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBusca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "ID" }));
-
-        jLabel4.setText("Buscar Cliente");
+        jLabel4.setText("Nome Cliente");
 
         jToggleFound.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -243,32 +235,10 @@ public class JDialogLocacao extends javax.swing.JDialog {
             }
         });
 
-        jTextLocador.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextLocador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextLocadorActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Nome Locador");
-
         jComboSeguro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jComboSeguro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Avancado", "Intermediario", "Basico" }));
 
         jLabel6.setText("Seguro");
-
-        jToggleFound1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleFound1ActionPerformed(evt);
-            }
-        });
-
-        jButtonBuscar1.setText("Buscar");
-        jButtonBuscar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonBuscar1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jAlugarLayout = new javax.swing.GroupLayout(jAlugar);
         jAlugar.setLayout(jAlugarLayout);
@@ -279,72 +249,49 @@ public class JDialogLocacao extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jAlugarLayout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jConfirmAluga, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30))
                     .addGroup(jAlugarLayout.createSequentialGroup()
                         .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jAlugarLayout.createSequentialGroup()
-                                .addComponent(jComboBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(283, 283, 283)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(251, 251, 251)
                                 .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jComboSeguro, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButtonBuscar1)
-                                    .addGroup(jAlugarLayout.createSequentialGroup()
-                                        .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jTextLocador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jToggleFound1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(174, Short.MAX_VALUE))
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(288, Short.MAX_VALUE))
                     .addGroup(jAlugarLayout.createSequentialGroup()
                         .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jAlugarLayout.createSequentialGroup()
                                 .addComponent(jTextBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jToggleFound, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jToggleFound, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButtonBuscar))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 446, Short.MAX_VALUE))))
         );
         jAlugarLayout.setVerticalGroup(
             jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jAlugarLayout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jConfirmAluga, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(4, 4, 4)
-                .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jComboBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                .addComponent(jConfirmAluga, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jAlugarLayout.createSequentialGroup()
-                        .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jToggleFound, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonBuscar)
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel6)
-                        .addGap(4, 4, 4)
-                        .addComponent(jComboSeguro, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                        .addGap(54, 54, 54)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jAlugarLayout.createSequentialGroup()
-                        .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jAlugarLayout.createSequentialGroup()
-                                .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextLocador, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(jToggleFound1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(34, 34, 34))
-                            .addComponent(jButtonBuscar1, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                .addGroup(jAlugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToggleFound, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jButtonBuscar)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel6)
+                .addGap(4, 4, 4)
+                .addComponent(jComboSeguro, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                .addGap(54, 54, 54)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel1.add(jAlugar, "card2");
@@ -455,12 +402,7 @@ public class JDialogLocacao extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Há campos vazios", "Preencha e tente novamente", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        int confirm = JOptionPane.showConfirmDialog(
-                null,
-                "Prosseguir?",
-                "",
-                JOptionPane.YES_NO_OPTION
-        );
+        int confirm = JOptionPane.showConfirmDialog(null, "Prosseguir?", "", JOptionPane.YES_NO_OPTION);
         switch (confirm) {
             case JOptionPane.YES_OPTION -> {
                 try {
@@ -521,29 +463,17 @@ public class JDialogLocacao extends javax.swing.JDialog {
     }//GEN-LAST:event_jConfirmAlugaActionPerformed
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        // TODO add your handling code here:
-        String busca = jTextBusca.getText();
         int idx = 0;
         try {
-            idx = Locadora.buscarUsuario(busca);
+            System.out.println("Entrou no try busca");
+            userC = (Alugador) Locadora.buscarUsuario(jTextBusca.getText());
+            System.out.println("Index = " + idx);
+            
+
         } catch (RemoteException ex) {
             Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        boolean valor = false;
-        try {
-            userC = Locadora.GetAlugAtPOS(idx);
-        } catch (RemoteException ex) {
-            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        if (userC == null) {
-            valor = true;
-            jToggleFound.setText(valor ? "Encontrado" : "");
-            if (jToggleFound1.equals("Encontrado") && jToggleFound.equals("Encontrado")) {
-                jConfirmAluga.setVisible(true);
-            }
-
-        }
+      
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
 
@@ -551,39 +481,6 @@ public class JDialogLocacao extends javax.swing.JDialog {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButtonVoltarActionPerformed
-
-    private void jTextLocadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextLocadorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextLocadorActionPerformed
-
-    private void jButtonBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscar1ActionPerformed
-        String busca = jTextLocador.getText();
-        int idx = 0;
-        try {
-            idx = Locadora.buscarUsuario(busca);
-        } catch (RemoteException ex) {
-            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        boolean valor = false;
-        try {
-            valor = true;
-            userL = Locadora.GetLocAtPOS(idx);
-        } catch (RemoteException ex) {
-            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        if (userL == null) {
-            valor = true;
-            jToggleFound1.setText(valor ? "Encontrado" : "X");
-            if (jToggleFound1.equals("Encontrado") && jToggleFound.equals("Encontrado")) {
-                jConfirmAluga.setVisible(true);
-            }
-        }
-    }//GEN-LAST:event_jButtonBuscar1ActionPerformed
-
-    private void jToggleFound1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleFound1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleFound1ActionPerformed
 
     private void jToggleFoundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleFoundActionPerformed
         // TODO add your handling code here:
@@ -593,9 +490,7 @@ public class JDialogLocacao extends javax.swing.JDialog {
     private javax.swing.JPanel jAlugar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonBuscar;
-    private javax.swing.JButton jButtonBuscar1;
     private javax.swing.JButton jButtonVoltar;
-    private javax.swing.JComboBox<String> jComboBusca;
     private javax.swing.JComboBox<String> jComboSeguro;
     private javax.swing.JButton jConfirmAluga;
     private javax.swing.JPanel jDevolucao;
@@ -605,7 +500,6 @@ public class JDialogLocacao extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -618,8 +512,6 @@ public class JDialogLocacao extends javax.swing.JDialog {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextBusca;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextLocador;
     private javax.swing.JToggleButton jToggleFound;
-    private javax.swing.JToggleButton jToggleFound1;
     // End of variables declaration//GEN-END:variables
 }

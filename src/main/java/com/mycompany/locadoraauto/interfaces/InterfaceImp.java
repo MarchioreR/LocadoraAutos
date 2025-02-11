@@ -46,13 +46,14 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     private ArrayList<Automovel> automoveis = new ArrayList<>();
     private ArrayList<Contrato> contratos = new ArrayList<>();
     private ArrayList<Obtencao> obtencoes = new ArrayList<>();
-    private ArrayList<Usuario> usuarios = new ArrayList<>();
+    private ArrayList<Usuario> usuarios;
     private DefaultTableModel modelL;
     private DefaultTableModel modelR;
 
     // Constructor
     public InterfaceImp() throws RemoteException {
         super(); // Call the parent class constructor
+        usuarios = new ArrayList<>();
         modelL = new DefaultTableModel(new String[]{"Modelo", "Tipo", "Valor Diaria", "Status"}, 0);
         modelR = new DefaultTableModel(new String[]{"Modelo", "Valor Diaria", "Valor Manutencao", "Total"}, 0);
     }
@@ -131,38 +132,33 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         return automoveis.get(idx);
     }
 
-    public int buscarUsuario(String nomeOuID) throws RemoteException {
+    public Usuario buscarUsuario(String nome) throws RemoteException {
+        int i = 0;
         for (Usuario usuario : usuarios) {
-            if (usuario.getID().equals(nomeOuID) || usuario.getNome().equalsIgnoreCase(nomeOuID)) {
-                return usuario.getIdUsuario(); // Retorna o primeiro usuário encontrado
+            if (usuario != null && usuario.getNome() != null && usuario.getNome().equalsIgnoreCase(nome)) {
+                System.out.println(usuario.getNome());
+                return usuario; // Retorna o primeiro usuário encontrado
             }
+            i++;
         }
-        return 0; // Retorna null se nenhum usuário for encontrado
+
+        return null; // Melhor retornar -1 para indicar que o usuário não foi encontrado
     }
 
     public Locador GetLocAtPOS(int idx) throws RemoteException {
-        if (idx < usuarios.size() && idx >= 0 && (usuarios.get(idx)) instanceof Locador) {
-            return (Locador) usuarios.get(idx);
-        }
-        return null;
+        return (Locador) usuarios.get(idx);
+    }
 
+    public Alugador GetAlugAtPOS(int idx) throws RemoteException {
+        return (Alugador) usuarios.get(idx);
     }
     
-    public Alugador GetAlugAtPOS(int idx) throws RemoteException {
-        if (idx < usuarios.size() && idx >= 0 && (usuarios.get(idx)) instanceof Alugador) {
-            return (Alugador) usuarios.get(idx);
-        }
-        return null;
-
+    public Usuario GetUserAtPOS(int idx) throws RemoteException {
+        return usuarios.get(idx);
     }
 
+
     // DAO
-    //
-    //
-    //
-    //
-    //
-    //
     //
     //
     //
@@ -561,6 +557,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                 user.setIdUsuario(rs.getInt("idUsuario"));
                 enom = rs.getString("tipoID");
                 tp = TipoID.valueOf(enom);
+                user.setNome(rs.getString("nome"));
                 user.setTipoID(tp);
                 user.setID(rs.getString("ID"));
                 user.setEmail(rs.getString("email"));
@@ -623,7 +620,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
         } catch (SQLException e) {
         }
-        registros  = novalista;
+        registros = novalista;
         return novalista;
     }
 

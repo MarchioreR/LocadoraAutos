@@ -30,12 +30,13 @@ public class JFrameMenu extends javax.swing.JFrame {
     private JDialogTransacao jtra;
     private JDialogRegistro jregi;
     private Interface Locadora;
-    ArrayList<Automovel> automoveis = new ArrayList<>();
-    ArrayList<Usuario> usuarios = new ArrayList<>();
+    ArrayList<Automovel> automoveis;
+    ArrayList<Usuario> listaU;
     ArrayList<RegistroFinanceiro> registro = new ArrayList<>();
 
-    public JFrameMenu(Interface Locadora) throws RemoteException {
-        this.Locadora = Locadora;
+    public JFrameMenu() throws RemoteException {
+        automoveis = new ArrayList<>();
+        listaU = new ArrayList<>();
         boolean menu = true;
         initComponents();
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
@@ -45,18 +46,16 @@ public class JFrameMenu extends javax.swing.JFrame {
         } catch (NotBoundException | AccessException ex) {
             Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
-        usuarios = Locadora.listarUsuarios();
+        listaU = Locadora.listarUsuarios();
         automoveis = Locadora.listarAutomoveis();
         registro = Locadora.listarRegistros(automoveis);
-
+        for (Usuario usuario : listaU) {
+            System.out.println(usuario.getNome());
+        }
         jButtonCompra.setEnabled(menu);
         jButtonCont.setEnabled(menu);
         jButtonLoc.setEnabled(menu);
         jButtonReg.setEnabled(menu);
-
-        for (Automovel aut : automoveis) {
-            System.out.println(aut.getIdAutomovel());
-        }
     }
 
     /**
@@ -205,7 +204,7 @@ public class JFrameMenu extends javax.swing.JFrame {
 
     private void jButtonContActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonContActionPerformed
         try {
-            dcad = new JDialogCadastro(this, true, usuarios);
+            dcad = new JDialogCadastro(this, true, listaU);
             dcad.setLocationRelativeTo(this);
         } catch (RemoteException ex) {
             Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);
