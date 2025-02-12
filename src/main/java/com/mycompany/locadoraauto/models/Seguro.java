@@ -16,12 +16,14 @@ public class Seguro implements Serializable {
     private TipoSeguro tipoSeguro; //CRIAR ENUM
     private float valorSeguro;
     private String seguradora;
+    private int idSeguro;
 
     public Seguro() {
 
     }
 
-    public Seguro(int tipoSeguro) {
+    public Seguro(int tipoSeguro, int idSeguro) {
+        this.idSeguro = idSeguro;
         switch (tipoSeguro) {
             case 1 -> {
                 this.tipoSeguro = TipoSeguro.AVANCADO;
@@ -89,5 +91,19 @@ public class Seguro implements Serializable {
 
     public void ImprimirSeguro() {
         System.out.println(" Seguradora: " + getSeguradora() + "\n Tipo: " + getTipoSeguro().name() + "\n Valor: " + getValorSeguro());
+    }
+
+    /**
+     * @return the idSeguro
+     */
+    public int getIdSeguro() {
+        return idSeguro;
+    }
+
+    /**
+     * @param idSeguro the idSeguro to set
+     */
+    public void setIdSeguro(int idSeguro) {
+        this.idSeguro = idSeguro;
     }
 }

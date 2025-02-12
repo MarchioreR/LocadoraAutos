@@ -23,7 +23,7 @@ public class Contrato implements Serializable {
     private LocalDate dataTer;
     private float valorContrato;
 
-    public Contrato(int idContrato, Alugador alugador, LocalDate dataIn, LocalDate dataTer, float valorContrato, Locador locador, Automovel automovel) {
+    public Contrato(int idContrato, Alugador alugador, LocalDate dataIn, LocalDate dataTer, float valorContrato, Locador locador, Automovel automovel, Seguro seguro) {
         this.idContrato = idContrato;
         this.alugador = alugador;
         this.locador = locador;
@@ -31,6 +31,7 @@ public class Contrato implements Serializable {
         this.dataIn = dataIn;
         this.dataTer = dataTer;
         this.valorContrato = valorContrato;
+        this.seguro = seguro;
     }
 
     /**

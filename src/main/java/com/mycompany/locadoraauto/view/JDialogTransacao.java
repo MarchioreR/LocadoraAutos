@@ -397,7 +397,7 @@ public class JDialogTransacao extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jButtonVoltar1ActionPerformed
 
-    private Montadora getFieldsM() throws RemoteException {
+    private Montadora getFieldsM() throws RemoteException, SQLException {
         int idUsuario = Locadora.UsuarioAtual();
         String nome = jMontadora.getText();
         String ID = jID2.getText();
@@ -407,7 +407,7 @@ public class JDialogTransacao extends javax.swing.JDialog {
         return novo;
     }
 
-    public RegistroFinanceiro getFieldsR(Automovel novo, float valorC) throws RemoteException {
+    public RegistroFinanceiro getFieldsR(Automovel novo, float valorC) throws RemoteException, SQLException {
         int idRegistro = 0;
         try {
             idRegistro = Locadora.RegistroAtual();
@@ -432,7 +432,7 @@ public class JDialogTransacao extends javax.swing.JDialog {
         jPanel1.revalidate();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    public Automovel getFieldsAuto() throws RemoteException {
+    public Automovel getFieldsAuto() throws RemoteException, SQLException {
         int idAuto = Locadora.AutoAtual();
         String modelo = jModelo.getText();
         String placa = jPlaca.getText();

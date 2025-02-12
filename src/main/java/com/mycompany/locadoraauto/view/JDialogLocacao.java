@@ -4,6 +4,7 @@
  */
 package com.mycompany.locadoraauto.view;
 
+import com.mycompany.locadoraauto.enums.TipoStatus;
 import javax.swing.JOptionPane;
 import com.mycompany.locadoraauto.interfaces.Interface;
 import com.mycompany.locadoraauto.models.Automovel;
@@ -38,22 +39,26 @@ public class JDialogLocacao extends javax.swing.JDialog {
     DefaultTableModel modelL;
     Alugador userC;
     Locador userL;
+    ArrayList<Usuario> lista;
+    int devolver;
 
     /**
      * Creates new form jLocacao
      */
-    public JDialogLocacao(java.awt.Frame parent, boolean modal, Interface Locadora, ArrayList<Automovel> automoveis) throws RemoteException, SQLException {
+    public JDialogLocacao(java.awt.Frame parent, boolean modal, Interface Locadora, ArrayList<Automovel> automoveis, ArrayList<Usuario> lista) throws RemoteException, SQLException {
         super(parent, modal);
         this.Locadora = Locadora;
+        this.lista = lista;
         this.automoveis = automoveis;
         userC = null;
         userL = null;
+        devolver = 0;
         initComponents();
         modelL = new DefaultTableModel(new String[]{"ID", "Modelo", "Tipo", "Valor Diaria", "Status"}, 0);
         try {
             Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
             this.Locadora = (Interface) r.lookup("Ola");
-            System.out.println("OLA");
+            System.out.println("OLA Loc");
         } catch (NotBoundException | AccessException ex) {
             Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -83,6 +88,8 @@ public class JDialogLocacao extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jAlugar = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -134,12 +141,26 @@ public class JDialogLocacao extends javax.swing.JDialog {
 
         jLabel1.setText("Informe o ID do contrato");
 
-        jLabel2.setText("Informe a identificação do cliente");
+        jLabel2.setText("Nome do Cliente");
 
         jButton1.setText("Confirmar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Buscar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Buscar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -154,9 +175,16 @@ public class JDialogLocacao extends javax.swing.JDialog {
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                     .addComponent(jIDCliente)
                     .addComponent(jIDContrato))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 247, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(200, 200, 200))
+                .addGap(18, 18, 18)
+                .addGroup(jDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDevolucaoLayout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(200, 200, 200))
+                    .addGroup(jDevolucaoLayout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jDevolucaoLayout.setVerticalGroup(
             jDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,12 +194,15 @@ public class JDialogLocacao extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jIDContrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton3))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(385, Short.MAX_VALUE))
+                .addGroup(jDevolucaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jIDCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addContainerGap(384, Short.MAX_VALUE))
         );
 
         jPanel1.add(jDevolucao, "card3");
@@ -377,6 +408,7 @@ public class JDialogLocacao extends javax.swing.JDialog {
         jPanel1.add(jDevolucao);
         jPanel1.repaint();
         jPanel1.revalidate();
+        jButton1.setEnabled(false);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jIDContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIDContratoActionPerformed
@@ -398,27 +430,8 @@ public class JDialogLocacao extends javax.swing.JDialog {
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (VerificarVazio(jDevolucao)) {
-            JOptionPane.showMessageDialog(this, "Há campos vazios", "Preencha e tente novamente", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        int confirm = JOptionPane.showConfirmDialog(null, "Prosseguir?", "", JOptionPane.YES_NO_OPTION);
-        switch (confirm) {
-            case JOptionPane.YES_OPTION -> {
-                try {
-                    if (!Locadora.Devolver(Integer.parseInt(jIDContrato.getText()))) {
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Devolvido com sucesso", "", JOptionPane.OK_OPTION);
-                        dispose();
-                    }
-                } catch (RemoteException ex) {
-                    Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            case JOptionPane.NO_OPTION ->
-                System.out.println("...");
-            default ->
-                System.out.println("...");
+        String idcontrato = jIDContrato.getText(), cliente = jIDCliente.getText();
+        if (!(VerificarVazio(jAlugar))) {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -427,26 +440,15 @@ public class JDialogLocacao extends javax.swing.JDialog {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jConfirmAlugaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jConfirmAlugaActionPerformed
-        if (VerificarVazio(jAlugar)) {
-            return;
-        }
-        userC = (Alugador) userC;
-        userL = (Locador) userL;
         int idContrato = 0;
-        try {
-            idContrato = Locadora.ContratoAtual();
-        } catch (RemoteException ex) {
-            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
-        }
         Automovel auto = null;
-
-        Seguro seguro = new Seguro(jComboSeguro.getSelectedIndex() + 1);
         int a = 0;
-
-        Object value = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
-
-        String valueAsString = value.toString();
-
+        Object value;
+        Seguro seguro;
+        String valueAsString;
+        int seguroid = 0;
+        value = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+        valueAsString = value.toString();
         try {
             a = Integer.parseInt(valueAsString);
         } catch (NumberFormatException e) {
@@ -455,25 +457,80 @@ public class JDialogLocacao extends javax.swing.JDialog {
 
         auto = automoveis.get(a);
 
-        try {
-            Locadora.CriarContrato(idContrato, userC, userL, seguro, auto.getValorDia(), auto);
-        } catch (RemoteException ex) {
-            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
+        if ((auto.getStatus() == TipoStatus.DISPONIVEL) && !(VerificarVazio(jAlugar))) {
+            try {
+                try {
+                    idContrato = Locadora.ContratoAtual();
+                } catch (SQLException ex) {
+                    Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                try {
+                    seguroid = Locadora.SeguroAtual();
+                } catch (SQLException ex) {
+                    Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (RemoteException ex) {
+                Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            seguro = new Seguro(jComboSeguro.getSelectedIndex() + 1, seguroid);
+            try {
+                Locadora.InserirSeguro(seguro);
+            } catch (SQLException | RemoteException ex) {
+                Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                Locadora.CriarContrato(idContrato, userC, userL, seguro, auto.getValorDia(), auto);
+                auto.setStatus(TipoStatus.INDISPONIVEL);
+            } catch (RemoteException ex) {
+                Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Contrato criado");
         }
+
+
     }//GEN-LAST:event_jConfirmAlugaActionPerformed
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        int idx = 0;
+        Usuario user = null;
+        Alugador alug = null;
+        Locador loc = null;
+        String nome = jTextBusca.getText();
         try {
-            System.out.println("Entrou no try busca");
-            userC = (Alugador) Locadora.buscarUsuario(jTextBusca.getText());
-            System.out.println("Index = " + idx);
-            
+            user = Locadora.buscarAlugador(nome, lista);
 
         } catch (RemoteException ex) {
             Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
+        if (user != null) {
+            if (user instanceof Alugador alugador) {
+                alug = alugador;
+                userC = alug;
+                jConfirmAluga.setEnabled(true);
+                System.out.println(alug.getNome());
+            }
+
+            user = null;
+
+            try {
+                user = Locadora.buscarLocador("OLOCADOR", lista);
+
+            } catch (RemoteException ex) {
+                Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (user instanceof Locador locador) {
+                loc = locador;
+                userL = loc;
+                jConfirmAluga.setEnabled(true);
+                jToggleFound.setText("Encontrado");
+                System.out.println(alug.getNome());
+            }
+        }
+
+
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
 
@@ -486,9 +543,38 @@ public class JDialogLocacao extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleFoundActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Usuario user = null;
+        Alugador alug = null;
+        String nome = jTextBusca.getText();
+        try {
+            user = Locadora.buscarAlugador(nome, lista);
+
+        } catch (RemoteException ex) {
+            Logger.getLogger(JDialogLocacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (user != null) {
+            if (user instanceof Alugador alugador) {
+                alug = alugador;
+                userC = alug;
+                devolver++;
+                System.out.println(alug.getNome());
+            }
+        }
+        if (devolver == 2) {
+            jButton1.setEnabled(true);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jAlugar;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JComboBox<String> jComboSeguro;

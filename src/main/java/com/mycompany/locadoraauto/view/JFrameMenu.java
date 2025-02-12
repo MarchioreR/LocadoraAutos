@@ -32,11 +32,12 @@ public class JFrameMenu extends javax.swing.JFrame {
     private Interface Locadora;
     ArrayList<Automovel> automoveis;
     ArrayList<Usuario> listaU;
-    ArrayList<RegistroFinanceiro> registro = new ArrayList<>();
+    ArrayList<RegistroFinanceiro> registro;
 
     public JFrameMenu() throws RemoteException {
         automoveis = new ArrayList<>();
         listaU = new ArrayList<>();
+        registro = new ArrayList<>();
         boolean menu = true;
         initComponents();
         Registry r = LocateRegistry.getRegistry("26.210.206.180", 1099);
@@ -46,16 +47,17 @@ public class JFrameMenu extends javax.swing.JFrame {
         } catch (NotBoundException | AccessException ex) {
             Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
-        listaU = Locadora.listarUsuarios();
+        listaU = Locadora.listarUsuariosNovo();
         automoveis = Locadora.listarAutomoveis();
         registro = Locadora.listarRegistros(automoveis);
-        for (Usuario usuario : listaU) {
-            System.out.println(usuario.getNome());
-        }
         jButtonCompra.setEnabled(menu);
         jButtonCont.setEnabled(menu);
         jButtonLoc.setEnabled(menu);
         jButtonReg.setEnabled(menu);
+        
+        for (Automovel auto : automoveis) {
+            System.out.println(auto.getIdAutomovel());
+        }
     }
 
     /**
@@ -187,7 +189,7 @@ public class JFrameMenu extends javax.swing.JFrame {
 
     private void jButtonLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLocActionPerformed
         try {
-            jloc = new JDialogLocacao(this, true, Locadora, automoveis);
+            jloc = new JDialogLocacao(this, true, Locadora, automoveis, listaU);
             jloc.setLocationRelativeTo(this);
         } catch (RemoteException | SQLException ex) {
             Logger.getLogger(JFrameMenu.class.getName()).log(Level.SEVERE, null, ex);

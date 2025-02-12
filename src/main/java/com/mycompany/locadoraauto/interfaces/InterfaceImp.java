@@ -42,11 +42,14 @@ import javax.swing.table.DefaultTableModel;
 public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
     private ArrayList<Venda> vendas = new ArrayList<>();
-    private ArrayList<RegistroFinanceiro> registros = new ArrayList<>();
-    private ArrayList<Automovel> automoveis = new ArrayList<>();
-    private ArrayList<Contrato> contratos = new ArrayList<>();
-    private ArrayList<Obtencao> obtencoes = new ArrayList<>();
+    private ArrayList<RegistroFinanceiro> registros;
+    private ArrayList<Automovel> automoveis;
+    private ArrayList<Contrato> contratos;
+    private ArrayList<Obtencao> obtencoes;
+    private ArrayList<Seguro> seguros;
     private ArrayList<Usuario> usuarios;
+    private ArrayList<Alugador> clientes;
+    private ArrayList<Locador> locadores;
     private DefaultTableModel modelL;
     private DefaultTableModel modelR;
 
@@ -54,6 +57,13 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     public InterfaceImp() throws RemoteException {
         super(); // Call the parent class constructor
         usuarios = new ArrayList<>();
+        clientes = new ArrayList<>();
+        locadores = new ArrayList<>();
+        seguros = new ArrayList<>();
+        obtencoes = new ArrayList<>();
+        registros = new ArrayList<>();
+        contratos = new ArrayList<>();
+        automoveis = new ArrayList<>();
         modelL = new DefaultTableModel(new String[]{"Modelo", "Tipo", "Valor Diaria", "Status"}, 0);
         modelR = new DefaultTableModel(new String[]{"Modelo", "Valor Diaria", "Valor Manutencao", "Total"}, 0);
     }
@@ -63,7 +73,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         LocalDate dataIn = LocalDate.now();
         LocalDate dataTer = LocalDate.now().plusDays(3);
 
-        Contrato contrato = new Contrato(idContrato, alugador, dataIn, dataTer, valorContrato, locador, automovel);
+        Contrato contrato = new Contrato(idContrato, alugador, dataIn, dataTer, valorContrato, locador, automovel, seguro);
         contrato.setSeguro(seguro);
         contratos.add(contrato);
         try {
@@ -86,24 +96,69 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         adicionarRegistroFinanceiro(r);
     }
 
-    public int UsuarioAtual() throws RemoteException {
-        int id = usuarios.size() - 1;
-        return id;
+    public int UsuarioAtual() throws RemoteException, SQLException {
+        Connection conn = FactoryConnection.createConnection();
+        String sql = "SELECT MAX(idUsuario) FROM Usuario";
+        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int maxId = rs.getInt(1); // Get the maximum idSeguro
+                return (maxId + 1); // Return the next available ID
+            } else {
+                return 1; // If no records exist, start with 1
+            }
+        }
     }
 
-    public int AutoAtual() throws RemoteException {
-        int id = automoveis.size() - 1;
-        return id;
+    public int AutoAtual() throws RemoteException, SQLException {
+        Connection conn = FactoryConnection.createConnection();
+        String sql = "SELECT MAX(idAutomovel) FROM Automovel";
+        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int maxId = rs.getInt(1); // Get the maximum idSeguro
+                return (maxId + 1); // Return the next available ID
+            } else {
+                return 1; // If no records exist, start with 1
+            }
+        }
     }
 
-    public int ContratoAtual() throws RemoteException {
-        int id = contratos.size() - 1;
-        return id;
+    public int ContratoAtual() throws RemoteException, SQLException {
+        Connection conn = FactoryConnection.createConnection();
+        String sql = "SELECT MAX(idContrato) FROM Contrato";
+        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int maxId = rs.getInt(1); // Get the maximum idSeguro
+                return (maxId + 1); // Return the next available ID
+            } else {
+                return 1; // If no records exist, start with 1
+            }
+        }
     }
 
-    public int RegistroAtual() throws RemoteException {
-        int id = registros.size() - 1;
-        return id;
+    public int RegistroAtual() throws RemoteException, SQLException {
+        Connection conn = FactoryConnection.createConnection();
+        String sql = "SELECT MAX(idRegistro) FROM RegistroFinanceiro";
+        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int maxId = rs.getInt(1); // Get the maximum idSeguro
+                return (maxId + 1); // Return the next available ID
+            } else {
+                return 1; // If no records exist, start with 1
+            }
+        }
+    }
+
+    public int SeguroAtual() throws RemoteException, SQLException {
+        Connection conn = FactoryConnection.createConnection();
+        String sql = "SELECT MAX(idSeguro) FROM Seguro";
+        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                int maxId = rs.getInt(1); // Get the maximum idSeguro
+                return (maxId + 1); // Return the next available ID
+            } else {
+                return 1; // If no records exist, start with 1
+            }
+        }
     }
 
     public synchronized boolean Devolver(int id) throws RemoteException {
@@ -132,17 +187,34 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         return automoveis.get(idx);
     }
 
-    public Usuario buscarUsuario(String nome) throws RemoteException {
+    public Usuario buscarUsuario(String nome, ArrayList<Usuario> lista) throws RemoteException {
         int i = 0;
-        for (Usuario usuario : usuarios) {
-            if (usuario != null && usuario.getNome() != null && usuario.getNome().equalsIgnoreCase(nome)) {
-                System.out.println(usuario.getNome());
+        for (Usuario usuario : lista) {
+            if (usuario.getNome().equals(nome)) {
                 return usuario; // Retorna o primeiro usuário encontrado
             }
             i++;
         }
 
         return null; // Melhor retornar -1 para indicar que o usuário não foi encontrado
+    }
+
+    public Alugador buscarAlugador(String nome, ArrayList<Usuario> lista) throws RemoteException {
+        for (Usuario usuario : lista) {
+            if (usuario instanceof Alugador && usuario.getNome().equals(nome)) {
+                return (Alugador) usuario; // Retorna o primeiro Alugador encontrado
+            }
+        }
+        return null; // Retorna null se nenhum Alugador for encontrado
+    }
+
+    public Locador buscarLocador(String nome, ArrayList<Usuario> lista) throws RemoteException {
+        for (Usuario usuario : lista) {
+            if (usuario instanceof Locador && usuario.getNome().equals(nome)) {
+                return (Locador) usuario; // Retorna o primeiro Alugador encontrado
+            }
+        }
+        return null; // Retorna null se nenhum Alugador for encontrado
     }
 
     public Locador GetLocAtPOS(int idx) throws RemoteException {
@@ -152,11 +224,10 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     public Alugador GetAlugAtPOS(int idx) throws RemoteException {
         return (Alugador) usuarios.get(idx);
     }
-    
+
     public Usuario GetUserAtPOS(int idx) throws RemoteException {
         return usuarios.get(idx);
     }
-
 
     // DAO
     //
@@ -191,6 +262,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                         String genero = rsAlugador.getString("genero");
                         int idade = rsAlugador.getInt("idade");
                         usuario = new Alugador(idade, genero, id, nome, identi, email, numCel, endereco);
+                        clientes.add((Alugador) usuario);
                     }
                 }
 
@@ -200,6 +272,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
                         var valorSalario = rsLocador.getBigDecimal("valor_salario").floatValue();
                         var comissaoLoc = rsLocador.getBigDecimal("comissao_loc").floatValue();
                         usuario = new Locador(valorSalario, comissaoLoc, id, nome, identi, email, numCel, endereco);
+                        locadores.add((Locador) usuario);
                     }
                 }
 
@@ -295,15 +368,21 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         Date DataIn = Date.from(cont.getDataIn().atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date DataTer = Date.from(cont.getDataTer().atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        String sql = "INSERT INTO Contrato (idalugador, idlocador, idautomovel, idseguro, datain, datater, valorcontrato) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Contrato (idalugador, idlocador, idautomovel, idseguro, datain, datater, valorcontrato) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, cont.getAlugador().getIdUsuario());
             stmt.setInt(2, cont.getLocador().getIdUsuario());
             stmt.setInt(3, cont.getAutomovel().getIdAutomovel());
-            stmt.setString(4, cont.getSeguro().getTipoSeguro().getDescricao());
+            stmt.setInt(4, cont.getSeguro().getIdSeguro());
             stmt.setDate(5, new java.sql.Date(DataIn.getTime()));
             stmt.setDate(6, new java.sql.Date(DataTer.getTime()));
             stmt.setFloat(7, cont.getValorContrato());
+            stmt.executeUpdate();
+        }
+        sql = "UPDATE Automovel SET status = ? WHERE idAutomovel = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, "INDISPONIVEL");
+            stmt.setInt(2, cont.getAutomovel().getIdAutomovel());
             stmt.executeUpdate();
         }
     }
@@ -323,8 +402,8 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         Connection conn = FactoryConnection.createConnection();
         String sql = "INSERT INTO Obtencao (idautomovel, idmontadora, dataobt, valorobt) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, (obt.getAutomovel().getIdAutomovel() + 1));
-            stmt.setInt(2, (obt.getMontadora().getIdUsuario() + 1));
+            stmt.setInt(1, (obt.getAutomovel().getIdAutomovel()));
+            stmt.setInt(2, (obt.getMontadora().getIdUsuario()));
             stmt.setDate(3, new java.sql.Date(obt.getDataObt().getTime()));
             stmt.setDouble(4, obt.getValorObt());
             stmt.executeUpdate();
@@ -345,14 +424,20 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         }
     }
 
-    public void inserirSeguro(String tipoSeguro, double valorSeguro, String seguradora) throws SQLException, RemoteException {
-        Connection conn = FactoryConnection.createConnection();
-        String sql = "INSERT INTO Seguro (tiposeguro, valorseguro, seguradora) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, tipoSeguro);
-            stmt.setDouble(2, valorSeguro);
-            stmt.setString(3, seguradora);
-            stmt.executeUpdate();
+    public void inserirSeguro(Seguro seguro) throws SQLException, RemoteException {
+        String sql = "INSERT INTO Seguro (tipoSeguro, valorSeguro, seguradora) VALUES (?, ?, ?)";
+
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, seguro.getTipoSeguro().name()); // Converts enum to string
+            stmt.setFloat(2, seguro.getValorSeguro());
+            stmt.setString(3, seguro.getSeguradora());
+
+            int rowsInserted = stmt.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Seguro inserido com sucesso!");
+            }
+        } catch (SQLException e) {
         }
     }
 
@@ -532,7 +617,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
         try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, (registro.getAutomovel().getIdAutomovel() + 1));
+            stmt.setInt(1, (registro.getAutomovel().getIdAutomovel()));
             stmt.setFloat(2, registro.getValorCompra());
             stmt.setFloat(3, registro.getValorVenda());
             stmt.setFloat(4, registro.getValorDiaria());
@@ -545,32 +630,19 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         }
     }
 
-    public ArrayList<Usuario> listarUsuarios() throws RemoteException {
-        ArrayList<Usuario> novalista = new ArrayList<>();
-        String sql = "SELECT * FROM Usuario", enom;
-        TipoID tp;
+    public void adicionarSeguro(Seguro seguro) throws RemoteException {
+        String sql = "INSERT INTO Seguro (tiposeguro, valorseguro, seguradora) VALUES (?, ?, ?)";
 
-        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                Usuario user = new Usuario();
-                user.setIdUsuario(rs.getInt("idUsuario"));
-                enom = rs.getString("tipoID");
-                tp = TipoID.valueOf(enom);
-                user.setNome(rs.getString("nome"));
-                user.setTipoID(tp);
-                user.setID(rs.getString("ID"));
-                user.setEmail(rs.getString("email"));
-                user.setNumCel(rs.getString("numCel"));
-                user.setEndereco(rs.getString("endereco"));
+            stmt.setString(1, (seguro.getTipoSeguro().getDescricao()));
+            stmt.setFloat(2, seguro.getValorSeguro());
+            stmt.setString(3, seguro.getSeguradora());
 
-                novalista.add(user);
-            }
-
+            stmt.executeUpdate();
+            System.out.println("Seguro cadstrado com sucesso!");
         } catch (SQLException e) {
         }
-        usuarios = novalista;
-        return novalista;
     }
 
     public ArrayList<Automovel> listarAutomoveis() throws RemoteException {
@@ -581,7 +653,7 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
             while (rs.next()) {
                 Automovel automovel = new Automovel();
-                automovel.setIdAutomovel(rs.getInt("idAutomovel") - 1);
+                automovel.setIdAutomovel(rs.getInt("idAutomovel"));
                 automovel.setModelo(rs.getString("modelo"));
                 automovel.setPlaca(rs.getString("placa"));
                 automovel.setTipoVeic(TipoVeiculo.valueOf(rs.getString("tipoVeic"))); // Converte de String para Enum
@@ -606,10 +678,10 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
 
             while (rs.next()) {
                 RegistroFinanceiro registro = new RegistroFinanceiro();
-                idAuto = (rs.getInt("idAutomovel") - 1);
+                idAuto = (rs.getInt("idAutomovel"));
                 aux = auto.get(idAuto);
                 registro.setAutomovel(aux);
-                registro.setIdRegistro(rs.getInt("idregistro") - 1);
+                registro.setIdRegistro(rs.getInt("idregistro"));
                 registro.setValorCompra(rs.getFloat("valorcompra"));
                 registro.setValorDiaria(rs.getFloat("valordiaria"));
                 registro.setValorManutencao(rs.getFloat("valormanutencao"));
@@ -622,6 +694,116 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
         }
         registros = novalista;
         return novalista;
+    }
+
+    public String getUserType(int idUsuario, Connection conn) throws SQLException, RemoteException {
+        String[] tables = {"Alugador", "Locador", "Montadora", "Vendedor"};
+
+        for (String table : tables) {
+            String sql = "SELECT 1 FROM " + table + " WHERE idUsuario = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, idUsuario);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        return table; // Found the table where the user exists
+                    }
+                }
+            }
+        }
+        return "Usuario"; // If the user is not found in any subclass table, return "Usuario"
+    }
+
+    public ArrayList<Usuario> listarUsuariosNovo() throws RemoteException {
+        ArrayList<Usuario> novalista = new ArrayList<>();
+        String sql = "SELECT * FROM Usuario";
+
+        try (Connection conn = FactoryConnection.createConnection(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int idUsuario = rs.getInt("idUsuario");
+                String nome = rs.getString("nome");
+                TipoID tipoID = TipoID.valueOf(rs.getString("tipoID"));
+                String ID = rs.getString("ID");
+                String email = rs.getString("email");
+                String numCel = rs.getString("numCel");
+                String endereco = rs.getString("endereco");
+
+                // Determine user type
+                String userType = getUserType(idUsuario, conn);
+                Usuario user;
+
+                user = switch (userType) {
+                    case "Alugador" ->
+                        getAlugadorData(idUsuario, conn, nome, tipoID, ID, email, numCel, endereco);
+                    case "Locador" ->
+                        getLocadorData(idUsuario, conn, nome, tipoID, ID, email, numCel, endereco);
+                    case "Montadora" ->
+                        getMontadoraData(idUsuario, conn, nome, tipoID, ID, email, numCel, endereco);
+                    case "Vendedor" ->
+                        getVendedorData(idUsuario, conn, nome, tipoID, ID, email, numCel, endereco);
+                    default ->
+                        new Usuario(idUsuario, nome, 1, ID, email, numCel, endereco);
+                }; // Regular Usuario
+
+                novalista.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return novalista;
+    }
+
+    public Alugador getAlugadorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException {
+        String sql = "SELECT idade, genero FROM Alugador WHERE idUsuario = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idUsuario);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Alugador(rs.getInt("idade"), rs.getString("genero"), idUsuario, nome, ID, email, numCel, endereco);
+                }
+            }
+        }
+        return new Alugador(0, "", idUsuario, nome, ID, email, numCel, endereco); // Default values if not found
+    }
+
+    public Locador getLocadorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException {
+        String sql = "SELECT valorSalario, comissaoLoc FROM Locador WHERE idUsuario = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idUsuario);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Locador(rs.getFloat("valorSalario"), rs.getFloat("comissaoLoc"), idUsuario, nome, ID, email, numCel, endereco);
+                }
+            }
+        }
+        return new Locador(0, 0, idUsuario, nome, ID, email, numCel, endereco); // Default values if not found
+    }
+
+    public Montadora getMontadoraData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException {
+        String sql = "SELECT website, paisOrigem FROM Montadora WHERE idUsuario = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idUsuario);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Montadora(rs.getString("website"), rs.getString("paisOrigem"), idUsuario, nome, ID, email, numCel, endereco);
+                }
+            }
+        }
+        return new Montadora("", "", idUsuario, nome, ID, email, numCel, endereco); // Default values if not found
+    }
+
+    public Vendedor getVendedorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException {
+        String sql = "SELECT valorSalario, comissaoVenda FROM Vendedor WHERE idUsuario = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idUsuario);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Vendedor(rs.getFloat("valorSalario"), rs.getFloat("comissaoVenda"), idUsuario, nome, ID, email, numCel, endereco);
+                }
+            }
+        }
+        return new Vendedor(0, 0, idUsuario, nome, ID, email, numCel, endereco); // Default values if not found
     }
 
     public void CriarMontadora(Montadora montadora) throws RemoteException {
@@ -685,10 +867,49 @@ public class InterfaceImp extends UnicastRemoteObject implements Interface {
     }
 
     public void InserirAuto(Automovel novo) throws SQLException, RemoteException {
+        automoveis.add(novo);
         adicionarAutomovel(novo);
     }
 
     public void InserirRegistro(RegistroFinanceiro r) throws SQLException, RemoteException {
+        registros.add(r);
         adicionarRegistroFinanceiro(r);
+    }
+
+    public void InserirSeguro(Seguro seguro) throws SQLException, RemoteException {
+        seguros.add(seguro);
+        adicionarSeguro(seguro);
+    }
+
+    public void updateStatus(int idAutomovel, String novoStatus) throws SQLException, RemoteException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            // Establish a connection (replace FactoryConnection with your connection logic)
+            conn = FactoryConnection.createConnection();
+
+            // SQL query to update the status
+            String sql = "UPDATE Automovel SET status = ? WHERE idAutomovel = ?";
+
+            // Create a PreparedStatement
+            stmt = conn.prepareStatement(sql);
+
+            // Set the parameters
+            stmt.setString(1, novoStatus); // New status value
+            stmt.setInt(2, idAutomovel);   // ID of the Automovel to update
+
+            // Execute the update
+            int rowsAffected = stmt.executeUpdate();
+
+        } finally {
+            // Close resources
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
     }
 }

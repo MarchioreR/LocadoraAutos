@@ -9,9 +9,9 @@ package com.mycompany.locadoraauto.enums;
  * @author vitor
  */
 public enum TipoSeguro {
-    BASICO("Basico"),
-    INTERMEDIARIO("Intermediario"),
-    AVANCADO("Avancado");
+    BASICO("BASICO"),
+    INTERMEDIARIO("INTERMEDIARIO"),
+    AVANCADO("AVANCADO");
     
     private final String descricao;
     private TipoSeguro(String descricao){this.descricao = descricao;}

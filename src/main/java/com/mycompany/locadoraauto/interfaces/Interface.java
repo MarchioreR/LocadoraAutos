@@ -4,6 +4,7 @@
  */
 package com.mycompany.locadoraauto.interfaces;
 
+import com.mycompany.locadoraauto.enums.TipoID;
 import com.mycompany.locadoraauto.models.Alugador;
 import com.mycompany.locadoraauto.models.Automovel;
 import com.mycompany.locadoraauto.models.Contrato;
@@ -16,6 +17,7 @@ import com.mycompany.locadoraauto.models.Usuario;
 import com.mycompany.locadoraauto.models.Vendedor;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JScrollPane;
@@ -70,15 +72,21 @@ public interface Interface extends Remote {
 
     public boolean Emprestar(int id) throws RemoteException;
 
-    public int UsuarioAtual() throws RemoteException;
+    public int UsuarioAtual() throws RemoteException, SQLException;
 
-    public int AutoAtual() throws RemoteException;
+    public int AutoAtual() throws RemoteException, SQLException;
 
-    public int ContratoAtual() throws RemoteException;
+    public int ContratoAtual() throws RemoteException, SQLException;
 
-    public int RegistroAtual() throws RemoteException;
+    public int RegistroAtual() throws RemoteException, SQLException;
 
-    public Usuario buscarUsuario(String nome) throws RemoteException ;
+    public int SeguroAtual() throws RemoteException, SQLException;
+
+    public Usuario buscarUsuario(String nome, ArrayList<Usuario> lista) throws RemoteException;
+
+    public Alugador buscarAlugador(String nome, ArrayList<Usuario> lista) throws RemoteException;
+
+    public Locador buscarLocador(String nome, ArrayList<Usuario> lista) throws RemoteException;
 
     public ArrayList<Usuario> carregarUsuariosDoBanco() throws SQLException, RemoteException;
 
@@ -90,7 +98,7 @@ public interface Interface extends Remote {
 
     public void inserirRegistroFinanceiro(RegistroFinanceiro r) throws SQLException, RemoteException;
 
-    public void inserirSeguro(String tipoSeguro, double valorSeguro, String seguradora) throws SQLException, RemoteException;
+    public void InserirSeguro(Seguro seguro) throws SQLException, RemoteException;
 
     public void inserirVenda(int idAutomovel, int idVendedor, double valorVenda) throws RemoteException, SQLException;
 
@@ -100,7 +108,21 @@ public interface Interface extends Remote {
 
     public ArrayList<RegistroFinanceiro> listarRegistros(ArrayList<Automovel> auto) throws RemoteException;
 
-    public ArrayList<Usuario> listarUsuarios() throws RemoteException;
+    public ArrayList<Usuario> listarUsuariosNovo() throws RemoteException;
+
+    public String getUserType(int idUsuario, Connection conn) throws SQLException, RemoteException;
+
+    public Alugador getAlugadorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
+
+    public Vendedor getVendedorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
+
+    public Montadora getMontadoraData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
+
+    public Locador getLocadorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
 
     public ArrayList<Automovel> PassarAutomoveis() throws RemoteException;
+
+    public void adicionarSeguro(Seguro seguro) throws RemoteException;
+
+    public void updateStatus(int idAutomovel, String novoStatus) throws SQLException, RemoteException;
 }

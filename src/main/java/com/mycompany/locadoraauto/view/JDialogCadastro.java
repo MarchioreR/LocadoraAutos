@@ -789,7 +789,9 @@ public class JDialogCadastro extends javax.swing.JDialog {
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
         boolean vazio = false;
-        Usuario user = null;
+        Alugador alug = null;
+        Vendedor vend = null;
+        Locador loc = null;
         for (Component component : jPanel2.getComponents()) {
             if (component instanceof JTextField textField) {
                 if (textField.getText().trim().isEmpty()) { // Check if the field is empty
@@ -804,16 +806,31 @@ public class JDialogCadastro extends javax.swing.JDialog {
         int tipo = jComboTipo.getSelectedIndex();
 
         try {
-            user = getFields(tipo);
-            usuarios.add(user);
-        } catch (RemoteException ex) {
+            switch (tipo) {
+                case 1 -> {
+                    alug = getFieldsAlug();
+                    usuarios.add(alug);
+                }
+                case 2 -> {
+                    loc = getFieldsLoc();
+                    usuarios.add(loc);
+                }
+                case 3 -> {
+                    vend = getFieldsVend();
+                    usuarios.add(vend);
+                }
+                default ->
+                    throw new AssertionError();
+            }
+
+        } catch (RemoteException | SQLException ex) {
             Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         switch (tipo) {
             case 1 -> {
                 try {
-                    Locadora.adicionarAlugador((Alugador) user);
+                    Locadora.adicionarAlugador((Alugador) alug);
                 } catch (RemoteException ex) {
                     Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -821,7 +838,7 @@ public class JDialogCadastro extends javax.swing.JDialog {
 
             case 2 -> {
                 try {
-                    Locadora.adicionarLocador((Locador) user);
+                    Locadora.adicionarLocador((Locador) loc);
                 } catch (RemoteException ex) {
                     Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -829,7 +846,7 @@ public class JDialogCadastro extends javax.swing.JDialog {
 
             case 3 -> {
                 try {
-                    Locadora.adicionarVendedor((Vendedor) user);
+                    Locadora.adicionarVendedor((Vendedor) vend);
                 } catch (RemoteException ex) {
                     Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -839,7 +856,9 @@ public class JDialogCadastro extends javax.swing.JDialog {
                 throw new AssertionError();
         }
         try {
-            util.Redefinir(jPanel2);
+            util.Redefinir(jPanelAlugador);
+            util.Redefinir(jPanelVendedor);
+            util.Redefinir(jPanelLocador);
         } catch (RemoteException ex) {
             Logger.getLogger(JDialogCadastro.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -853,22 +872,24 @@ public class JDialogCadastro extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jValorSalarioActionPerformed
 
-    private Usuario getFields(int tipoItem) throws RemoteException {
+    private Alugador getFieldsAlug() throws RemoteException, SQLException {
         int user = Locadora.UsuarioAtual();
-        Usuario novo = null;
-        switch (tipoItem) {
-            case 1 -> {
-                novo = NovoAlugador(user);
-            }
+        Alugador novo = null;
+        novo = NovoAlugador(user);
+        return novo;
+    }
 
-            case 2 -> {
-                novo = NovoLocador(user);
-            }
+    private Locador getFieldsLoc() throws RemoteException, SQLException {
+        int user = Locadora.UsuarioAtual();
+        Locador novo = null;
+        novo = NovoLocador(user);
+        return novo;
+    }
 
-            case 3 -> {
-                novo = NovoVendedor(user);
-            }
-        }
+    private Vendedor getFieldsVend() throws RemoteException, SQLException {
+        int user = Locadora.UsuarioAtual();
+        Vendedor novo = null;
+        novo = NovoVendedor(user);
         return novo;
     }
 
