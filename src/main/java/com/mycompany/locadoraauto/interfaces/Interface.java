@@ -34,28 +34,6 @@ public interface Interface extends Remote {
 
     public void AddDataRegistro(JTable jTable1, JScrollPane jScrollPane1, ArrayList<RegistroFinanceiro> novalista) throws SQLException, RemoteException;
 
-    public void CriarContrato(int currentID, Alugador alugador, Locador locador, Seguro seguro, float valorContrato, Automovel automovel) throws RemoteException;
-
-    public void CriarMontadora(Montadora montadora) throws RemoteException;
-
-    public void CriarObtencao(int currentID, Automovel automovel, Montadora montadora, float valorObt) throws RemoteException;
-
-    public void CriarRegistro(RegistroFinanceiro r) throws RemoteException;
-
-    public boolean Devolver(int id) throws RemoteException;
-
-    public Automovel GetAutoAtPOS(int idx) throws RemoteException;
-
-    public Alugador GetAlugAtPOS(int idx) throws RemoteException;
-
-    public Locador GetLocAtPOS(int idx) throws RemoteException;
-
-    public Usuario GetUserAtPOS(int idx) throws RemoteException;
-
-    public void InserirAuto(Automovel novo) throws SQLException, RemoteException;
-
-    public void InserirRegistro(RegistroFinanceiro r) throws SQLException, RemoteException;
-
     public void adicionarAlugador(Alugador alug) throws RemoteException;
 
     public void adicionarAutomovel(Automovel automovel) throws RemoteException;
@@ -68,27 +46,53 @@ public interface Interface extends Remote {
 
     public void adicionarRegistroFinanceiro(RegistroFinanceiro registro) throws RemoteException;
 
+    public void adicionarSeguro(Seguro seguro) throws RemoteException;
+
     public void adicionarVendedor(Vendedor vendedor) throws RemoteException;
 
-    public boolean Emprestar(int id) throws RemoteException;
-
-    public int UsuarioAtual() throws RemoteException, SQLException;
-
     public int AutoAtual() throws RemoteException, SQLException;
-
-    public int ContratoAtual() throws RemoteException, SQLException;
-
-    public int RegistroAtual() throws RemoteException, SQLException;
-
-    public int SeguroAtual() throws RemoteException, SQLException;
-
-    public Usuario buscarUsuario(String nome, ArrayList<Usuario> lista) throws RemoteException;
 
     public Alugador buscarAlugador(String nome, ArrayList<Usuario> lista) throws RemoteException;
 
     public Locador buscarLocador(String nome, ArrayList<Usuario> lista) throws RemoteException;
 
+    public Usuario buscarUsuario(String nome, ArrayList<Usuario> lista) throws RemoteException;
+
     public ArrayList<Usuario> carregarUsuariosDoBanco() throws SQLException, RemoteException;
+
+    public int ContratoAtual() throws RemoteException, SQLException;
+
+    public void CriarContrato(int currentID, Alugador alugador, Locador locador, Seguro seguro, float valorContrato, Automovel automovel) throws RemoteException;
+
+    public void CriarMontadora(Montadora montadora) throws RemoteException;
+
+    public void CriarObtencao(int currentID, Automovel automovel, Montadora montadora, float valorObt) throws RemoteException;
+
+    public void CriarRegistro(RegistroFinanceiro r) throws RemoteException;
+
+    public boolean Devolver(int id) throws RemoteException;
+
+    public boolean Emprestar(int id) throws RemoteException;
+
+    public Alugador getAlugadorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
+
+    public Automovel GetAutoAtPOS(int idx) throws RemoteException;
+
+    public Alugador GetAlugAtPOS(int idx) throws RemoteException;
+
+    public Locador GetLocAtPOS(int idx) throws RemoteException;
+
+    public Locador getLocadorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
+
+    public Montadora getMontadoraData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
+
+    public Usuario GetUserAtPOS(int idx) throws RemoteException;
+
+    public String getUserType(int idUsuario, Connection conn) throws SQLException, RemoteException;
+
+    public Vendedor getVendedorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
+
+    public void InserirAuto(Automovel novo) throws SQLException, RemoteException;
 
     public void inserirContrato(Contrato cont) throws SQLException, RemoteException;
 
@@ -97,6 +101,8 @@ public interface Interface extends Remote {
     public void inserirObtencao(Obtencao obt) throws SQLException, RemoteException;
 
     public void inserirRegistroFinanceiro(RegistroFinanceiro r) throws SQLException, RemoteException;
+
+    public void InserirRegistro(RegistroFinanceiro r) throws SQLException, RemoteException;
 
     public void InserirSeguro(Seguro seguro) throws SQLException, RemoteException;
 
@@ -110,19 +116,13 @@ public interface Interface extends Remote {
 
     public ArrayList<Usuario> listarUsuariosNovo() throws RemoteException;
 
-    public String getUserType(int idUsuario, Connection conn) throws SQLException, RemoteException;
-
-    public Alugador getAlugadorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
-
-    public Vendedor getVendedorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
-
-    public Montadora getMontadoraData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
-
-    public Locador getLocadorData(int idUsuario, Connection conn, String nome, TipoID tipoID, String ID, String email, String numCel, String endereco) throws RemoteException, SQLException;
-
     public ArrayList<Automovel> PassarAutomoveis() throws RemoteException;
 
-    public void adicionarSeguro(Seguro seguro) throws RemoteException;
+    public int RegistroAtual() throws RemoteException, SQLException;
+
+    public int SeguroAtual() throws RemoteException, SQLException;
 
     public void updateStatus(int idAutomovel, String novoStatus) throws SQLException, RemoteException;
+
+    public int UsuarioAtual() throws RemoteException, SQLException;
 }

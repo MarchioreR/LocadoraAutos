@@ -6,12 +6,10 @@ package com.mycompany.locadoraauto;
 
 import com.mycompany.locadoraauto.view.JFrameMenu;
 import com.mycompany.locadoraauto.interfaces.Interface;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Scanner;
 
 /**
  *
